@@ -5,7 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $dbLocal = __DIR__ . '/db-local.php';
 if (file_exists($dbLocal)) {
-    $db = $dbLocal;
+    $db = require $dbLocal;
 }
 
 $config = [
@@ -27,7 +27,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\base\User',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
@@ -54,7 +54,8 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                '<action>' => 'site/<action>'
+                't' => 't/index',
+                //'<action>' => 'site/<action>'
             ],
         ],
 
