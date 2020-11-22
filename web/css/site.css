@@ -113,3 +113,15 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+.p-b-40 {
+    padding-bottom: 40px;
+}
+.my-label {
+    display: block;
+    text-align: center;
+    width: 80px;
+}
+.d-none {
+    display: none;
+}

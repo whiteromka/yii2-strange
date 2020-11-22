@@ -31,6 +31,12 @@ class UserController extends Controller
         ];
     }
 
+    /**
+     * Page with user filters
+     *
+     * @return mixed
+     * @throws \Exception
+     */
     public function actionFilter()
     {
         $userFilter = new UserFilter();
@@ -41,7 +47,6 @@ class UserController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-
 
     /**
      * Lists all User models.

@@ -17,8 +17,8 @@ class UserSearch extends User
     public function rules()
     {
         return [
-            [['id', 'gender', 'unix_birthday'], 'integer'],
-            [['name', 'surname', 'birthday', 'birthday_date_time', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'gender', 'status'], 'integer'],
+            [['name', 'surname', 'birthday', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -41,9 +41,6 @@ class UserSearch extends User
     public function search($params)
     {
         $query = User::find();
-
-        // add conditions that should always apply here
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -51,8 +48,6 @@ class UserSearch extends User
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
             return $dataProvider;
         }
 
@@ -61,8 +56,7 @@ class UserSearch extends User
             'id' => $this->id,
             'gender' => $this->gender,
             'birthday' => $this->birthday,
-            'birthday_date_time' => $this->birthday_date_time,
-            'unix_birthday' => $this->unix_birthday,
+            'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);

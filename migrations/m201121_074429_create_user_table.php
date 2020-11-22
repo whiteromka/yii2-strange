@@ -15,13 +15,12 @@ class m201121_074429_create_user_table extends Migration
         $this->createTable('{{%user}}', [
             'id' => $this->primaryKey(),
             'name'=> $this->string(),
-            'surname' => 'string null',
-            'gender' => $this->tinyInteger(),
+            'surname' => $this->string(),
+            'gender' => $this->tinyInteger()->comment('0 Female, 1 Male'),
+            'status' => $this->tinyInteger()->comment('0 No active, 1 Active'),
             'birthday' => $this->date(),
-            'birthday_date_time' => $this->dateTime(),
-            'unix_birthday' => $this->integer(),
-            'created_at' => 'datetime not null default current_timestamp()',
-            'updated_at' => 'datetime null default null on update current_timestamp()',
+            'created_at' => 'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP()',
+            'updated_at' => 'TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP()',
         ]);
     }
 

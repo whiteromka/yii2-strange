@@ -11,16 +11,21 @@ use Yii;
  * @property string|null $name
  * @property string|null $surname
  * @property integer $gender
+ * @property integer $status
  * @property string|null $birthday
- * @property string|null $birthday_date_time
- * @property int|null $unix_birthday
- * @property string $created_at
- * @property string|null $updated_at
+ * @property integer $created_at
+ * @property integer|null $updated_at
  *
  * @property string $fullName
  */
 class User extends \yii\db\ActiveRecord
 {
+    const GENDER_MALE = 1;
+    const GENDER_FEMALE = 0;
+
+    const STATUS_ACTIVE = 1;
+    const STATUS_NOT_ACTIVE = 0;
+
     /**
      * {@inheritdoc}
      */
@@ -35,8 +40,8 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['birthday', 'birthday_date_time', 'created_at', 'updated_at'], 'safe'],
-            [['unix_birthday', 'gender'], 'integer'],
+            [['birthday', 'created_at', 'updated_at'], 'safe'],
+            [['gender', 'status'], 'integer'],
             [['name', 'surname'], 'string', 'max' => 255],
         ];
     }
@@ -48,12 +53,11 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'surname' => 'Surname',
-            'birthday' => 'Birthday',
-            'gender' => 'Gender',
-            'birthday_date_time' => 'Birth Date Time',
-            'unix_birthday' => 'Unix Birthday',
+            'name' => 'Имя',
+            'surname' => 'Фамилия',
+            'birthday' => 'Дата рождения',
+            'gender' => 'Пол',
+            'status' => 'Статус',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
@@ -65,5 +69,30 @@ class User extends \yii\db\ActiveRecord
     public function getFullName() : string
     {
         return $this->name . ' ' . $this->surname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNameGender() : string
+    {
+        $genders = self::getNamedGenders();
+        return $genders[$this->gender];
+    }
+
+    /**
+     * @return array
+     */
+    public static function getNamedGenders() : array
+    {
+        return [self::GENDER_FEMALE => 'Женщина', self::GENDER_MALE => 'Мужчина'];
+    }
+
+    /**
+     * @return array
+     */
+    public static function getNamedStatuses() : array
+    {
+        return [self::STATUS_NOT_ACTIVE => 'Not active', self::STATUS_ACTIVE => 'Active'];
     }
 }

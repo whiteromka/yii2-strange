@@ -11,8 +11,8 @@ class UserFaker
     /** @var Generator */
     private $faker;
 
-    private $unixTimeBirthdayFrom = 315532800;
-    private $unixTimeBirthdayTo = 1605899933;
+    private $unixTimeFrom = 315532800;
+    private $unixTimeTo = 1605899933;
 
     public function __construct()
     {
@@ -31,17 +31,16 @@ class UserFaker
         $isMale = $f->randomDigit > 5;
         if ($isMale) {
             $user->name = $f->firstNameMale;
-            $user->gender = 1;
+            $user->gender = User::GENDER_MALE;
         } else {
             $user->name = $f->firstNameFemale;
-            $user->gender = 0;
+            $user->gender = User::GENDER_FEMALE;
         }
+        $user->status = ($f->randomDigit >= 5) ? User::STATUS_ACTIVE: User::STATUS_NOT_ACTIVE;
         $user->surname = $f->lastName;
-        $unixTime = $f->numberBetween($this->unixTimeBirthdayFrom, $this->unixTimeBirthdayTo);
-        $date = gmdate("Y-m-d H:i:s", $unixTime);
+        $unixTime = $f->numberBetween($this->unixTimeFrom, $this->unixTimeTo);
+        $date = date("Y-m-d", $unixTime);
         $user->birthday = $date;
-        $user->birthday_date_time = $date;
-        $user->unix_birthday = $unixTime;
 
         return $user;
     }
@@ -58,11 +57,12 @@ class UserFaker
         $isMale = $f->randomDigit > 5;
         $user[] = $isMale ? $f->firstNameMale : $f->firstNameFemale;
         $user[] = $f->lastName;
-        $user[] = $isMale ? 1 : 0;
+        $user[] = $isMale ? User::GENDER_MALE : User::GENDER_FEMALE;
+        $user[] = ($f->randomDigit >= 5) ? User::STATUS_ACTIVE: User::STATUS_NOT_ACTIVE;
         $unixTime = $f->numberBetween($this->unixTimeFrom, $this->unixTimeTo);
-        $date = gmdate("Y-m-d H:i:s", $unixTime);
+        $date = date("Y-m-d", $unixTime);
         $user[] = $date;
-        $user[] = $date;
-        $user[] = $unixTime;
+
+        return $user;
     }
 }

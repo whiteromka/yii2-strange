@@ -49,11 +49,11 @@ class UserController extends Controller
         $start = time();
         $rows = [];
         for ($i = 0; $i < $count; $i++) {
-            $user =  $this->userFaker->createAsArray();
+            $user = $this->userFaker->createAsArray();
             $rows[] = $user;
             echo ".";
         }
-        $attributes = ['name', 'surname', 'gender', 'birthday', 'birthday_date_time', 'unix_birthday'];
+        $attributes = ['name', 'surname', 'gender', 'status', 'birthday'];
         echo PHP_EOL . Yii::$app->db->createCommand()->batchInsert(User::tableName(), $attributes, $rows)->execute();
         $end = time();
         echo PHP_EOL . 'time = ' . ($end - $start);

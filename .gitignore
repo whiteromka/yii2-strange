@@ -33,7 +33,4 @@ tests/_support/_generated
 /.vagrant
 
 /config/db-local.php
-
-/funcs.php
-/someFile.php
-/someFile2.php
+/controllers/TController.php

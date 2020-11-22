@@ -11,14 +11,21 @@ use app\models\User;
  */
 class UserFilter extends User
 {
+    /** @var string - Date from this date */
+    public $from_date;
+
+    /** @var string - Date before this date */
+    public $to_date;
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'gender', 'unix_birthday'], 'integer'],
-            [['name', 'surname', 'birthday', 'birthday_date_time', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'status'], 'integer'],
+            [['name', 'surname', 'birthday', 'created_at', 'updated_at', 'gender'], 'safe'],
+            [['from_date', 'to_date'], 'safe']
         ];
     }
 
@@ -27,48 +34,37 @@ class UserFilter extends User
      */
     public function scenarios()
     {
-        // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
 
     /**
-     * Creates data provider instance with search query applied
-     *
-     * @param array $params
-     *
+     * @param $params
      * @return ActiveDataProvider
+     * @throws \Exception
      */
     public function search($params)
     {
         $query = User::find();
-
-        // add conditions that should always apply here
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
         $this->load($params);
-
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
             return $dataProvider;
         }
 
-        // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'gender' => $this->gender,
             'birthday' => $this->birthday,
-            'birthday_date_time' => $this->birthday_date_time,
-            'unix_birthday' => $this->unix_birthday,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'surname', $this->surname]);
+            ->andFilterWhere(['like', 'surname', $this->surname])
+            ->andFilterWhere(['between', 'birthday', $this->from_date, ($this->to_date ? $this->to_date : $this->from_date)]);
 
         return $dataProvider;
     }
