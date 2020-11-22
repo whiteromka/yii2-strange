@@ -6,6 +6,8 @@ use app\assets\AjaxButtonsAsset;
 use app\assets\MaskInputAsset;
 use yii\helpers\ArrayHelper;
 use kartik\date\DatePicker;
+use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use app\models\User;
 
@@ -15,6 +17,7 @@ use app\models\User;
 
 MaskInputAsset::register($this);
 AjaxButtonsAsset::register($this);
+$get = Yii::$app->request->get();
 ?>
 
 <div class="user-form">
@@ -25,19 +28,18 @@ AjaxButtonsAsset::register($this);
         'options' => ['data-pjax' => true],
     ]); ?>
     <div class="row">
-        <div class="col-md-4"> <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?></div>
-        <div class="col-md-4"> <?= $form->field($model, 'surname')->textInput(['maxlength' => true]) ?></div>
-        <div class="col-md-4"> <?= $form->field($model, 'gender')->checkboxList(User::getNamedGenders()) ?></div>
+        <div class="col-sm-6 col-md-3"> <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?></div>
+        <div class="col-sm-6 col-md-3"> <?= $form->field($model, 'surname')->textInput(['maxlength' => true]) ?></div>
+        <div class="col-sm-6 col-md-3"> <?= $form->field($model, 'gender')->checkboxList(User::getNamedGenders()) ?></div>
+        <div class="col-sm-6 col-md-3"> <?= $form->field($model, 'status')->checkboxList(User::getNamedStatuses()) ?></div>
     </div>
 
     <div class="row">
-        <div class="col-md-4"> <?= $form->field($model, 'birthday')->textInput([
-                'class' => 'form-control js-mask-date', 'placeholder' => 'YYYY-mm-dd'
-            ]) ?>
+        <div class="col-sm-3 col-md-3"> <?= $form->field($model, 'birthday')->textInput([
+            'class' => 'form-control js-mask-date', 'placeholder' => 'YYYY-mm-dd'])?>
         </div>
-        <div class="col-md-8">
+        <div class="col-sm-6 col-md-6">
             <?php
-            $get = Yii::$app->request->get();
             echo '<label class="control-label">День рождения от ... и до ...</label>';
             echo DatePicker::widget([
                 'name' => "UserFilter[from_date]",
@@ -45,11 +47,20 @@ AjaxButtonsAsset::register($this);
                 'type' => DatePicker::TYPE_RANGE,
                 'name2' => "UserFilter[to_date]",
                 'value2' => ArrayHelper::getValue($get, 'UserFilter.to_date'),
+                'separator' => 'до',
                 'pluginOptions' => [
                     'autoclose' => true,
                     'format' => 'yyyy-mm-dd'
                 ]
             ]); ?>
+        </div>
+
+        <div class="col-sm-3 col-md-3">
+            <div class="form-group">
+                <label class="control-label">Сортировка по полю</label>
+                <?php $selected = ArrayHelper::getValue($get, 'sort')?>
+                <?= Html::dropDownList('sort', $selected, User::getNamedSortItems(), ['class' => 'form-control'])?>
+            </div>
         </div>
     </div>
 
@@ -58,7 +69,7 @@ AjaxButtonsAsset::register($this);
             Apply filters
             <?= LoaderWidget::widget()?>
         </button>
-        <a class="btn btn-warning ajax-bnt js-ajax-bnt" href="<?= \yii\helpers\Url::to(['/user/filter'])?>">
+        <a class="btn btn-warning ajax-bnt js-ajax-bnt" href="<?= Url::to(['/user/filter'])?>">
             Clear filters
             <?= LoaderWidget::widget()?>
         </a>

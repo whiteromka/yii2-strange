@@ -12,7 +12,7 @@ use yii\helpers\Html;
     <?php
     /** @var User $user */
     foreach ($dataProvider->getModels() as $user) : ?>
-        <div class="col-sm-4">
+        <div class="col-sm-6 col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4><?= Html::encode($user->fullName)?>
@@ -25,11 +25,11 @@ use yii\helpers\Html;
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-xs-6">
                             <span><b><?= Html::encode($user->getNameGender())?></b></span>
                         </div>
-                        <div class="col-sm-6">
-                            <span class="pull-right"><?= Html::encode($user->birthday)?></span>
+                        <div class="col-xs-6">
+                            <span class="pull-right"><?= Html::encode($user->birthday)?> (<?= Html::encode($user->fullAge)?>)</span>
                         </div>
                     </div>
                 </div>

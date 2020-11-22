@@ -23,8 +23,8 @@ class UserFilter extends User
     public function rules()
     {
         return [
-            [['id', 'status'], 'integer'],
-            [['name', 'surname', 'birthday', 'created_at', 'updated_at', 'gender'], 'safe'],
+            [['id'], 'integer'],
+            [['name', 'surname', 'birthday', 'created_at', 'updated_at', 'gender', 'status'], 'safe'],
             [['from_date', 'to_date'], 'safe']
         ];
     }
@@ -57,6 +57,7 @@ class UserFilter extends User
         $query->andFilterWhere([
             'id' => $this->id,
             'gender' => $this->gender,
+            'status' => $this->status,
             'birthday' => $this->birthday,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
