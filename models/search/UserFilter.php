@@ -76,6 +76,9 @@ class UserFilter extends User
         $query = User::find()->joinWith('passport');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => ArrayHelper::getValue($params, 'page_size', 20),
+            ],
         ]);
 
         $this->load($params);
@@ -129,5 +132,13 @@ class UserFilter extends User
     protected function existPassportOnlyOneChecked() : bool
     {
         return count($this->exist_passport) == 1;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getPageSizeList() : array
+    {
+        return [20 => 20, 100 => 100, 500 => 500, 1000 => 1000];
     }
 }

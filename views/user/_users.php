@@ -3,6 +3,7 @@
 use app\models\User;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
+use yii\widgets\LinkPager;
 
 /** @var ActiveDataProvider $dataProvider  */
 ?>
@@ -53,4 +54,8 @@ use yii\helpers\Html;
             </div>
         </div>
     <?php endforeach; ?>
+</div>
+
+<div class="row">
+    <?= LinkPager::widget(['pagination' => $dataProvider->pagination])?>
 </div>

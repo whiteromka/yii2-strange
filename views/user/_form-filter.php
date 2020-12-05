@@ -23,9 +23,9 @@ UserFilterAsset::register($this);
 $get = Yii::$app->request->get();
 ?>
 
+<h1 class="p-b-40">Фильтрация пользователей</h1>
 <div class="user-form">
     <h3>Фильтры</h3>
-
     <?php $form = ActiveForm::begin([
         'method' => 'GET',
         'options' => ['data-pjax' => true],
@@ -57,14 +57,6 @@ $get = Yii::$app->request->get();
                 ]
             ]); ?>
         </div>
-
-        <div class="col-sm-3 col-md-3">
-            <div class="form-group">
-                <label class="control-label">Сортировка по полю</label>
-                <?php $selected = ArrayHelper::getValue($get, 'sort')?>
-                <?= Html::dropDownList('sort', $selected, User::getNamedSortItems(), ['class' => 'form-control'])?>
-            </div>
-        </div>
     </div>
 
     <div class="row">
@@ -73,15 +65,38 @@ $get = Yii::$app->request->get();
         <div class="col-sm-4 col-md-3"> <?= $form->field($model, 'passport_city')->textInput() ?></div>
     </div>
 
-    <div class="form-group">
-        <button type="submit" class="btn btn-success ajax-bnt js-ajax-bnt">
-            Применить фильтры
-            <?= LoaderWidget::widget()?>
-        </button>
-        <a class="btn btn-warning ajax-bnt js-ajax-bnt" href="<?= Url::to(['/user/filter'])?>">
-            Сбросить фильтры
-            <?= LoaderWidget::widget()?>
-        </a>
+    <hr>
+
+    <div class="row">
+        <div class="form-group">
+
+            <div class="col-sm-3 col-md-3">
+                <label class="control-label">Сортировка по полю</label>
+                <?php $selected = ArrayHelper::getValue($get, 'sort')?>
+                <?= Html::dropDownList('sort', $selected, User::getNamedSortItems(), ['class' => 'form-control'])?>
+            </div>
+
+            <div class="col-sm-4 col-md-3">
+                <label class="control-label">Записей на странице</label>
+                <?php $selected = ArrayHelper::getValue($get, 'page_size')?>
+                <?= Html::dropDownList('page_size', $selected, UserFilter::getPageSizeList(), ['class' => 'form-control'])?>
+            </div>
+
+            <div class="col-sm-4 col-md-3">
+                <button type="submit" class="btn btn-success m-t-24 ajax-bnt js-ajax-bnt">
+                    Применить фильтры
+                    <?= LoaderWidget::widget()?>
+                </button>
+            </div>
+
+            <div class="col-sm-4 col-md-3">
+                <a class="btn btn-warning ajax-bnt m-t-24" data-pjax="0"  href="<?= Url::to(['/user/filter'])?>">
+                    Сбросить фильтры
+                    <?= LoaderWidget::widget()?>
+                </a>
+            </div>
+
+        </div>
     </div>
 
     <?php ActiveForm::end(); ?>
