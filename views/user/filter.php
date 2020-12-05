@@ -13,12 +13,9 @@ use yii\web\View;
 
 <?php Pjax::begin(['timeout' => 5000]); ?>
 <div class="container">
-
     <h1 class="p-b-40">Фильтрация пользователей</h1>
-
     <?= $this->render('_form-filter', ['model'=> $userFilter]); ?>
     <?= $this->render('_users', ['dataProvider' => $dataProvider])?>
-
     <div class="row">
         <?= LinkPager::widget(['pagination' => $dataProvider->pagination])?>
     </div>

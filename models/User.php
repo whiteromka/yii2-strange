@@ -2,7 +2,9 @@
 
 namespace app\models;
 
+use app\models\query\UserQuery;
 use Yii;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "user".
@@ -18,6 +20,7 @@ use Yii;
  *
  * @property string $fullName
  * @property int $fullAge
+ * @property Passport $passport
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -65,6 +68,22 @@ class User extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return UserQuery|ActiveQuery
+     */
+    public static function find()
+    {
+        return new UserQuery(get_called_class());
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getPassport()
+    {
+        return $this->hasOne(Passport::class, ['user_id' => 'id']);
+    }
+
+    /**
      * @return string
      */
     public function getFullName() : string
@@ -101,7 +120,7 @@ class User extends \yii\db\ActiveRecord
      */
     public static function getNamedGenders() : array
     {
-        return [self::GENDER_FEMALE => 'Женщина', self::GENDER_MALE => 'Мужчина'];
+        return [self::GENDER_FEMALE => 'Ж', self::GENDER_MALE => 'М'];
     }
 
     /**
@@ -109,7 +128,7 @@ class User extends \yii\db\ActiveRecord
      */
     public static function getNamedStatuses() : array
     {
-        return [self::STATUS_NOT_ACTIVE => 'Not active', self::STATUS_ACTIVE => 'Active'];
+        return [self::STATUS_NOT_ACTIVE => 'Не активны', self::STATUS_ACTIVE => 'Активны'];
     }
 
     /**

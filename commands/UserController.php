@@ -2,12 +2,17 @@
 
 namespace app\commands;
 
-use app\components\UserFaker;
+
+use app\components\fakers\UserFaker;
 use yii\console\Controller;
 use yii\db\Exception;
 use app\models\User;
 use Yii;
 
+/**
+ * Class UserController
+ * @package app\commands
+ */
 class UserController extends Controller
 {
     /** @var UserFaker */

@@ -125,3 +125,10 @@ a.desc:after {
 .d-none {
     display: none;
 }
+.passport {
+    height: 120px;
+}
+.passport > ul > li {
+    font-size: 13px;
+    list-style-type: none;
+}

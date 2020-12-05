@@ -1,5 +1,6 @@
 <?php
 
+use app\assets\UserFilterAsset;
 use app\components\widgets\LoaderWidget;
 use app\models\search\UserFilter;
 use app\assets\AjaxButtonsAsset;
@@ -17,6 +18,8 @@ use app\models\User;
 
 MaskInputAsset::register($this);
 AjaxButtonsAsset::register($this);
+UserFilterAsset::register($this);
+
 $get = Yii::$app->request->get();
 ?>
 
@@ -30,8 +33,8 @@ $get = Yii::$app->request->get();
     <div class="row">
         <div class="col-sm-6 col-md-3"> <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?></div>
         <div class="col-sm-6 col-md-3"> <?= $form->field($model, 'surname')->textInput(['maxlength' => true]) ?></div>
-        <div class="col-sm-6 col-md-3"> <?= $form->field($model, 'gender')->checkboxList(User::getNamedGenders()) ?></div>
         <div class="col-sm-6 col-md-3"> <?= $form->field($model, 'status')->checkboxList(User::getNamedStatuses()) ?></div>
+        <div class="col-sm-6 col-md-3"> <?= $form->field($model, 'gender')->checkboxList(User::getNamedGenders()) ?></div>
     </div>
 
     <div class="row">
@@ -64,13 +67,19 @@ $get = Yii::$app->request->get();
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-sm-4 col-md-3"> <?= $form->field($model, 'exist_passport')->checkboxList(['Без', 'С']) ?></div>
+        <div class="col-sm-4 col-md-3"> <?= $form->field($model, 'passport_country')->textInput() ?></div>
+        <div class="col-sm-4 col-md-3"> <?= $form->field($model, 'passport_city')->textInput() ?></div>
+    </div>
+
     <div class="form-group">
         <button type="submit" class="btn btn-success ajax-bnt js-ajax-bnt">
-            Apply filters
+            Применить фильтры
             <?= LoaderWidget::widget()?>
         </button>
         <a class="btn btn-warning ajax-bnt js-ajax-bnt" href="<?= Url::to(['/user/filter'])?>">
-            Clear filters
+            Сбросить фильтры
             <?= LoaderWidget::widget()?>
         </a>
     </div>

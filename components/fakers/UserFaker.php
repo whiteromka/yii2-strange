@@ -1,19 +1,12 @@
 <?php
 
-namespace app\components;
+namespace app\components\fakers;
 
 use app\models\User;
-use Faker\Generator;
 use Faker\Factory;
 
-class UserFaker
+class UserFaker extends AFaker
 {
-    /** @var Generator */
-    private $faker;
-
-    private $unixTimeFrom = 315532800;
-    private $unixTimeTo = 1605899933;
-
     public function __construct()
     {
         $this->faker = Factory::create();
