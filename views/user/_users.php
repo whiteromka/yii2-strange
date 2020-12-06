@@ -14,19 +14,24 @@ use yii\widgets\LinkPager;
     /** @var User $user */
     foreach ($dataProvider->getModels() as $user) : ?>
         <div class="col-sm-6 col-md-4">
-            <div class="panel panel-default">
+            <div class="panel panel-default user js-data-user" data-user-id="<?= $user->id?>">
+                <a class="btn-edit js-btn-edit" href="#" data-user-id="<?= $user->id?>">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
                 <div class="panel-heading">
-                    <p> <?= Html::encode($user->fullName)?>
-                        <span class="pull-right">
-                            <span class="label my-label <?= $user->status ? 'label-success' : 'label-warning';?>">
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <p><?= Html::encode($user->fullName)?></p>
+                        </div>
+                        <div class="col-md-4"><?= Html::encode($user->birthday)?></div>
+                        <div class="col-md-4"> <b><?= Html::encode($user->getNameGender())?></b>  (<?= Html::encode($user->fullAge)?>)  </div>
+                        <div class="col-md-4">
+                             <span class="label my-label <?= $user->status ? 'label-success' : 'label-warning';?>">
                                 <?= $user->status ? 'Active' : 'Not Active';?>
                             </span>
-                        </span>
-                    </p>
-                    <p>
-                        <span><b><?= Html::encode($user->getNameGender())?></b>  (<?= Html::encode($user->fullAge)?>) </span>
-                        <span class="pull-right"><?= Html::encode($user->birthday)?> </span>
-                    </p>
+                        </div>
+                    </div>
                 </div>
                 <div class="panel-body">
                     <div class="row">

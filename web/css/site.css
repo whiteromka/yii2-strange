@@ -121,6 +121,8 @@ a.desc:after {
     display: block;
     text-align: center;
     width: 80px;
+    margin-top: 3px;
+    margin-right: 10px;
 }
 .d-none {
     display: none;
@@ -134,4 +136,28 @@ a.desc:after {
 }
 .m-t-24{
     margin-top: 24px;
+}
+.m-r-10 {
+    margin-right: 10px;
+}
+.btn-edit {
+    z-index: 1000;
+    display: none;
+    position: absolute;
+    top:0px;
+    right: 15px;
+    background: #ff6f3c;
+    border: 1px solid #c45534;
+    padding: 2px 5px;
+    border-radius: 2px;
+    color: white;
+    -webkit-box-shadow: 0px 2px 3px 0px rgba(50, 50, 50, 0.34);
+    -moz-box-shadow:    0px 2px 3px 0px rgba(50, 50, 50, 0.34);
+    box-shadow:         0px 2px 3px 0px rgba(50, 50, 50, 0.34);
+}
+.user:hover a.btn-edit {
+    display: block;
+}
+a.btn-edit:hover {
+    color: black;
 }

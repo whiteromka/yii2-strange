@@ -46,12 +46,10 @@ class UserSearch extends User
         ]);
 
         $this->load($params);
-
         if (!$this->validate()) {
             return $dataProvider;
         }
 
-        // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'gender' => $this->gender,

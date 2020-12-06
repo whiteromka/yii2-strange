@@ -4,17 +4,15 @@ namespace app\assets;
 
 use yii\web\AssetBundle;
 
-class AjaxButtonsAsset extends AssetBundle
+class UserEditModalAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
 
-    public $css = [
-        'css/loader.css'
-    ];
+    public $css = [];
 
     public $js = [
-        'js/userFilter/ajaxButtons.js'
+        'js/userFilter/userEditModal.js'
     ];
 
     public $depends = [

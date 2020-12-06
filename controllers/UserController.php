@@ -49,7 +49,8 @@ class UserController extends Controller
     }
 
     /**
-     * Lists all User models.
+     * List all Users.
+     *
      * @return mixed
      */
     public function actionIndex()

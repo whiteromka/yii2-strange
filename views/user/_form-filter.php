@@ -17,7 +17,6 @@ use app\models\User;
 /* @var $form yii\widgets\ActiveForm */
 
 MaskInputAsset::register($this);
-AjaxButtonsAsset::register($this);
 UserFilterAsset::register($this);
 
 $get = Yii::$app->request->get();
@@ -82,14 +81,12 @@ $get = Yii::$app->request->get();
                 <?= Html::dropDownList('page_size', $selected, UserFilter::getPageSizeList(), ['class' => 'form-control'])?>
             </div>
 
-            <div class="col-sm-4 col-md-3">
-                <button type="submit" class="btn btn-success m-t-24 ajax-bnt js-ajax-bnt">
+            <div class="col-sm-6 col-md-6">
+                <button type="submit" class="btn btn-success m-t-24 ajax-bnt js-ajax-bnt" >
                     Применить фильтры
                     <?= LoaderWidget::widget()?>
                 </button>
-            </div>
 
-            <div class="col-sm-4 col-md-3">
                 <a class="btn btn-warning ajax-bnt m-t-24" data-pjax="0"  href="<?= Url::to(['/user/filter'])?>">
                     Сбросить фильтры
                     <?= LoaderWidget::widget()?>

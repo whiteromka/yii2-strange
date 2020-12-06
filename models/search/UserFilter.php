@@ -51,7 +51,7 @@ class UserFilter extends User
     {
         $old = parent::attributeLabels();
         $new = [
-            'exist_passport' => 'Пасспорт',
+            'exist_passport' => 'Паспорт',
             'passport_country' => 'Страна',
             'passport_city' => 'Город'
         ];
@@ -100,11 +100,11 @@ class UserFilter extends User
             ->andFilterWhere(['like', 'surname', $this->surname])
             ->andFilterWhere(['between', 'birthday', $this->from_date, ($this->to_date ? $this->to_date : $this->from_date)]);
 
+        /** Search in passport */
         if ($this->exist_passport && $this->existPassportOnlyOneChecked()) {
            $this->andFilterWhereExistPassport($query);
         }
 
-        /** Search in passport */
         $query->andFilterWhere(['like', 'passport.country', $this->passport_country]);
         $query->andFilterWhere(['like', 'passport.city', $this->passport_city]);
 

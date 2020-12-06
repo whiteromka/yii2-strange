@@ -35,4 +35,3 @@ function cleanCountryAndCity() {
     $('#userfilter-passport_country').val('');
     $('#userfilter-passport_city').val('');
 }
-
