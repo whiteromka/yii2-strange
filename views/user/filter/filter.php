@@ -1,6 +1,5 @@
 <?php
 
-use app\components\widgets\UserEditModalWidget;
 use app\models\search\UserFilter;
 use yii\data\ActiveDataProvider;
 use yii\widgets\Pjax;
@@ -16,8 +15,7 @@ use yii\web\View;
 <div class="container">
     <?= $this->render('_form-filter', ['model'=> $userFilter]); ?>
     <?= $this->render('_users', ['dataProvider' => $dataProvider])?>
-
-    <?= UserEditModalWidget::widget()?>
+    <?= $this->render('_user-edit-modal')?>
 </div>
 
 <?php Pjax::end(); ?>

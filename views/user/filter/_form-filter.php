@@ -3,7 +3,6 @@
 use app\assets\UserFilterAsset;
 use app\components\widgets\LoaderWidget;
 use app\models\search\UserFilter;
-use app\assets\AjaxButtonsAsset;
 use app\assets\MaskInputAsset;
 use yii\helpers\ArrayHelper;
 use kartik\date\DatePicker;

@@ -3,8 +3,9 @@
 namespace app\models;
 
 use app\models\query\UserQuery;
-use Yii;
+use yii\base\Exception;
 use yii\db\ActiveQuery;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "user".
@@ -128,7 +129,7 @@ class User extends \yii\db\ActiveRecord
      */
     public static function getNamedStatuses() : array
     {
-        return [self::STATUS_NOT_ACTIVE => 'Не активны', self::STATUS_ACTIVE => 'Активны'];
+        return [self::STATUS_NOT_ACTIVE => 'Нет', self::STATUS_ACTIVE => 'Да'];
     }
 
     /**
@@ -144,5 +145,23 @@ class User extends \yii\db\ActiveRecord
             'birthday' => 'Дата рождения (прямая)',
             '-birthday' => 'Дата рождения (обратная)',
         ];
+    }
+
+    /**
+     * @param array $request
+     * @return User
+     * @throws Exception
+     */
+    public function dataSave(array $request) : User
+    {
+        $userData = ArrayHelper::getValue($request, 'User');
+        /** @var User $user */
+        $user = self::find()->where(['id' => $userData['id']])->one();
+        $user->load($userData, '');
+        if (!$user->save()) {
+            $error = $user->firstErrors;
+            throw new Exception('Пользователь не сохранился! ' . $error[array_key_first($error)]);
+        }
+        return $user;
     }
 }

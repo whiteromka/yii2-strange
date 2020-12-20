@@ -15,7 +15,7 @@ use yii\widgets\LinkPager;
     foreach ($dataProvider->getModels() as $user) : ?>
         <div class="col-sm-6 col-md-4">
             <div class="panel panel-default user js-data-user" data-user-id="<?= $user->id?>">
-                <a class="btn-edit js-btn-edit" href="#" data-user-id="<?= $user->id?>">
+                <a class="btn-edit js-btn-edit" href="#" title="Редактировать запись" data-user-id="<?= $user->id?>">
                     <span class="glyphicon glyphicon-pencil"></span>
                 </a>
                 <div class="panel-heading">
@@ -28,7 +28,7 @@ use yii\widgets\LinkPager;
                         <div class="col-md-4"> <b><?= Html::encode($user->getNameGender())?></b>  (<?= Html::encode($user->fullAge)?>)  </div>
                         <div class="col-md-4">
                              <span class="label my-label <?= $user->status ? 'label-success' : 'label-warning';?>">
-                                <?= $user->status ? 'Active' : 'Not Active';?>
+                                <?= $user->status ? 'Актив' : 'Пассив';?>
                             </span>
                         </div>
                     </div>
@@ -39,7 +39,7 @@ use yii\widgets\LinkPager;
                         <?php
                             $passport = $user->passport;
                             if ($passport): ?>
-                            <span class="text-success"><b>Passport</b> </span>
+                            <span class="text-success"><b>Паспорт</b> </span>
                             <div class="passport">
                                 <ul style="padding: 0">
                                     <li>Номер:  <?= Html::encode($passport->number)?></li>
@@ -50,7 +50,7 @@ use yii\widgets\LinkPager;
                                 </ul>
                             </div>
                         <?php else: ?>
-                            <span class="text-danger"><b>Have no passport</b></span>
+                            <span class="text-danger"><b>Без паспорта</b></span>
                             <div class="passport"></div>
                         <?php endif ?>
                         </div>

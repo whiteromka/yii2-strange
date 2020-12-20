@@ -161,3 +161,15 @@ a.desc:after {
 a.btn-edit:hover {
     color: black;
 }
+.btn-remove-passport {
+    position: absolute;
+    top:-30px;
+    right: -15px;
+    z-index: 10000;
+}
+.p-absolute {
+    position: absolute;
+}
+.p-relative {
+    position: relative;
+}

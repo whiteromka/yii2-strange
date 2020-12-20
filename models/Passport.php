@@ -2,8 +2,10 @@
 
 namespace app\models;
 
-use Yii;
+use yii\base\Exception;
 use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "passport".
@@ -20,7 +22,7 @@ use yii\db\ActiveQuery;
  *
  * @property User $user
  */
-class Passport extends \yii\db\ActiveRecord
+class Passport extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -51,11 +53,11 @@ class Passport extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'User ID',
-            'number' => 'Number',
-            'code' => 'Code',
-            'country' => 'Country',
-            'city' => 'City',
-            'address' => 'Address',
+            'number' => 'Номер',
+            'code' => 'Код',
+            'country' => 'Страна',
+            'city' => 'Город',
+            'address' => 'Адресс',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
@@ -68,4 +70,27 @@ class Passport extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
+
+    /**
+     * @param array $request
+     * @return Passport
+     * @throws Exception
+     */
+    public function dataSave(array $request) : self
+    {
+        $passportData = ArrayHelper::getValue($request, 'Passport');
+        $action = ArrayHelper::getValue($passportData, 'action');
+        if (!$passportData) {
+            return false;
+        }
+        if ($action) {
+            $this->load($passportData, '');
+            if (!$this->save()) {
+                $error = $this->firstErrors;
+                throw new Exception('Пасспорт не сохранился! ' . $error[array_key_first($error)]);
+            }
+        }
+        return $this;
+    }
+
 }
