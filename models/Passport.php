@@ -38,6 +38,7 @@ class Passport extends ActiveRecord
     public function rules()
     {
         return [
+            [['user_id', 'number', 'code', 'country', 'city'], 'required'],
             [['user_id', 'number', 'code'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['country', 'city', 'address'], 'string', 'max' => 255],
@@ -83,14 +84,29 @@ class Passport extends ActiveRecord
         if (!$passportData) {
             return false;
         }
-        if ($action) {
+        if ($action == 'create') {
             $this->load($passportData, '');
-            if (!$this->save()) {
-                $error = $this->firstErrors;
-                throw new Exception('Пасспорт не сохранился! ' . $error[array_key_first($error)]);
+            $this->saveWithException($this);
+        } elseif ($action == 'update') {
+            if ($passport = self::find()->where(['user_id' => $passportData['user_id']])->one()) {
+                $passport->load($passportData, '');
+                $this->saveWithException($passport);
             }
         }
         return $this;
     }
 
+    /**
+     * @param Passport $passport
+     * @return bool
+     * @throws Exception
+     */
+    protected function saveWithException(Passport $passport)
+    {
+        if (!$passport->save()) {
+            $error = $passport->firstErrors;
+            throw new Exception('Пасспорт не сохранился! ' . $error[array_key_first($error)]);
+        }
+        return true;
+    }
 }

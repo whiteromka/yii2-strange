@@ -40,7 +40,6 @@ class UserController extends Controller
         echo PHP_EOL . $i;
         $end = time();
         echo PHP_EOL . 'time = ' . ($end - $start);
-
     }
 
     /**

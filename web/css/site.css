@@ -161,6 +161,11 @@ a.desc:after {
 a.btn-edit:hover {
     color: black;
 }
+.btn-update {
+    right: 45px;
+    background: #2cc0f6;
+    border: 1px solid #0696e8;
+}
 .btn-remove-passport {
     position: absolute;
     top:-30px;
@@ -172,4 +177,7 @@ a.btn-edit:hover {
 }
 .p-relative {
     position: relative;
+}
+.m-h-400 {
+    min-height: 400px;
 }

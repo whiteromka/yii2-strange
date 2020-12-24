@@ -1,3 +1,18 @@
+/** Click on btn update user */
+$(document).on('click', '.js-btn-update', function(e) {
+    e.preventDefault();
+    let userId = $(this).attr('data-user-id');
+    let url = '/ajax/update-data?userId=' + userId;
+    $.get(url).done(data => {
+        if (data.success) {
+            let htmlUser = $('.js-data-user[data-user-id="'+userId+'"]').parent();
+            htmlUser.html(data.view);
+        } else {
+            alert(data.error);
+        }
+    });
+});
+
 /** Click on btn edit user - open modal edit */
 $(document).on('click', '.js-btn-edit', function(e) {
     e.preventDefault();
@@ -8,7 +23,7 @@ $(document).on('click', '.js-btn-edit', function(e) {
 });
 
 function requestData(userId) {
-    let url = '/ajax/get-data?userId='+userId
+    let url = '/ajax/get-data?userId=' + userId
     fetch(url)
         .then(response => response.json())
         .then(data => {

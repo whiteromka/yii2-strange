@@ -64,4 +64,20 @@ class AjaxController extends  Controller
             return ['success' => false, 'user' => $user, 'error' => 'Операция удаления не была произведена'];
         }
     }
+
+    /**
+     * @param int $userId
+     * @return array
+     */
+    public function actionUpdateData(int $userId)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        try {
+            $user = User::find()->where(['id' => $userId])->with('passport')->one();
+            $view = $this->renderPartial('/user/filter/_user', ['user' => $user]);
+            return ['success' => true, 'view' => $view];
+        } catch (\Exception $e) {
+            return ['success' => false, 'view' => null, 'error' => 'Данные не обновлены... ' . $e->getMessage()];
+        }
+    }
 }

@@ -38,25 +38,8 @@ class UserController extends Controller
     {
         $userFilter = new UserFilter();
         $dataProvider = $userFilter->search(Yii::$app->request->queryParams);
-
         return $this->render('filter/filter', [
             'userFilter' => $userFilter,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * List all Users.
-     *
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $searchModel = new UserSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

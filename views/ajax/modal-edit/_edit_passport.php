@@ -19,6 +19,7 @@ if ($passport = $user->passport): ?>
     <div>
         <input type="hidden" name="Passport[action]" value="update">
         <?= $form->field($passport, 'id')->hiddenInput(['disable'=>true])->label(false)?>
+        <?= $form->field($passport, 'user_id')->hiddenInput(['disable' => true, 'value' => $user->id])->label(false)?>
     </div>
     <div class="row">
         <div class="col-sm-2"> <?= $form->field($passport, 'number')->textInput()?></div>
