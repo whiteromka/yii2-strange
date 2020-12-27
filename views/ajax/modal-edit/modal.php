@@ -18,8 +18,7 @@ UserEditModalAsset::register($this)
                 <h4 class="modal-title">Редактирование пользователя</h4>
             </div>
             <div class="modal-body m-h-400">
-                <?php /** Wrap for js(Ajax) message */?>
-                <div class="js-paste-message"></div>
+
                 <?php /** Wrap for js(Ajax) content */?>
                 <div class="js-paste-content"></div>
             </div>

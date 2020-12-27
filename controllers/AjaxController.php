@@ -14,10 +14,30 @@ use Yii;
 class AjaxController extends  Controller
 {
     /**
+     * (Used with Ajax) Update user on the tile
+     *
+     * @param int $userId
+     * @return array
+     */
+    public function actionUpdateDataInTile(int $userId)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        try {
+            $user = User::find()->where(['id' => $userId])->with('passport')->one();
+            $view = $this->renderPartial('/user/filter/_user', ['user' => $user]);
+            return ['success' => true, 'view' => $view];
+        } catch (\Exception $e) {
+            return ['success' => false, 'view' => null, 'error' => 'Данные не обновлены... ' . $e->getMessage()];
+        }
+    }
+
+    /**
+     * (Used with Ajax) Get data (user and passport) for modal window
+     *
      * @param int $userId
      * @return array|null
      */
-    public function actionGetData(int $userId)
+    public function actionGetDataForModal(int $userId)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         /** @var User $user */
@@ -27,9 +47,11 @@ class AjaxController extends  Controller
     }
 
     /**
+     * (Used with Ajax)
+     *
      * @return array
      */
-    public function actionEditData() : array
+    public function actionDataSave() : array
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $db = \Yii::$app->db;
@@ -47,6 +69,8 @@ class AjaxController extends  Controller
     }
 
     /**
+     * (Used with Ajax)
+     *
      * @param int $passportId
      * @return array
      * @throws Throwable
@@ -62,22 +86,6 @@ class AjaxController extends  Controller
             return ['success' => true, 'user' => $user];
         } else {
             return ['success' => false, 'user' => $user, 'error' => 'Операция удаления не была произведена'];
-        }
-    }
-
-    /**
-     * @param int $userId
-     * @return array
-     */
-    public function actionUpdateData(int $userId)
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        try {
-            $user = User::find()->where(['id' => $userId])->with('passport')->one();
-            $view = $this->renderPartial('/user/filter/_user', ['user' => $user]);
-            return ['success' => true, 'view' => $view];
-        } catch (\Exception $e) {
-            return ['success' => false, 'view' => null, 'error' => 'Данные не обновлены... ' . $e->getMessage()];
         }
     }
 }

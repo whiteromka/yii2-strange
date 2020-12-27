@@ -12,6 +12,7 @@ class PassportFaker extends AFaker
 
     public function __construct()
     {
+        parent::__construct();
         $this->faker = Factory::create();
     }
 

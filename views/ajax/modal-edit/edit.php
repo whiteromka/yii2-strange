@@ -8,6 +8,9 @@ use yii\widgets\ActiveForm;
 /** @var User $user */
 ?>
 
+<?php /** Wrap for js(Ajax) message */?>
+<div class="js-paste-message"></div>
+
 <?php if ($user):?>
     <?php $form = ActiveForm::begin(['method' => 'POST', 'action'=>'', 'id' => 'user-edit'])?>
         <div class="row">
@@ -19,7 +22,7 @@ use yii\widgets\ActiveForm;
                                 <a href="#tab-user" data-toggle="tab">Пользователь</a>
                             </li>
                             <li><a href="#tab-passport" data-toggle="tab">Пасспорт</a></li>
-                            <li><a href="#tab3default" data-toggle="tab">Что то еще ...</a></li>
+                            <li><a href="#tab3" data-toggle="tab">Что то еще ...</a></li>
                         </ul>
                     </div>
                     <div class="panel-body">
@@ -30,11 +33,10 @@ use yii\widgets\ActiveForm;
                             <div class="tab-pane fade" id="tab-passport">
                                 <?= $this->render('_edit_passport', ['form' => $form, 'user' => $user])?>
                             </div>
-                            <div class="tab-pane fade" id="tab3default">Что то еще ...</div>
+                            <div class="tab-pane fade" id="tab3">Что то еще ...</div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
 

@@ -15,7 +15,7 @@ use yii\web\View;
 <div class="container">
     <?= $this->render('_form-filter', ['model'=> $userFilter]); ?>
     <?= $this->render('_users', ['dataProvider' => $dataProvider])?>
-    <?= $this->render('_user-edit-modal')?>
+    <?php echo $this->render('/ajax/modal-edit/modal')?>
 </div>
 
 <?php Pjax::end(); ?>
