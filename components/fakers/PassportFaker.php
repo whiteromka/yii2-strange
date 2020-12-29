@@ -10,12 +10,14 @@ class PassportFaker extends AFaker
     /** @var int */
     private $userId;
 
+    const NUMBER_MIN = 1000;
+    const NUMBER_MAX = 9999;
+
     public function __construct()
     {
         parent::__construct();
         $this->faker = Factory::create();
     }
-
 
     /**
      * @param int $userId
@@ -37,8 +39,8 @@ class PassportFaker extends AFaker
         $f = $this->faker;
         $passport = new Passport();
         $passport->user_id = $this->userId;
-        $passport->number = $f->numberBetween(1000, 9999);
-        $passport->code = $f->numberBetween(1000, 9999);
+        $passport->number = $f->numberBetween(self::NUMBER_MIN, self::NUMBER_MAX);
+        $passport->code = $f->numberBetween(self::NUMBER_MIN, self::NUMBER_MAX);
         $passport->country = $f->country();
         $passport->city = $f->city();
         $passport->address = $f->address();
@@ -56,8 +58,8 @@ class PassportFaker extends AFaker
         $f = $this->faker;
         $passport = [];
         $passport[] = $this->userId;
-        $passport[] = $f->numberBetween(1000, 9999);
-        $passport[] = $f->numberBetween(1000, 9999);
+        $passport[] = $f->numberBetween(self::NUMBER_MIN, self::NUMBER_MAX);
+        $passport[] = $f->numberBetween(self::NUMBER_MIN, self::NUMBER_MAX);
         $passport[] = $f->country();
         $passport[] = $f->city();
         $passport[] = $f->address();

@@ -50,3 +50,20 @@ php yii user/batch-insert
 ~~~
 
 Done!
+
+
+TESTS
+------------
+
+### How to use Codeception in project
+Start test command example:
+~~~
+vendor/bin/codecept run unit faker/UserFakerTest
+~~~
+
+Create test command example:
+~~~
+vendor/bin/codecept generate:test unit faker/PassportFakerTest
+~~~
+
+
