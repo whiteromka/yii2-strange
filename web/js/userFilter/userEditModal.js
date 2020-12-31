@@ -25,9 +25,7 @@ function requestData(userId) {
     let url = '/ajax/get-data-for-modal?userId=' + userId
     fetch(url)
         .then(response => response.json())
-        .then(data => {
-            pasteInModalWindow(data)
-        });
+        .then(data => pasteInModalWindow(data));
 }
 
 /** Modal window. Click on button submit form */
@@ -80,3 +78,13 @@ function loaderInModalWindow() {
     let loader = `<div><h1>Загружаем...</h1></div>`;
     pasteInModalWindow(loader);
 }
+
+/** Modal click on request weather */
+$(document).on('click', '.js-btn-get-weather', function(e) {
+    e.preventDefault();
+    let data = {'passportId' : $(this).attr('data-passport-id')};
+    let url = '/ajax/get-weather';
+    $.get(url, data).done(data => {
+        $('.js-modal-tab-wrap-weather').html(data)
+    });
+});

@@ -181,3 +181,9 @@ a.btn-edit:hover {
 .m-h-400 {
     min-height: 400px;
 }
+.m-h-200 {
+    min-height: 200px;
+}
+.m-h-250 {
+    min-height: 250px;
+}

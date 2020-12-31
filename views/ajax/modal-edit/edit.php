@@ -22,10 +22,10 @@ use yii\widgets\ActiveForm;
                                 <a href="#tab-user" data-toggle="tab">Пользователь</a>
                             </li>
                             <li><a href="#tab-passport" data-toggle="tab">Пасспорт</a></li>
-                            <li><a href="#tab3" data-toggle="tab">Что то еще ...</a></li>
+                            <li><a href="#tab-weather" data-toggle="tab">Погода в городе</a></li>
                         </ul>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body m-h-250">
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-user">
                                 <?= $this->render('_edit_user', ['form' => $form, 'user' => $user])?>
@@ -33,7 +33,9 @@ use yii\widgets\ActiveForm;
                             <div class="tab-pane fade" id="tab-passport">
                                 <?= $this->render('_edit_passport', ['form' => $form, 'user' => $user])?>
                             </div>
-                            <div class="tab-pane fade" id="tab3">Что то еще ...</div>
+                            <div class="tab-pane js-modal-tab-wrap-weather fade" id="tab-weather">
+                                <?= $this->render('_weather_empty', ['user' => $user])?>
+                            </div>
                         </div>
                     </div>
                 </div>

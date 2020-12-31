@@ -2,6 +2,7 @@
 
 namespace app\components\fakers;
 
+use app\models\City;
 use app\models\Passport;
 use Faker\Factory;
 
@@ -61,7 +62,7 @@ class PassportFaker extends AFaker
         $passport[] = $f->numberBetween(self::NUMBER_MIN, self::NUMBER_MAX);
         $passport[] = $f->numberBetween(self::NUMBER_MIN, self::NUMBER_MAX);
         $passport[] = $f->country();
-        $passport[] = $f->city();
+        $passport[] = City::getRandomCity();
         $passport[] = $f->address();
 
         return $passport;

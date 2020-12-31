@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\api\YandexWeather;
 use yii\db\StaleObjectException;
 use app\models\Passport;
 use yii\web\Controller;
@@ -14,7 +15,7 @@ use Yii;
 class AjaxController extends  Controller
 {
     /**
-     * (Used with Ajax) Update user on the tile
+     * Update user on the tile
      *
      * @param int $userId
      * @return array
@@ -32,7 +33,7 @@ class AjaxController extends  Controller
     }
 
     /**
-     * (Used with Ajax) Get data (user and passport) for modal window
+     * Get data (user and passport) for modal window
      *
      * @param int $userId
      * @return array|null
@@ -42,12 +43,11 @@ class AjaxController extends  Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         /** @var User $user */
         $user = User::find()->with('passport')->where(['id' => $userId])->one();
-        $view = $this->renderPartial('modal-edit/edit', ['user' => $user]);
-        return $view;
+        return $this->renderPartial('modal-edit/edit', ['user' => $user]);
     }
 
     /**
-     * (Used with Ajax)
+     * Save data
      *
      * @return array
      */
@@ -69,7 +69,7 @@ class AjaxController extends  Controller
     }
 
     /**
-     * (Used with Ajax)
+     * Remove passport
      *
      * @param int $passportId
      * @return array
@@ -87,5 +87,19 @@ class AjaxController extends  Controller
         } else {
             return ['success' => false, 'user' => $user, 'error' => 'Операция удаления не была произведена'];
         }
+    }
+
+    /**
+     * Get weather by passport (city)
+     *
+     * @param int $passportId
+     * @return mixed
+     */
+    public function actionGetWeather(int $passportId)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $passport = Passport::find()->where(['id' => $passportId])->one();
+        $weather = (new YandexWeather())->getByPassport($passport);
+        return $this->renderPartial('modal-edit/_weather', ['weather' => $weather]);
     }
 }

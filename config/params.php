@@ -1,7 +1,8 @@
 <?php
 
 return [
-    'adminEmail' => 'admin@example.com',
-    'senderEmail' => 'noreply@example.com',
-    'senderName' => 'Example.com mailer',
+    'yandexApiWeather' => [
+        'url' => 'https://api.weather.yandex.ru/v2/informers',
+        'key' => '?',
+    ]
 ];

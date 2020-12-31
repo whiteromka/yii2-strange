@@ -8,6 +8,11 @@ if (file_exists($dbLocal)) {
     $db = require $dbLocal;
 }
 
+$paramsLocal = __DIR__ . '/params-local.php';
+if (file_exists($paramsLocal)) {
+    $params = require $paramsLocal;
+}
+
 $config = [
     'id' => 'basic',
     'language'=>'ru',
