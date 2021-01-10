@@ -20,15 +20,14 @@ class PassportController extends Controller
     /** @var AFaker */
     private $faker;
 
-    /** @var array */
+    /** @var array - user's ID who need passport */
     private $usersId;
 
     public function __construct($id, $module, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->faker = new PassportFaker();
-        $usersId = User::find()->select('id')->adult()->asArray()->all();
-        $this->usersId = ArrayHelper::getColumn($usersId, 'id');
+        $this->usersId = User::find()->select('id')->adult()->asArray()->column();
     }
 
     /**

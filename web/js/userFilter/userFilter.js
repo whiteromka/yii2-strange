@@ -8,18 +8,18 @@ $(document).on('change', 'input[name="UserFilter[exist_passport][]"]', () => che
 
 $(document).on('pjax:success', () => checkPassport());
 
-$(document).on('change', '#userfilter-passport_country, #userfilter-passport_city', () => {
+$(document).on('change', '#userfilter-passport_country, #userfilter-passport_city', (e) => {
    if (isFilterNoPassport) {
-       $(this).val('');
+       $(e.target).val('');
+       alert('Если у пользователя нет пасспорта, не имеет смысла искать его по городу или стране');
    }
 });
 
 function checkPassport() {
-    let passport = [];
-    $('.field-userfilter-exist_passport input:checkbox:checked').each( () => {
-        passport.push( $(this).val() );
-    });
-    if ( passport.length == 1 && $.inArray('0', passport) !== -1 ) {
+    let existPassport = $('input[name="UserFilter[exist_passport][]"]'); // two checkboxes (exist_passport)
+    let noPassport = $(existPassport[0]).is(':checked');
+    let withPassport = $(existPassport[1]).is(':checked');
+    if (noPassport) {
         isFilterNoPassport = true;
         cleanCountryAndCity();
     } else {
