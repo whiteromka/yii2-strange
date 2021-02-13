@@ -71,11 +71,11 @@ class YandexWeather
                 $weather['fact']['season'] = self::getSeason($weather['fact']['season']);
             } else {
                 $weather['success'] = false;
-                $weather['error'] = 'Что то пошло не так. Попробуйте повторить запрос позже.';
+                $weather['error'] = 'Что то пошло не так. Попробуйте сконфигурировать yandexApiWeather.key в params.php или попробуйте повторить запрос позже.';
             }
         } catch (Exception $e) {
             $weather['success'] = false;
-            $weather['error']  = $e->getMessage();
+            $weather['error'] = $e->getMessage();
         }
 
         return $weather;

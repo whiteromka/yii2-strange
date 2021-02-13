@@ -22,6 +22,7 @@ use yii\helpers\ArrayHelper;
  * @property string $fullName
  * @property int $fullAge
  * @property Passport $passport
+ * @property Estate $estate
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -82,6 +83,14 @@ class User extends \yii\db\ActiveRecord
     public function getPassport()
     {
         return $this->hasOne(Passport::class, ['user_id' => 'id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getEstate()
+    {
+        return $this->hasMany(Estate::class, ['user_id' => 'id']);
     }
 
     /**

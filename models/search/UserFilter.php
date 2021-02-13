@@ -102,26 +102,14 @@ class UserFilter extends User
 
         /** Search in passport */
         if ($this->exist_passport && $this->existPassportOnlyOneChecked()) {
-           $this->andFilterWhereExistPassport($query);
+            $existOrNot = (ArrayHelper::getValue($this->exist_passport, 0) == self::PASSPORT_EXIST ) ? 'exists' : 'not exists';
+            $query->andFilterWhereExistPassport($existOrNot);
         }
 
         $query->andFilterWhere(['like', 'passport.country', $this->passport_country]);
         $query->andFilterWhere(['like', 'passport.city', $this->passport_city]);
 
         return $dataProvider;
-    }
-
-    /**
-     * @param Query $query
-     * @throws \Exception
-     */
-    protected function andFilterWhereExistPassport(Query $query) : void
-    {
-        $subQuery = (new Query())->select([new Expression('1')])
-            ->from('passport')
-            ->where('user.id = passport.user_id');
-        $exist = (ArrayHelper::getValue($this->exist_passport, 0) == self::PASSPORT_EXIST )? 'exists' : 'not exists';
-        $query->andFilterWhere([$exist, $subQuery]);
     }
 
     /**

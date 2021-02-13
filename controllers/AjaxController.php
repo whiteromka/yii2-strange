@@ -42,7 +42,7 @@ class AjaxController extends  Controller
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         /** @var User $user */
-        $user = User::find()->with('passport')->where(['id' => $userId])->one();
+        $user = User::find()->with('passport', 'estate')->where(['id' => $userId])->one();
         return $this->renderPartial('modal-edit/edit', ['user' => $user]);
     }
 
@@ -84,9 +84,8 @@ class AjaxController extends  Controller
         $user = $passport->user;
         if ($passport->delete()) {
             return ['success' => true, 'user' => $user];
-        } else {
-            return ['success' => false, 'user' => $user, 'error' => 'Операция удаления не была произведена'];
         }
+        return ['success' => false, 'user' => $user, 'error' => 'Операция удаления не была произведена'];
     }
 
     /**
@@ -99,7 +98,7 @@ class AjaxController extends  Controller
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $passport = Passport::find()->where(['id' => $passportId])->one();
-        $weather = (new YandexWeather())->getByPassport($passport);
-        return $this->renderPartial('modal-edit/_weather', ['weather' => $weather]);
+        $weather = $passport ? (new YandexWeather())->getByPassport($passport) : null;
+        return $this->renderPartial('modal-edit/_weather', ['weather' => $weather, 'passport' => $passport]);
     }
 }

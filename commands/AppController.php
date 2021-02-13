@@ -18,7 +18,7 @@ class AppController extends Controller
      */
     public function actionFillDb()
     {
-        $commands = ['city/batch-insert', 'user/batch-insert', 'passport/batch-insert'];
+        $commands = ['city/batch-insert', 'user/batch-insert', 'passport/batch-insert', 'estate/batch-insert'];
         foreach ($commands as $command) {
             Yii::$app->runAction($command);
         }
