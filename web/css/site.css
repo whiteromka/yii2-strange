@@ -178,12 +178,54 @@ a.btn-edit:hover {
 .p-relative {
     position: relative;
 }
-.m-h-400 {
-    min-height: 400px;
+
+.m-h-96 {
+    min-height: 96px;
+}
+.m-h-100 {
+    min-height: 100px;
 }
 .m-h-200 {
     min-height: 200px;
 }
 .m-h-250 {
     min-height: 250px;
+}
+.m-h-400 {
+    min-height: 400px;
+}
+.m-width-200 {
+    min-width: 200px;
+}
+.field-cryptorequestform-altcoinlist label, .field-cryptorequestform-currencylist label {
+    margin-right: 20px;
+}
+.panel ul {
+    list-style-type: none;
+}
+.block-50 {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.block-30 {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.block-20 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+ul {
+    padding: 0;
+    margin: 0;
+}
+li.altcoin {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px dotted #e4dedf;
+    margin-bottom: 5px;
+}
+.pt-6 {
+    padding-top: 6px;
 }

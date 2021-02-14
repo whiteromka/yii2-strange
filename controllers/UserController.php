@@ -46,7 +46,7 @@ class UserController extends Controller
     }
 
 
-    /** BELOW ONLY CRUD (GII) */
+    /** *********** BELOW ONLY CRUD (GENERATED WITH GII) ********************* */
 
     /**
      * Lists all User models.

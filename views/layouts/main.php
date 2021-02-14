@@ -40,6 +40,7 @@ AppAsset::register($this);
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'User filter', 'url' => ['/user/filter']],
+            ['label' => 'Crypto', 'url' => ['/crypto/index']]
         ],
     ]);
     NavBar::end();
