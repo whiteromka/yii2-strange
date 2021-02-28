@@ -24,7 +24,7 @@ You can then install this project template using the following command:
 composer install
 ~~~
 
-Then in folder 'config' crete file 'db-local.php' with next code:
+Then in folder 'config' create file 'db-local.php' with next code:
 ~~~
 <?php
 return [
@@ -35,15 +35,14 @@ return [
     'charset' => 'utf8',
 ];
 ~~~
-And set  this DB, user and password.
 
-Then make command:
+Then run command that create tables:
 
 ~~~
 php yii migrate/up
 ~~~
 
-Then make command, what create users:
+Then run command that will create fill DB:
 
 ~~~
 php yii user/batch-insert

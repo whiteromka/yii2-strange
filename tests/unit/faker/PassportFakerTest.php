@@ -23,7 +23,7 @@ class PassportFakerTest extends \Codeception\Test\Unit
         $passportFaker = new PassportFaker();
         /** @var Passport $passport */
         $passport = $passportFaker->setUserId(1)->create();
-        $this->tester->assertEquals($passport->validate(), true);
+        $this->tester->assertEquals(true, $passport->validate());
     }
 
     public function testMethodCreateAsArrayReturnValidDataForPassport()
@@ -38,6 +38,6 @@ class PassportFakerTest extends \Codeception\Test\Unit
         $passport->country = $passportAsArray[3];
         $passport->city = $passportAsArray[4];
         $passport->address = $passportAsArray[5];
-        $this->tester->assertEquals($passport->validate(), true);
+        $this->tester->assertEquals(true, $passport->validate());
     }
 }

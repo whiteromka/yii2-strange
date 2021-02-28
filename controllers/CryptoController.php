@@ -27,8 +27,7 @@ class CryptoController extends Controller
         $data = $app->request->get();
         $prices = ['success' => false];
         if ($cryptoForm->load($data)) {
-            $prices = (new CryptoCompare())
-                ->getMultiPrice('pricemulti', $cryptoForm->altcoinList, $cryptoForm->currencyList);
+            $prices = (new CryptoCompare())->getMultiPrice($cryptoForm->altcoinList, $cryptoForm->currencyList);
             if ($prices['error']) {
                 $app->session->setFlash('danger', $prices['error']);
             }

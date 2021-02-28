@@ -18,13 +18,12 @@ class UserFakerTest extends \Codeception\Test\Unit
     {
     }
 
-
     public function testMethodCreateReturnValidUser()
     {
         $userFaker = new UserFaker();
         /** @var User $user */
         $user = $userFaker->create();
-        $this->tester->assertEquals($user->validate(), true);
+        $this->tester->assertEquals(true, $user->validate());
     }
 
     public function testMethodCreateAsArrayReturnValidDataForUser()
@@ -40,6 +39,6 @@ class UserFakerTest extends \Codeception\Test\Unit
         $user->status = $userAsArray[3];
         $user->birthday = $userAsArray[4];
 
-        $this->tester->assertEquals($user->validate(), true);
+        $this->tester->assertEquals(true, $user->validate());
     }
 }

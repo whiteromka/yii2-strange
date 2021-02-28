@@ -18,7 +18,7 @@ class CityController extends Controller
      *
      * @throws Exception
      */
-    public function actionBatchInsert() : void
+    public function actionBatchInsert(): void
     {
         $start = time();
         $cityList = $this->parseCitiesFromFile();
@@ -32,7 +32,7 @@ class CityController extends Controller
      * @param string|null $jsonFile
      * @return array
      */
-    protected function parseCitiesFromFile(string $jsonFile = null) : array
+    protected function parseCitiesFromFile(string $jsonFile = null): array
     {
         if (!$jsonFile) {
            $jsonFile = Yii::getAlias('@app/web/cities.json');
@@ -46,7 +46,7 @@ class CityController extends Controller
      * @param array $cities
      * @return array
      */
-    protected function recreateCities(array $cities) : array
+    protected function recreateCities(array $cities): array
     {
         $cities = array_map(function($city) {
             return [

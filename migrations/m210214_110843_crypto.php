@@ -21,43 +21,42 @@ class m210214_110843_crypto extends Migration
             'updated_at' => 'TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP()',
         ]);
 
+        $this->createTable('altcoin_date', [
+            'id' => $this->primaryKey(),
+            'date' => $this->timestamp(),
+            'unix_date' => $this->integer()->unsigned(),
+        ]);
+
         $this->createTable('altcoin_history', [
             'id' => $this->primaryKey(),
-            'altcoin_id' => $this->integer(),
-
-            'rub' => $this->float()->null(),
-            'rub_last_changed' => $this->timestamp(),
-
-            'usd' => $this->float()->null(),
-            'usd_last_changed' => $this->timestamp(),
-
-            'eur' => $this->float()->null(),
-            'eur_last_changed' => $this->timestamp(),
-
+            'altcoin_date_id' => $this->integer(),
+            'btc' => $this->float()->null(),
+            'eth' => $this->float()->null(),
+            'ltc' => $this->float()->null(),
+            'xrp' => $this->float()->null(),
+            'atom' => $this->float()->null(),
+            'xmr' => $this->float()->null(),
+            'bnb' => $this->float()->null(),
             'created_at' => 'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP()',
             'updated_at' => 'TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP()',
         ]);
 
         $this->addForeignKey(
-            'fk_altcoin_id',
+            'fk_altcoin_history__altcoin_date_id',
             'altcoin_history',
-            'altcoin_id',
-            'altcoin',
+            'altcoin_date_id',
+            'altcoin_date',
             'id',
             'CASCADE',
             'CASCADE'
         );
-
-        $this->createIndex('idx-altcoin_history-rub_last_changed', 'altcoin_history', 'rub_last_changed' );
-        $this->createIndex('idx-altcoin_history-usd_last_changed', 'altcoin_history', 'usd_last_changed' );
-        $this->createIndex('idx-altcoin_history-eur_last_changed', 'altcoin_history', 'eur_last_changed' );
 
         $altcoins = array_combine(Altcoin::getAltcoinListId(), Altcoin::getAltcoinList());
         foreach ($altcoins as $id => $name) {
             $altcoin = new Altcoin();
             $altcoin->id = $id;
             $altcoin->name = $name;
-            $altcoin->save();
+            $altcoin->save(false);
         }
     }
 
@@ -67,7 +66,7 @@ class m210214_110843_crypto extends Migration
     public function safeDown()
     {
         $this->dropTable('altcoin_history');
+        $this->dropTable('altcoin_date');
         $this->dropTable('altcoin');
     }
-
 }
