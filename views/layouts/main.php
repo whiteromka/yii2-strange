@@ -1,69 +1,48 @@
 <?php
 
+use app\assets\LteAsset;
+use yii\helpers\Html;
+
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use app\widgets\Alert;
-use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
-use app\assets\AppAsset;
+$sidebarCollapse = Yii::$app->session->get('sidebar-collapse');
 
-AppAsset::register($this);
+if (class_exists('backend\assets\AppAsset')) {
+    backend\assets\AppAsset::register($this);
+} else {
+    app\assets\AppAsset::register($this);
+}
+
+dmstr\web\AdminLteAsset::register($this);
+LteAsset::register($this);
+
+$directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
-    <meta charset="<?= Yii::$app->charset ?>">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="<?= Yii::$app->charset ?>"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php $this->registerCsrfMetaTags() ?>
+    <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body>
+<body class="hold-transition skin-blue sidebar-mini <?= $sidebarCollapse ? 'sidebar-collapse' : '' ?>">
 <?php $this->beginBody() ?>
+<div class="wrapper">
 
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'User filter', 'url' => ['/user/filter']],
-            ['label' => 'Crypto', 'url' => ['/crypto/index']]
-        ],
-    ]);
-    NavBar::end();
-    ?>
+    <?= $this->render('header.php', ['directoryAsset' => $directoryAsset]) ?>
 
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
-    </div>
+    <?= $this->render('left.php', ['directoryAsset' => $directoryAsset]) ?>
+
+    <?= $this->render('content.php', ['content' => $content, 'directoryAsset' => $directoryAsset]) ?>
+
 </div>
-
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
 
 <?php $this->endBody() ?>
 </body>
 </html>
 <?php $this->endPage() ?>
+

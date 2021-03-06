@@ -18,7 +18,7 @@ class CryptoController extends Controller
      *
      * @throws \yii\db\Exception
      */
-    public function actionFillDb(): void
+    public function actionFill(): void
     {
         $this->fillAltcoinDate();
         $this->fillAltcoinHistory();
