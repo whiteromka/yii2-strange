@@ -101,4 +101,20 @@ class AjaxController extends  Controller
         $weather = $passport ? (new YandexWeather())->getByPassport($passport) : null;
         return $this->renderPartial('modal-edit/_weather', ['weather' => $weather, 'passport' => $passport]);
     }
+
+    /**
+     * Return tasks for Vue js
+     *
+     * @return array
+     */
+    public function actionGetTasks()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return [
+            ['name' => 'Сесть', 'status' => false],
+            ['name' => 'Начать', 'status' => false],
+            ['name' => 'Разобраться', 'status' => false],
+            ['name' => 'Сделать', 'status' => false],
+        ];
+    }
 }

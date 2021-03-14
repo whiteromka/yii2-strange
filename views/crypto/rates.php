@@ -13,25 +13,18 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="container">
-    <h1>Crypto/index</h1>
+    <h3>Altсoins rates</h3>
     <div class="row">
-    <?php $form = ActiveForm::begin(['method' => 'GET', 'action' => ['crypto/index']])?>
+    <?php $form = ActiveForm::begin(['method' => 'GET', 'action' => ['crypto/rates']])?>
         <div class="col-sm-12 m-h-96">
             <?= $form->field($cryptoRequestForm, 'altcoinList')->checkboxList(CryptoRequestForm::getAltcoinList()) ?>
         </div>
         <div class="col-sm-12 m-h-96">
             <?= $form->field($cryptoRequestForm, 'currencyList')->checkboxList(CryptoRequestForm::getCurrencyList()) ?>
         </div>
-
-        <div class="col-sm-6 col-md-4 col-lg-2 pt-6">
-            <?= $form->field($cryptoRequestForm, 'save')->checkbox([0 => 'Сохранить данные']) ?>
-        </div>
         <div class="col-sm-3">
             <?= Html::submitButton('Запросить данные', ['class' => 'btn btn-primary']) ?>
         </div>
-
-
-
     <?php ActiveForm::end() ?>
     </div>
 </div>
@@ -44,7 +37,7 @@ use yii\widgets\ActiveForm;
         <?= AltcoinWidget::widget([
             'altcoinName' => $altcoinName,
             'altcoinItem' => $altcoinItem
-        ])?>
+        ]); ?>
     <?php endforeach; ?>
     </div>
 </div>

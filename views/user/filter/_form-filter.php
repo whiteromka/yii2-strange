@@ -20,7 +20,7 @@ UserFilterAsset::register($this);
 $get = Yii::$app->request->get();
 ?>
 
-<h1 class="p-b-40">Фильтрация пользователей</h1>
+<h3 class="p-b-40">Фильтрация пользователей</h3>
 <div class="user-form">
     <h3>Фильтры</h3>
     <?php $form = ActiveForm::begin([

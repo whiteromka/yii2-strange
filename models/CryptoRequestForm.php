@@ -39,7 +39,7 @@ class CryptoRequestForm extends Model
      */
     public static function getAltcoinList(): array
     {
-        $list = Altcoin::getAltcoinList();
+        $list = Altcoin::getAltcoinList(true);
         return array_combine($list, $list);
     }
 

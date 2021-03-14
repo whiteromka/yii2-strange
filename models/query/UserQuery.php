@@ -32,7 +32,6 @@ class UserQuery extends ActiveQuery
     }
 
     /**
-     *
      * @param int $n
      * @return string
      */

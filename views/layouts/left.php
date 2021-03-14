@@ -28,8 +28,16 @@ use yii\web\View;
                 'items' => [
                     ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
                     ['label' => 'Users',  'url' => ['/user/filter']],
-                    ['label' => 'Altcoins',  'url' => ['/crypto/index']],
-                   #['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
+                   [
+                        'label' => 'Altcoins',
+                        #'icon' => 'share',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'Rates',  'icon' => '-', 'url' => ['/crypto/rates']],
+                            ['label' => 'Charts', 'icon' => '-', 'url' => ['/crypto/charts']],
+                        ],
+                    ],
+                    ['label' => 'TaskManager',  'url' => ['/task-manager/index']],
                     [
                         'label' => 'Some tools',
                         'icon' => 'share',

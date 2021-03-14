@@ -51,7 +51,7 @@ class m210214_110843_crypto extends Migration
             'CASCADE'
         );
 
-        $altcoins = array_combine(Altcoin::getAltcoinListId(), Altcoin::getAltcoinList());
+        $altcoins = array_combine(Altcoin::getAltcoinListId(), Altcoin::getAltcoinList(true));
         foreach ($altcoins as $id => $name) {
             $altcoin = new Altcoin();
             $altcoin->id = $id;

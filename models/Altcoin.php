@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "altcoin".
@@ -15,15 +16,15 @@ use Yii;
  *
  * @property AltcoinHistory[] $altcoinHistories
  */
-class Altcoin extends \yii\db\ActiveRecord
+class Altcoin extends ActiveRecord
 {
-    const BTC = 'BTC';
-    const ETH = 'ETH';
-    const LTC = 'LTC';
-    const XRP = 'XRP';   # XRP
-    const ATOM = 'ATOM'; # Cosmos
-    const XMR = 'XMR';   # Monero
-    const BNB = 'BNB';   # Binance Coin
+    const BTC = 'btc';
+    const ETH = 'eth';
+    const LTC = 'ltc';
+    const XRP = 'xrp';   # XRP
+    const ATOM = 'atom'; # Cosmos
+    const XMR = 'xmr';   # Monero
+    const BNB = 'bnb';   # Binance Coin
 
     const BTC_ID = 1;
     const ETH_ID = 2;
@@ -91,10 +92,22 @@ class Altcoin extends \yii\db\ActiveRecord
     }
 
     /**
+     * @param bool $capitalize
      * @return array
      */
-    public static function getAltcoinList(): array
+    public static function getAltcoinList(bool $capitalize = false): array
     {
+        if ($capitalize) {
+            return [
+                strtoupper(self::BTC),
+                strtoupper(self::ETH),
+                strtoupper(self::LTC),
+                strtoupper(self::XRP),
+                strtoupper(self::ATOM),
+                strtoupper(self::XMR),
+                strtoupper(self::BNB)
+            ];
+        }
         return [self::BTC, self::ETH, self::LTC, self::XRP, self::ATOM, self::XMR, self::BNB];
     }
 

@@ -1,0 +1,14 @@
+.chartdiv {
+    width: 100%;
+    height: 500px;
+}
+.chartdiv-loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 300px;"
+}
+.toUpper {
+    text-transform: uppercase;
+}

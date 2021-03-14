@@ -60,11 +60,7 @@ class City extends \yii\db\ActiveRecord
      */
     public static function getRandomCity() : string
     {
-        $cache = Yii::$app->cache;
-        $cityNameList = $cache->getOrSet('cityNameList', function() {
-           return self::find()->select('name')->asArray()->column();
-        }, 100);
-
+        $cityNameList = self::find()->select('name')->asArray()->column();
         $randomKey = array_rand($cityNameList);
         return $cityNameList[$randomKey];
     }

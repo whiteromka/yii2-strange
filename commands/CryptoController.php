@@ -42,7 +42,7 @@ class CryptoController extends Controller
     {
         $count = 0;
         $cryptoCompare = new CryptoCompare();
-        foreach (Altcoin::getAltcoinList() as $altcoin) {
+        foreach (Altcoin::getAltcoinList(true) as $altcoin) {
             $dates = AltcoinDate::constructDateList($altcoin);
             foreach ($dates as $humanDate => $unixDate) {
                 $apiAnswer = $cryptoCompare->getPriceOnDate($altcoin, $unixDate);

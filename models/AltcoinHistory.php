@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\base\Exception;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "altcoin_history".
@@ -19,7 +21,6 @@ use Yii;
  * @property string $created_at
  * @property string|null $updated_at
  *
- * @property Altcoin $altcoin
  * @property AltcoinDate $altcoinDate
  */
 class AltcoinHistory extends \yii\db\ActiveRecord
@@ -45,11 +46,59 @@ class AltcoinHistory extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getAltcoinDate()
     {
         return $this->hasOne(AltcoinDate::class, ['id' => 'altcoin_date_id']);
+    }
+
+    /**
+     * @param string|null $altcoin
+     * @return array
+     * @throws Exception
+     */
+    public function getDataCharts(string $altcoin = null): array
+    {
+        $data = $this->sqlDataCharts($altcoin);
+        $result = [];
+        foreach (Altcoin::getAltcoinList() as $altcoin) {
+            if (!isset($data[0][$altcoin])) {
+                continue;
+            }
+            foreach ($data as $row) {
+                $result[$altcoin][] = [
+                    'value' => $row[$altcoin],
+                    'date' => $row['date']
+                ];
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @param string|null $altcoin
+     * @return array
+     * @throws Exception
+     */
+    protected function sqlDataCharts(string $altcoin = null): array
+    {
+        $db = Yii::$app->db;
+        if ($altcoin) {
+            if (in_array($altcoin, Altcoin::getAltcoinList())) {
+                $sql = "SELECT DATE_FORMAT(ad.date, '%d.%m.%Y') as date, $altcoin
+                FROM altcoin_history as ah
+                LEFT JOIN altcoin_date ad ON ah.altcoin_date_id = ad.id";
+            } else {
+                throw new Exception('Error!'); // ToDo Sql injection
+            }
+        } else {
+            $sql = "SELECT DATE_FORMAT(ad.date, '%d.%m.%Y') as date,
+            ah.btc, ah.eth, ah.ltc, ah.xrp, ah.atom, ah.xmr, ah.bnb
+                FROM altcoin_history as ah
+            LEFT JOIN altcoin_date ad ON ah.altcoin_date_id = ad.id";
+        }
+        return $db->createCommand($sql)->queryAll();
     }
 
     /**

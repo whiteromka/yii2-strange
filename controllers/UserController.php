@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\search\UserFilter;
 use app\models\search\UserSearch;
+use Exception;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\User;
@@ -33,7 +34,7 @@ class UserController extends Controller
      * Page with user filters
      *
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function actionFilter()
     {

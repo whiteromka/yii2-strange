@@ -26,6 +26,8 @@ class CryptoCompare
     {
         $cache = Yii::$app->cache;
         $cacheKey = implode(',', $altcoinList) .'_'. implode(',', $currencyList);
+
+        #$prices = $this->requestPrice($altcoinList, $currencyList);
         $prices = $cache->getOrSet($cacheKey, function() use ($altcoinList, $currencyList) {
             return $this->requestPrice($altcoinList, $currencyList);
         }, 100);
@@ -42,7 +44,7 @@ class CryptoCompare
     {
         $altcoinList = implode(',', $altcoinList);
         $currencyList = implode(',', $currencyList);
-        $url = $this->apiUrl . "pricehistorical?fsyms=$altcoinList&tsyms=$currencyList";
+        $url = $this->apiUrl . "pricemulti?fsyms=$altcoinList&tsyms=$currencyList";
         try {
             $response = (new Client())->createRequest()->setMethod('GET')->setUrl($url)->send();
             $prices = $this->getPricesByResponse($response);

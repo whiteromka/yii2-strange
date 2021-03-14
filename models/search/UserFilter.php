@@ -2,11 +2,10 @@
 
 namespace app\models\search;
 
+use Exception;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\User;
-use yii\db\Expression;
-use yii\db\Query;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -30,7 +29,6 @@ class UserFilter extends User
     public $passport_city;
 
     const PASSPORT_EXIST = 1;
-    const PASSPORT_NOT_EXIST = 0;
 
     /**
      * {@inheritdoc}
@@ -69,7 +67,7 @@ class UserFilter extends User
     /**
      * @param $params
      * @return ActiveDataProvider
-     * @throws \Exception
+     * @throws Exception
      */
     public function search($params)
     {
@@ -98,11 +96,12 @@ class UserFilter extends User
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'surname', $this->surname])
-            ->andFilterWhere(['between', 'birthday', $this->from_date, ($this->to_date ? $this->to_date : $this->from_date)]);
+            ->andFilterWhere(['between', 'birthday', $this->from_date, ($this->to_date ?? $this->from_date)]);
 
         /** Search in passport */
-        if ($this->exist_passport && $this->existPassportOnlyOneChecked()) {
-            $existOrNot = (ArrayHelper::getValue($this->exist_passport, 0) == self::PASSPORT_EXIST ) ? 'exists' : 'not exists';
+        if ($this->existPassportOnlyOneChecked()) {
+            $isExist = ArrayHelper::getValue($this->exist_passport, 0) == self::PASSPORT_EXIST;
+            $existOrNot = $isExist ? 'exists' : 'not exists';
             $query->andFilterWhereExistPassport($existOrNot);
         }
 
@@ -119,7 +118,7 @@ class UserFilter extends User
      */
     protected function existPassportOnlyOneChecked() : bool
     {
-        return count($this->exist_passport) == 1;
+        return $this->exist_passport && (count($this->exist_passport) == 1);
     }
 
     /**
