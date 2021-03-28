@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -62,7 +63,7 @@ class AltcoinDate extends \yii\db\ActiveRecord
      *
      * @param string $dateStart
      * @return int
-     * @throws \yii\db\Exception
+     * @throws Exception
      */
     public static function fill(string $dateStart)
     {

@@ -37,7 +37,7 @@ use yii\web\View;
                             ['label' => 'Charts', 'icon' => '-', 'url' => ['/crypto/charts']],
                         ],
                     ],
-                    ['label' => 'TaskManager',  'url' => ['/task-manager/index']],
+                    ['label' => 'TaskManager',  'url' => ['/task/index']],
                     [
                         'label' => 'Some tools',
                         'icon' => 'share',

@@ -19,12 +19,8 @@ use yii\web\View;
     ) ?>
 
     <nav class="navbar navbar-static-top" role="navigation">
-
         <a href="#" class="sidebar-toggle js-sidebar-collapse" data-toggle="push-menu" role="button">
-            <span class="sr-only">Toggle navigation</span>
+         <span class="glyphicon glyphicon-resize-horizontal"></span>
         </a>
-
-        <?php // echo HeaderWidget::widget(['directoryAsset' => $directoryAsset]) ?>
-
     </nav>
 </header>

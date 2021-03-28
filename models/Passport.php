@@ -77,7 +77,7 @@ class Passport extends ActiveRecord
      * @return Passport
      * @throws Exception
      */
-    public function dataSave(array $request) : self
+    public function dataSave(array $request): self
     {
         $passportData = ArrayHelper::getValue($request, 'Passport');
         $action = ArrayHelper::getValue($passportData, 'action');

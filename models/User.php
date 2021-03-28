@@ -5,6 +5,7 @@ namespace app\models;
 use app\models\query\UserQuery;
 use yii\base\Exception;
 use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -24,7 +25,7 @@ use yii\helpers\ArrayHelper;
  * @property Passport $passport
  * @property Estate $estate
  */
-class User extends \yii\db\ActiveRecord
+class User extends ActiveRecord
 {
     const GENDER_MALE = 1;
     const GENDER_FEMALE = 0;

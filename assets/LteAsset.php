@@ -12,7 +12,8 @@ class LteAsset extends AssetBundle
     ];
 
     public $js = [
-        'lte/js/common.js'
+        'lte/js/common.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js'
     ];
 
     public $depends = [

@@ -6,9 +6,19 @@ let template =
         <h3 class="panel-title">Tasks</h3>
     </div>
     <div class="panel-body">
-        <div class="col-sm-12">
-            <div class="input-group">
-                <input v-model="newTask" type="text" class="form-control">
+        <div class="row">
+            <div class="col-sm-9">
+                <span>Задача:</span>
+                <br>
+                <input v-model="newTask.name" type="text" class="form-control">
+            </div>
+            <div class="col-sm-1">
+                <span>Часы:</span>
+                <br>
+                <input v-model="newTask.hours" type="text" class="form-control">
+            </div>
+            <div class="col-sm-2">
+                <br>
                 <span class="input-group-btn">
                     <button @click="createTask" class="btn btn-default" type="button">Создать задачу</button>
                 </span>
@@ -20,15 +30,19 @@ let template =
 export let TaskCreator = {
     data: function () {
         return {
-            newTask: ''
+            newTask: {name: '', hours: 1, status: false}
         }
     },
     template: template,
     methods: {
         createTask: function () {
-            if (this.newTask.trim()) {
-                this.$emit('create-task', {name: this.newTask, status: false})
-                this.newTask = ''
+            if (this.newTask.name.trim()) {
+                this.$emit('create-task', {
+                    name: this.newTask.name,
+                    hours: this.newTask.hours,
+                    status: 0
+                })
+                this.newTask.name = ''
             }
         }
     }

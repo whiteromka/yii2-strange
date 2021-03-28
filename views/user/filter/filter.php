@@ -11,7 +11,7 @@ use yii\web\View;
 ?>
 
 <?php Pjax::begin(/*['timeout' => 5000, 'enablePushState' => false, 'enableReplaceState' => false]*/); ?>
-<div class="container">
+<div class="container-fluid">
     <?= $this->render('_form-filter', ['model'=> $userFilter])     // filter form ?>
     <?= $this->render('_users', ['dataProvider' => $dataProvider]) // data tile (users) ?>
     <?= $this->render('/ajax/modal-edit/modal')                    // modal window ?>

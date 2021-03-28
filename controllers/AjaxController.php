@@ -23,25 +23,20 @@ class AjaxController extends  Controller
     public function actionUpdateDataInTile(int $userId)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        try {
-            $user = User::find()->where(['id' => $userId])->with('passport')->one();
-            $view = $this->renderPartial('/user/filter/_user', ['user' => $user]);
-            return ['success' => true, 'view' => $view];
-        } catch (\Exception $e) {
-            return ['success' => false, 'view' => null, 'error' => 'Данные не обновлены... ' . $e->getMessage()];
-        }
+        $user = User::find()->where(['id' => $userId])->with('passport')->one();
+        $view = $this->renderPartial('/user/filter/_user', ['user' => $user]);
+        return ['success' => true, 'view' => $view];
     }
 
     /**
      * Get data (user and passport) for modal window
      *
      * @param int $userId
-     * @return array|null
+     * @return string
      */
     public function actionGetDataForModal(int $userId)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        /** @var User $user */
         $user = User::find()->with('passport', 'estate')->where(['id' => $userId])->one();
         return $this->renderPartial('modal-edit/edit', ['user' => $user]);
     }
@@ -54,7 +49,7 @@ class AjaxController extends  Controller
     public function actionDataSave() : array
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $db = \Yii::$app->db;
+        $db = Yii::$app->db;
         $transaction = $db->beginTransaction();
         try {
             $request = Yii::$app->request->post();
@@ -73,8 +68,8 @@ class AjaxController extends  Controller
      *
      * @param int $passportId
      * @return array
-     * @throws Throwable
      * @throws StaleObjectException
+     * @throws Throwable
      */
     public function actionRemovePassport(int $passportId) : array
     {
@@ -82,10 +77,8 @@ class AjaxController extends  Controller
         /** @var Passport $passport */
         $passport = Passport::find()->where(['id' => $passportId])->one();
         $user = $passport->user;
-        if ($passport->delete()) {
-            return ['success' => true, 'user' => $user];
-        }
-        return ['success' => false, 'user' => $user, 'error' => 'Операция удаления не была произведена'];
+        $passport->delete();
+        return ['success' => true, 'user' => $user];
     }
 
     /**
@@ -100,21 +93,5 @@ class AjaxController extends  Controller
         $passport = Passport::find()->where(['id' => $passportId])->one();
         $weather = $passport ? (new YandexWeather())->getByPassport($passport) : null;
         return $this->renderPartial('modal-edit/_weather', ['weather' => $weather, 'passport' => $passport]);
-    }
-
-    /**
-     * Return tasks for Vue js
-     *
-     * @return array
-     */
-    public function actionGetTasks()
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return [
-            ['name' => 'Сесть', 'status' => false],
-            ['name' => 'Начать', 'status' => false],
-            ['name' => 'Разобраться', 'status' => false],
-            ['name' => 'Сделать', 'status' => false],
-        ];
     }
 }

@@ -90,7 +90,7 @@ class AltcoinHistory extends \yii\db\ActiveRecord
                 FROM altcoin_history as ah
                 LEFT JOIN altcoin_date ad ON ah.altcoin_date_id = ad.id";
             } else {
-                throw new Exception('Error!'); // ToDo Sql injection
+                throw new Exception('Error in ' . __METHOD__); // ToDo Sql injection
             }
         } else {
             $sql = "SELECT DATE_FORMAT(ad.date, '%d.%m.%Y') as date,

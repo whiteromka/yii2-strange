@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
 /** @var array $prices */
 ?>
 
-<div class="container">
+<div class="container-fluid">
     <h3>Altсoins rates</h3>
     <div class="row">
     <?php $form = ActiveForm::begin(['method' => 'GET', 'action' => ['crypto/rates']])?>

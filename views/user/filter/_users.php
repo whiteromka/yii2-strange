@@ -13,7 +13,7 @@ use yii\widgets\LinkPager;
     <?php
     /** @var User $user */
     foreach ($dataProvider->getModels() as $user) : ?>
-        <div class="col-sm-6 col-md-4">
+        <div class="col-sm-6 col-md-4 col-lg-3">
             <?= $this->render('_user', ['user' => $user])?>
         </div>
     <?php endforeach; ?>

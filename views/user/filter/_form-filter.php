@@ -20,23 +20,18 @@ UserFilterAsset::register($this);
 $get = Yii::$app->request->get();
 ?>
 
-<h3 class="p-b-40">Фильтрация пользователей</h3>
+<h3>Фильтрация пользователей</h3>
 <div class="user-form">
-    <h3>Фильтры</h3>
     <?php $form = ActiveForm::begin([
         'action' => ['filter'],
         'method' => 'GET',
         'options' => ['data-pjax' => 1],
     ]); ?>
     <div class="row">
-        <div class="col-sm-6 col-md-3"> <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?></div>
-        <div class="col-sm-6 col-md-3"> <?= $form->field($model, 'surname')->textInput(['maxlength' => true]) ?></div>
-        <div class="col-sm-6 col-md-3"> <?= $form->field($model, 'status')->checkboxList(User::getNamedStatuses()) ?></div>
-        <div class="col-sm-6 col-md-3"> <?= $form->field($model, 'gender')->checkboxList(User::getNamedGenders()) ?></div>
-    </div>
+        <div class="col-sm-6 col-md-3 col-lg-2"> <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?></div>
+        <div class="col-sm-6 col-md-3 col-lg-2"> <?= $form->field($model, 'surname')->textInput(['maxlength' => true]) ?></div>
 
-    <div class="row">
-        <div class="col-sm-6 col-md-6 form-group">
+        <div class="col-sm-6 col-md-6 col-lg-3 form-group">
             <?php
             echo '<label class="control-labels">День рождения от ... и до ...</label>';
             echo DatePicker::widget([
@@ -52,12 +47,15 @@ $get = Yii::$app->request->get();
                 ]
             ]); ?>
         </div>
+
+        <div class="col-sm-6 col-md-3 col-lg-2"> <?= $form->field($model, 'status')->checkboxList(User::getNamedStatuses()) ?></div>
+        <div class="col-sm-6 col-md-3 col-lg-2"> <?= $form->field($model, 'gender')->checkboxList(User::getNamedGenders()) ?></div>
     </div>
 
     <div class="row">
-        <div class="col-sm-4 col-md-3"> <?= $form->field($model, 'exist_passport')->checkboxList(['Без', 'С']) ?></div>
-        <div class="col-sm-4 col-md-3"> <?= $form->field($model, 'passport_country')->textInput() ?></div>
-        <div class="col-sm-4 col-md-3"> <?= $form->field($model, 'passport_city')->textInput() ?></div>
+        <div class="col-sm-4 col-md-3 col-lg-2"> <?= $form->field($model, 'exist_passport')->checkboxList(['Без', 'С']) ?></div>
+        <div class="col-sm-4 col-md-3 col-lg-2"> <?= $form->field($model, 'passport_country')->textInput() ?></div>
+        <div class="col-sm-4 col-md-3 col-lg-2"> <?= $form->field($model, 'passport_city')->textInput() ?></div>
     </div>
 
     <hr>

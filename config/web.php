@@ -59,6 +59,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '/' => '/user/filter',
                 't' => 't/index',
                 //'<action>' => 'site/<action>'
             ],

@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -76,7 +77,7 @@ class Altcoin extends ActiveRecord
     /**
      * Gets query for [[AltcoinHistories]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getAltcoinHistories()
     {

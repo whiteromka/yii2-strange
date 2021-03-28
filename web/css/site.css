@@ -118,11 +118,9 @@ a.desc:after {
     padding-bottom: 40px;
 }
 .my-label {
-    display: block;
     text-align: center;
-    width: 80px;
     margin-top: 3px;
-    margin-right: 10px;
+    float: right;
 }
 .d-none {
     display: none;
@@ -242,4 +240,23 @@ h3 {
 }
 .my-gly {
     padding-left: 6px;
+}
+.main-header .sidebar-toggle:before {
+    content: "" !important;
+}
+
+.p-2 {
+    padding: 2px;
+}
+.b-r-2 {
+    border-radius: 2px;
+}
+.f-s-13 {
+    font-size: 13px !important;
+}
+.f-s-18 {
+    font-size: 18px !important;
+}
+.c-g {
+    color: green;
 }
