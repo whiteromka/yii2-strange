@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "altcoin".
@@ -12,6 +13,7 @@ use yii\db\ActiveRecord;
  * @property int $id
  * @property string|null $name
  * @property string|null $full_name
+ * @property int $sort
  * @property string $created_at
  * @property string|null $updated_at
  *
@@ -22,18 +24,12 @@ class Altcoin extends ActiveRecord
     const BTC = 'btc';
     const ETH = 'eth';
     const LTC = 'ltc';
-    const XRP = 'xrp';   # XRP
+    const XRP = 'xrp';   # XRP ripl
     const ATOM = 'atom'; # Cosmos
     const XMR = 'xmr';   # Monero
     const BNB = 'bnb';   # Binance Coin
-
-    const BTC_ID = 1;
-    const ETH_ID = 2;
-    const LTC_ID = 3;
-    const XRP_ID = 4;
-    const ATOM_ID = 5;
-    const XMR_ID = 6;
-    const BNB_ID = 7;
+    const ZEC = 'zec';   # Zcash
+    const ADA = 'ada';   # cardano
 
     const USD = 'USD';
     const RUB = 'RUB';
@@ -55,6 +51,7 @@ class Altcoin extends ActiveRecord
         return [
             [['created_at', 'updated_at'], 'safe'],
             [['name', 'full_name'], 'string', 'max' => 255],
+            [['sort'], 'integer'],
             [['name'], 'unique'],
             [['full_name'], 'unique'],
         ];
@@ -67,8 +64,9 @@ class Altcoin extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'full_name' => 'Full Name',
+            'name' => 'Имя',
+            'full_name' => 'Полное имя',
+            'sort' => 'Sort',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
@@ -85,11 +83,25 @@ class Altcoin extends ActiveRecord
     }
 
     /**
+     * @param bool $capitalize
+     * @return array
+     */
+    public static function map(bool $capitalize = false): array
+    {
+        $altcoins = self::find()->select(['id', 'name'])->all();
+        $map = ArrayHelper::map($altcoins, 'id', 'name');
+        if ($capitalize) {
+            return $map;
+        }
+        return array_map('strtolower', $map);
+    }
+
+    /**
      * @return array
      */
     public static function getAltcoinListId(): array
     {
-        return [self::BTC_ID, self::ETH_ID, self::LTC_ID, self::XRP_ID, self::ATOM_ID, self::XMR_ID, self::BNB_ID];
+        return self::find()->select(['id'])->column();
     }
 
     /**
@@ -98,18 +110,11 @@ class Altcoin extends ActiveRecord
      */
     public static function getAltcoinList(bool $capitalize = false): array
     {
+        $altcoins = self::find()->select(['name'])->column();
         if ($capitalize) {
-            return [
-                strtoupper(self::BTC),
-                strtoupper(self::ETH),
-                strtoupper(self::LTC),
-                strtoupper(self::XRP),
-                strtoupper(self::ATOM),
-                strtoupper(self::XMR),
-                strtoupper(self::BNB)
-            ];
+            return $altcoins;
         }
-        return [self::BTC, self::ETH, self::LTC, self::XRP, self::ATOM, self::XMR, self::BNB];
+        return array_map('strtolower', $altcoins);
     }
 
     /**

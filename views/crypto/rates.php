@@ -22,16 +22,21 @@ use yii\widgets\ActiveForm;
         <div class="col-sm-12 m-h-96">
             <?= $form->field($cryptoRequestForm, 'currencyList')->checkboxList(CryptoRequestForm::getCurrencyList()) ?>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-3 col-lg-2">
             <?= Html::submitButton('Запросить данные', ['class' => 'btn btn-primary']) ?>
         </div>
+        <?php if ($prices['success']) :?>
+            <div class="col-sm-3 col-lg-2">
+                <h4>Данные на <?= date('d.m.Y H:i')?></h4>
+            </div>
+        <?php endif;?>
     <?php ActiveForm::end() ?>
     </div>
 </div>
 
 <?php if ($prices['success']) :?>
-<div class="container block-30">
-    <h4>Данные на <?= date('d.m.Y H:i')?></h4>
+<div class="container-fluid block-30">
+
     <div class="row">
     <?php foreach ($prices['data'] as $altcoinName => $altcoinItem): ?>
         <?= AltcoinWidget::widget([

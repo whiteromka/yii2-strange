@@ -33,6 +33,7 @@ use yii\web\View;
                         #'icon' => 'share',
                         'url' => '#',
                         'items' => [
+                            ['label' => 'Add coin',  'icon' => '-', 'url' => ['/crypto/add-altcoin']],
                             ['label' => 'Rates',  'icon' => '-', 'url' => ['/crypto/rates']],
                             ['label' => 'Charts', 'icon' => '-', 'url' => ['/crypto/charts']],
                         ],

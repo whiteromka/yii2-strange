@@ -9,11 +9,11 @@ use yii\web\View;
 ?>
 
 <div class="col-sm-3">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title"><?= $altcoinName?></h3>
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title"><?= $altcoinName?></h3>
         </div>
-        <div class="panel-body">
+        <div class="box-body">
             <ul>
                 <?php foreach ($altcoinItem as $name => $price) : ?>
                     <li class="altcoin">

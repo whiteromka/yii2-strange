@@ -3,12 +3,13 @@
 namespace app\controllers;
 
 use app\components\api\CryptoCompare;
+use app\models\Altcoin;
+use app\models\AltcoinHistoryData;
 use app\models\CryptoRequestForm;
 use app\models\AltcoinHistory;
 use yii\base\Exception;
 use yii\web\Controller;
 use yii\web\Response;
-use yii\db\Query;
 use Yii;
 
 class CryptoController extends Controller
@@ -16,10 +17,35 @@ class CryptoController extends Controller
     /**
      * @return string
      */
-    public function actionRates()
+    public function actionAddAltcoin(): string
     {
+        $altcoin = new Altcoin();
+        $altcoins = Altcoin::find()->all();
+        if ($altcoin->load(Yii::$app->request->post())) {
+            $altcoin->name = strtoupper($altcoin->name);
+            $altcoin->save();
+
+        }
+        return $this->render('add-altcoin', [
+            'altcoin' => $altcoin,
+            'altcoins' => $altcoins
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function actionRates(): string
+    {
+        $app = Yii::$app;
         $cryptoForm = new CryptoRequestForm();
-        $prices = $this->getPrices($cryptoForm);
+        $prices = ['success' => false];
+        if ($cryptoForm->load($app->request->get())) {
+            $prices = (new CryptoCompare())->getMultiPrice($cryptoForm->altcoinList, $cryptoForm->currencyList);
+            if ($prices['error']) {
+                $app->session->setFlash('danger', $prices['error']);
+            }
+        }
         return $this->render('rates', ['cryptoRequestForm' => $cryptoForm, 'prices' => $prices]);
     }
 
@@ -28,12 +54,12 @@ class CryptoController extends Controller
      */
     public function actionCharts(): string
     {
-        $altcoins = (new Query())->select(['btc', 'eth', 'ltc', 'xrp', 'atom', 'xmr', 'bnb'])
-            ->from('altcoin_history')
-            ->orderBy('id DESC')
-            ->one();
-
-        return $this->render('charts', ['altcoins' => $altcoins]);
+        $altcoins = Altcoin::map();
+        $prices = (new AltcoinHistoryData())->getLastPrices();
+        return $this->render('charts', [
+            'altcoins' => $altcoins,
+            'prices' => $prices
+        ]);
     }
 
     /**
@@ -44,24 +70,7 @@ class CryptoController extends Controller
     public function actionGetDataCharts($altcoin = null): array
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $data = (new AltcoinHistory())->getDataCharts($altcoin);
+        $data = (new AltcoinHistoryData())->getDataCharts($altcoin);
         return ['success' => true, 'data' => $data];
-    }
-
-    /**
-     * @param CryptoRequestForm $cryptoForm
-     * @return array
-     */
-    protected function getPrices(CryptoRequestForm $cryptoForm): array
-    {
-        $app = Yii::$app;
-        $prices = ['success' => false];
-        if ($cryptoForm->load($app->request->get())) {
-            $prices = (new CryptoCompare())->getMultiPrice($cryptoForm->altcoinList, $cryptoForm->currencyList);
-            if ($prices['error']) {
-                $app->session->setFlash('danger', $prices['error']);
-            }
-        }
-        return $prices;
     }
 }

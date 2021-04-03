@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveQuery;
 use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 
@@ -51,7 +52,7 @@ class AltcoinDate extends \yii\db\ActiveRecord
     /**
      * Gets query for [[AltcoinHistories]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getAltcoinHistory()
     {
@@ -84,41 +85,33 @@ class AltcoinDate extends \yii\db\ActiveRecord
             $currentDate = date('Y-m-d', $nextDate);
         }
 
-        return Yii::$app->db->createCommand()->batchInsert(self::tableName(), ['date', 'unix_date'], $data)->execute();
+        return Yii::$app->db->createCommand()
+            ->batchInsert(self::tableName(), ['date', 'unix_date'], $data)->execute();
     }
 
-
     /**
-     * @param string $altcoin
+     * @param int $altcoinId
      * @return array
      */
-    public static function constructDateList(string $altcoin): array
+    public static function constructDateList(int $altcoinId): array
     {
-        $altcoin = strtolower($altcoin);
-
-        /** @var AltcoinHistory $altcoinHistory */
-        $altcoinHistory = AltcoinHistory::find()
+        /** @var AltcoinHistoryData $altcoinHistoryData */
+        $altcoinHistoryData = AltcoinHistoryData::find()
             ->joinWith('altcoinDate ad')
-            ->where("$altcoin is not null")
+            ->where(['altcoin_id' => $altcoinId])
             ->andWhere("altcoin_date_id is not null")
             ->orderBy('ad.date DESC')
             ->one();
 
-        if ($altcoinHistory) {
+        if ($altcoinHistoryData) {
             $dates = self::find()->orderBy('date ASC')
-                ->indexBy('unix_date')
-                ->select(['unix_date', 'date'])
-                ->where(['>', 'id',  $altcoinHistory->altcoin_date_id])
+                ->where(['>', 'unix_date',  $altcoinHistoryData->altcoinDate->unix_date])
                 ->asArray()
                 ->all();
         } else {
-            $dates = self::find()->orderBy('date ASC')
-                ->indexBy('unix_date')
-                ->select(['unix_date', 'date'])
-                ->asArray()
-                ->all();
+            $dates = self::find()->orderBy('date ASC')->asArray()->all();
         }
 
-        return ArrayHelper::map($dates,  'date', 'unix_date');
+        return ArrayHelper::map($dates,  'id', 'unix_date');
     }
 }

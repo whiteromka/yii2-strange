@@ -6,6 +6,7 @@ use app\components\api\CryptoCompare;
 use app\models\Altcoin;
 use app\models\AltcoinDate;
 use app\models\AltcoinHistory;
+use app\models\AltcoinHistoryData;
 use Exception;
 use yii\console\Controller;
 use yii\helpers\ArrayHelper;
@@ -21,7 +22,7 @@ class CryptoController extends Controller
     public function actionFill(): void
     {
         $this->fillAltcoinDate();
-        $this->fillAltcoinHistory();
+        $this->fillAltcoinHistoryData();
     }
 
     /**
@@ -38,13 +39,14 @@ class CryptoController extends Controller
     /**
      * @throws Exception
      */
-    protected function fillAltcoinHistory(): void
+    protected function fillAltcoinHistoryData(): void
     {
         $count = 0;
         $cryptoCompare = new CryptoCompare();
-        foreach (Altcoin::getAltcoinList(true) as $altcoin) {
-            $dates = AltcoinDate::constructDateList($altcoin);
-            foreach ($dates as $humanDate => $unixDate) {
+
+        foreach (Altcoin::map(true) as $altcoinId => $altcoin) {
+            $dates = AltcoinDate::constructDateList($altcoinId);
+            foreach ($dates as $dateId => $unixDate) {
                 $apiAnswer = $cryptoCompare->getPriceOnDate($altcoin, $unixDate);
                 $message = ArrayHelper::getValue($apiAnswer, 'data.Message');
                 $price = ArrayHelper::getValue($apiAnswer, "data.$altcoin.USD");
@@ -55,7 +57,7 @@ class CryptoController extends Controller
                 }
 
                 if ($apiAnswer['success'] && $price !== null) {
-                    $isSave = AltcoinHistory::saveRow($altcoin, $price, $unixDate);
+                    $isSave = AltcoinHistoryData::saveRow($altcoinId, $dateId, $price);
                     echo $isSave ? '.' : '-';
                     if ($isSave) {
                         $count++;

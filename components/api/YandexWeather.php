@@ -21,7 +21,7 @@ class YandexWeather
      * @param Passport $passport
      * @return array
      */
-    public function getByPassport(Passport $passport) : array
+    public function getByPassport(Passport $passport): array
     {
         return $this->getByCity($passport->city);
     }
@@ -30,7 +30,7 @@ class YandexWeather
      * @param string $city
      * @return array
      */
-    public function getByCity(string $city) : array
+    public function getByCity(string $city): array
     {
         /** @var City $city */
         $city = City::find()->where(['name' => $city])->one();
@@ -53,7 +53,7 @@ class YandexWeather
      * @param City $city
      * @return array
      */
-    protected function sendRequest(City $city) : array
+    protected function sendRequest(City $city): array
     {
         try {
             $weather = [];
@@ -77,7 +77,6 @@ class YandexWeather
             $weather['success'] = false;
             $weather['error'] = $e->getMessage();
         }
-
         return $weather;
     }
 
@@ -89,14 +88,14 @@ class YandexWeather
     {
         $yandexWidDir = [
             'nw' => 'северо-западное',
-            'n' => 'северное',
+            'n'  => 'северное',
             'ne' => 'северо-восточное',
-            'e' => 'восточное',
+            'e'  => 'восточное',
             'se' => 'юго-восточное',
-            's'=>'южное',
+            's'  => 'южное',
             'sw' => 'юго-западное',
-            'w' => 'западное',
-            'с' => 'штиль'
+            'w'  => 'западное',
+            'с'  => 'штиль'
         ];
         return $yandexWidDir[$widDir];
     }

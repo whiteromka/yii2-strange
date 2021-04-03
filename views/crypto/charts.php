@@ -5,6 +5,7 @@ use yii\web\View;
 
 /** @var View $this */
 /** @var array $altcoins */
+/** @var array $prices */
 
 CryptoChartsAsset::register($this) ?>
 
@@ -12,7 +13,7 @@ CryptoChartsAsset::register($this) ?>
     <h3>Charts</h3>
     <div class="board">
         <ul class="nav nav-tabs">
-        <?php foreach ($altcoins as $altcoin => $course) : ?>
+        <?php foreach ($altcoins as $id => $altcoin) : ?>
             <li class="<?= $altcoin == 'btc' ? 'active' : '' ?>">
                 <a href="#<?= $altcoin ?>" class="toUpper js-altcoin"
                    data-toggle="tab" data-altcoin="<?= $altcoin ?>">
@@ -23,9 +24,12 @@ CryptoChartsAsset::register($this) ?>
         </ul>
 
         <div class="tab-content">
-            <?php foreach ($altcoins as $altcoin => $course) : ?>
+            <?php foreach ($altcoins as $id => $altcoin) : ?>
                 <div class="tab-pane fade <?= $altcoin == 'btc' ? 'in active' : '' ?>" id="<?= $altcoin?>">
-                    <h3 class="toUpper t-a-c"><?= $altcoin?>: &nbsp; <b><?=  number_format($course, 2, ',', ' ') ?> $</b></h3>
+                      <h3 class="toUpper t-a-c">
+                          <?= $altcoin ?>: &nbsp;
+                          <b><?= number_format($prices[$altcoin], 2, ',', ' ') ?> $</b>
+                      </h3>
                     <div class="chartdiv" id="chartdiv-<?= $altcoin?>">
                         <div class="chartdiv-loading">
                             Loading ...

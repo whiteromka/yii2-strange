@@ -43,13 +43,7 @@ class CryptoCompare
         $altcoins = implode(',', $altcoinList);
         $currencies = implode(',', $currencyList);
         $url = $this->apiUrl . "pricemulti?fsyms=$altcoins&tsyms=$currencies";
-        try {
-            $response = (new Client())->createRequest()->setMethod('GET')->setUrl($url)->send();
-            $prices = $this->getPricesByResponse($response);
-        } catch (Exception $e) {
-            $prices = ['data' => [], 'success' => false, 'error' => $e->getMessage()];
-        }
-        return $prices;
+        return $this->priceData($url);
     }
 
     /**
@@ -60,24 +54,23 @@ class CryptoCompare
     public function getPriceOnDate(string $altcoin, int $unixTime): array
     {
         $url = $this->apiUrl . "pricehistorical?fsym=$altcoin&tsyms=USD&ts=$unixTime";
+        return $this->priceData($url);
+    }
+
+    /**
+     * @param string $url
+     * @return array
+     */
+    protected function priceData(string $url): array
+    {
         try {
             $response = (new Client())->createRequest()->setMethod('GET')->setUrl($url)->send();
-            $prices = $this->getPricesByResponse($response);
+            $prices = $response->isOk ?
+                ['data' => $response->data, 'success' => true, 'error' => false] :
+                ['data' => [], 'success' => false, 'error' => 'Что то пошло не так...'];
         } catch (Exception $e) {
             $prices = ['data' => [], 'success' => false, 'error' => $e->getMessage()];
         }
         return $prices;
-    }
-
-    /**
-     * @param $response
-     * @return array
-     */
-    protected function getPricesByResponse($response): array
-    {
-        if ($response->isOk) {
-           return ['data' => $response->data, 'success' => true, 'error' => false];
-        }
-        return ['data' => [], 'success' => false, 'error' => 'Что то пошло не так. Попробуйте повторить запрос позже.'];
     }
 }
