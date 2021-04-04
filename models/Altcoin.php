@@ -21,15 +21,19 @@ use yii\helpers\ArrayHelper;
  */
 class Altcoin extends ActiveRecord
 {
-    const BTC = 'btc';
-    const ETH = 'eth';
-    const LTC = 'ltc';
-    const XRP = 'xrp';   # XRP ripl
-    const ATOM = 'atom'; # Cosmos
-    const XMR = 'xmr';   # Monero
-    const BNB = 'bnb';   # Binance Coin
-    const ZEC = 'zec';   # Zcash
-    const ADA = 'ada';   # cardano
+    const BTC = 'btc';   # 1
+    const ETH = 'eth';   # 2
+    const LTC = 'ltc';   # 3
+    const XRP = 'xrp';   # 4 XRP ripl
+    const ATOM = 'atom'; # 5 Cosmos
+    const XMR = 'xmr';   # 6 Monero
+    const BNB = 'bnb';   # 7 Binance Coin
+    const ZEC = 'zec';   # 10 Zcash
+    const ADA = 'ada';   # 11 cardano
+    // polkadot DOT
+    // maker MKR
+    // Synthetix SNX
+    // Compound COMP
 
     const USD = 'USD';
     const RUB = 'RUB';
@@ -43,6 +47,9 @@ class Altcoin extends ActiveRecord
         return 'altcoin';
     }
 
+    /** @var int */
+    public $start_unixtime;
+
     /**
      * {@inheritdoc}
      */
@@ -51,7 +58,7 @@ class Altcoin extends ActiveRecord
         return [
             [['created_at', 'updated_at'], 'safe'],
             [['name', 'full_name'], 'string', 'max' => 255],
-            [['sort'], 'integer'],
+            [['sort', '$start_unixtime'], 'integer'],
             [['name'], 'unique'],
             [['full_name'], 'unique'],
         ];
@@ -69,6 +76,7 @@ class Altcoin extends ActiveRecord
             'sort' => 'Sort',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'start_unixtime' => 'Unixtime рождение'
         ];
     }
 

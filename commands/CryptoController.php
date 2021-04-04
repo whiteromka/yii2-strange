@@ -8,6 +8,7 @@ use app\models\AltcoinDate;
 use app\models\AltcoinHistory;
 use app\models\AltcoinHistoryData;
 use Exception;
+use Yii;
 use yii\console\Controller;
 use yii\helpers\ArrayHelper;
 
@@ -66,5 +67,40 @@ class CryptoController extends Controller
             }
         }
         echo PHP_EOL . 'Done.  Added ' . $count . ' rows';
+    }
+
+    /**
+     * @param int $altcoinId
+     * @param int $toUnixtime
+     * @throws \yii\db\Exception
+     */
+    public function actionSetPriceZero(int $altcoinId, int $toUnixtime): void
+    {
+        /** @var AltcoinHistoryData $history */
+        $history = AltcoinHistoryData::find()
+            ->where(['altcoin_id' => $altcoinId])
+            ->orderBy('altcoin_date_id DESC')
+            ->one();
+
+        /** @var AltcoinDate $altcoinDate */
+        $altcoinDate = AltcoinDate::findOne(['unix_date' => $toUnixtime]);
+        if (!$altcoinDate) {
+            exit (PHP_EOL . '$altcoinDate not found by $toUnixtime');
+        }
+
+        if ($history && $altcoinDate && ($history->altcoin_date_id < $altcoinDate->id)) {
+            $dateId = 1 + (int)$history->altcoin_date_id;
+        } elseif (!$history && $altcoinDate) {
+            $dateId = 1;
+        }
+        $finalDateId = (int)$altcoinDate->id;
+        $rows = [];
+        for ($i = $dateId; $i <= $finalDateId; $i++) {
+            $rows[] = [$altcoinId, $i, 0];
+        }
+        $attributes = ['altcoin_id', 'altcoin_date_id', 'price'];
+        echo PHP_EOL . 'Added rows: ' . Yii::$app->db->createCommand()
+                ->batchInsert(AltcoinHistoryData::tableName(), $attributes, $rows)->execute();
+
     }
 }

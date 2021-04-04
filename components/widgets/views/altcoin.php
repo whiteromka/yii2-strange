@@ -8,7 +8,7 @@ use yii\web\View;
 /** @var array $altcoinItem */
 ?>
 
-<div class="col-sm-3">
+<div class="col-sm-3 col-lg-2">
     <div class="box box-primary">
         <div class="box-header with-border">
             <h3 class="box-title"><?= $altcoinName?></h3>

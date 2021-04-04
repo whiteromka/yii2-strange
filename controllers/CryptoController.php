@@ -50,6 +50,16 @@ class CryptoController extends Controller
     }
 
     /**
+     * @return array
+     */
+    public function actionGetRates(): array
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $data = (new CryptoCompare())->getMultiPrice(Altcoin::getAltcoinList(true), ['USD']);
+        return $data;
+    }
+
+    /**
      * @return string
      */
     public function actionCharts(): string

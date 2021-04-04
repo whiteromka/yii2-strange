@@ -26,21 +26,21 @@ use yii\web\View;
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
-                    ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
-                    ['label' => 'Users',  'url' => ['/user/filter']],
+                    ['label' => 'Меню', 'options' => ['class' => 'header']],
+                    ['label' => 'Люди',  'icon' => 'user',  'url' => ['/user/filter']],
                    [
-                        'label' => 'Altcoins',
-                        #'icon' => 'share',
+                        'label' => 'Криптовалюта',
+                        'icon' => 'btc',
                         'url' => '#',
                         'items' => [
-                            ['label' => 'Add coin',  'icon' => '-', 'url' => ['/crypto/add-altcoin']],
-                            ['label' => 'Rates',  'icon' => '-', 'url' => ['/crypto/rates']],
-                            ['label' => 'Charts', 'icon' => '-', 'url' => ['/crypto/charts']],
+                            ['label' => 'Добавить',  'icon' => '-', 'url' => ['/crypto/add-altcoin']],
+                            ['label' => 'Курсы',  'icon' => '-', 'url' => ['/crypto/rates']],
+                            ['label' => 'Графики', 'icon' => '-', 'url' => ['/crypto/charts']],
                         ],
                     ],
-                    ['label' => 'TaskManager',  'url' => ['/task/index']],
+                    ['label' => 'Задачи',  'icon' => 'tasks',  'url' => ['/task/index']],
                     [
-                        'label' => 'Some tools',
+                        'label' => 'Инструменты',
                         'icon' => 'share',
                         'url' => '#',
                         'items' => [

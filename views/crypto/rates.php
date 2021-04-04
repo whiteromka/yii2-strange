@@ -13,7 +13,7 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="container-fluid">
-    <h3>Altсoins rates</h3>
+    <h3>Текущие курсы альткойнов</h3>
     <div class="row">
     <?php $form = ActiveForm::begin(['method' => 'GET', 'action' => ['crypto/rates']])?>
         <div class="col-sm-12 m-h-96">
