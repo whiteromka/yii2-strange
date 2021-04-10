@@ -16,15 +16,20 @@ class CryptoController extends Controller
 {
     /**
      * @return string
+     * @throws \Exception
      */
     public function actionAddAltcoin(): string
     {
         $altcoin = new Altcoin();
         $altcoins = Altcoin::find()->all();
         if ($altcoin->load(Yii::$app->request->post())) {
-            $altcoin->name = strtoupper($altcoin->name);
-            $altcoin->save();
-
+            $result = $altcoin->addNew();
+            if ($result['success']) {
+                Yii::$app->session->setFlash('success', 'Альткойн ' . $altcoin->name . ' добавлен');
+            } else {
+                Yii::$app->session->setFlash('danger', 'Ошибка. Альткойн ' . $altcoin->name . ' не был добавлен.' .
+                    $result['error']);
+            }
         }
         return $this->render('add-altcoin', [
             'altcoin' => $altcoin,

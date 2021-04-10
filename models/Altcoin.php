@@ -2,7 +2,8 @@
 
 namespace app\models;
 
-use Yii;
+use app\components\api\CryptoCompare;
+use Exception;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
@@ -30,7 +31,7 @@ class Altcoin extends ActiveRecord
     const BNB = 'bnb';   # 7 Binance Coin
     const ZEC = 'zec';   # 10 Zcash
     const ADA = 'ada';   # 11 cardano
-    // polkadot DOT
+    const DOT = 'dot';   # 13 polkadot
     // maker MKR
     // Synthetix SNX
     // Compound COMP
@@ -58,7 +59,8 @@ class Altcoin extends ActiveRecord
         return [
             [['created_at', 'updated_at'], 'safe'],
             [['name', 'full_name'], 'string', 'max' => 255],
-            [['sort', '$start_unixtime'], 'integer'],
+            [['name'], 'filter', 'filter' => 'strtoupper', 'skipOnArray' => true],
+            [['sort', 'start_unixtime'], 'integer'],
             [['name'], 'unique'],
             [['full_name'], 'unique'],
         ];
@@ -76,7 +78,7 @@ class Altcoin extends ActiveRecord
             'sort' => 'Sort',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'start_unixtime' => 'Unixtime рождение'
+            'start_unixtime' => 'Unixtime рождения'
         ];
     }
 
@@ -131,5 +133,26 @@ class Altcoin extends ActiveRecord
     public static function getCurrencyList(): array
     {
         return [self::RUB, self::USD, self::EUR];
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function addNew(): array
+    {
+        $cryptoCompare = new CryptoCompare();
+        $apiAnswer = $cryptoCompare->getPriceOnDate($this->name,  $this->start_unixtime);
+        $isOk = $apiAnswer['success'] && (ArrayHelper::getValue($apiAnswer, 'data.Response') != 'Error');
+        if ($isOk) {
+            $this->save(false);
+            $ahd = new AltcoinHistoryData();
+            $ahd->altcoin_id = $this->id;
+            $ahd->altcoin_date_id = AltcoinDate::find()->select(['id'])->where(['unix_date' => $this->start_unixtime])->scalar();
+            $ahd->price = $apiAnswer['data'][$this->name]['USD'];
+            $ahd->save(false);
+            return ['success' => true];
+        }
+        return ['success' => false, 'error' => ArrayHelper::getValue($apiAnswer, 'data.Message')];
     }
 }
