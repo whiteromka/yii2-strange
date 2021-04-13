@@ -19,6 +19,7 @@ use yii\helpers\ArrayHelper;
  * @property string|null $updated_at
  *
  * @property AltcoinHistory[] $altcoinHistories
+ * @property AltcoinWatchers[] $altcoinWatchers
  */
 class Altcoin extends ActiveRecord
 {
@@ -29,9 +30,10 @@ class Altcoin extends ActiveRecord
     const ATOM = 'atom'; # 5 Cosmos
     const XMR = 'xmr';   # 6 Monero
     const BNB = 'bnb';   # 7 Binance Coin
-    const ZEC = 'zec';   # 10 Zcash
+    const ZEC = 'zec';   # 10 Zcash 1477688400
     const ADA = 'ada';   # 11 cardano
     const DOT = 'dot';   # 13 polkadot
+    // RVN
     // maker MKR
     // Synthetix SNX
     // Compound COMP
@@ -90,6 +92,14 @@ class Altcoin extends ActiveRecord
     public function getAltcoinHistories()
     {
         return $this->hasMany(AltcoinHistory::class, ['altcoin_id' => 'id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getAltcoinWatchers()
+    {
+        return $this->hasMany(AltcoinWatcher::class, ['altcoin_id' => 'id']);
     }
 
     /**

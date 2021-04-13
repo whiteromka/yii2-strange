@@ -260,3 +260,13 @@ h3 {
 .c-g {
     color: green;
 }
+.watcher {
+    padding-left: 4px;
+    padding-right: 4px;
+    border: 1px solid grey;
+    border-radius: 3px;
+    margin-right: 4px;
+}
+.js-delete-watcher {
+    cursor: pointer;
+}

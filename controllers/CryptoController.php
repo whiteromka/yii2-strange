@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\components\api\CryptoCompare;
 use app\models\Altcoin;
 use app\models\AltcoinHistoryData;
+use app\models\AltcoinWatcher;
 use app\models\CryptoRequestForm;
 use app\models\AltcoinHistory;
 use yii\base\Exception;
@@ -21,7 +22,7 @@ class CryptoController extends Controller
     public function actionAddAltcoin(): string
     {
         $altcoin = new Altcoin();
-        $altcoins = Altcoin::find()->all();
+        $altcoins = Altcoin::find()->with(['altcoinWatchers'])->all();
         if ($altcoin->load(Yii::$app->request->post())) {
             $result = $altcoin->addNew();
             if ($result['success']) {
@@ -33,8 +34,36 @@ class CryptoController extends Controller
         }
         return $this->render('add-altcoin', [
             'altcoin' => $altcoin,
-            'altcoins' => $altcoins
+            'altcoins' => $altcoins,
+            'altcoinWatcher' => new AltcoinWatcher()
         ]);
+    }
+
+    /**
+     * Adding watcher
+     *
+     * @return Response
+     */
+    public function actionAddWatcher()
+    {
+        $altcoinWatcher = new AltcoinWatcher();
+        if ($altcoinWatcher->load(Yii::$app->request->post())) {
+            if (!$altcoinWatcher->save()) {
+                Yii::$app->session->setFlash('danger', current($altcoinWatcher->firstErrors));
+            }
+        }
+        return $this->redirect(['add-altcoin']);
+    }
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function actionDeleteWatcher(int $id): array
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        AltcoinWatcher::deleteAll(['id'=>$id]);
+        return ['success' => true];
     }
 
     /**
