@@ -16,6 +16,7 @@ function altcoinWatcherModal() {
     let price = $(this).parents('tr').find('.js-price').text();
     $('#js-watcher-name-placeholder').html(name)
     $('#js-watcher-id-placeholder').val(id)
+    $('#js-watcher-current-price-placeholder').val(price)
     $('#js-watcher-price-placeholder').val(price)
 }
 

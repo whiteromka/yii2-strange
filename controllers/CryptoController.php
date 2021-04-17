@@ -46,10 +46,12 @@ class CryptoController extends Controller
      */
     public function actionAddWatcher()
     {
-        $altcoinWatcher = new AltcoinWatcher();
-        if ($altcoinWatcher->load(Yii::$app->request->post())) {
-            if (!$altcoinWatcher->save()) {
-                Yii::$app->session->setFlash('danger', current($altcoinWatcher->firstErrors));
+        $aw = new AltcoinWatcher();
+        if ($aw->load(Yii::$app->request->post())) {
+            $aw->expectation = $aw->wish_price > $aw->price_at_conclusion
+                ? AltcoinWatcher::EXPECTATION_UP : AltcoinWatcher::EXPECTATION_DOWN;
+            if (!$aw->save()) {
+                Yii::$app->session->setFlash('danger', current($aw->firstErrors));
             }
         }
         return $this->redirect(['add-altcoin']);

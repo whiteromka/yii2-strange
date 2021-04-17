@@ -22,28 +22,36 @@ class CryptoCompare
      * @param array $currencyList
      * @return array
      */
-    public function getMultiPrice(array $altcoinList, array $currencyList): array
+    public function getMultiPrice(array $altcoinList, array $currencyList = ['USD']): array
     {
         $cache = Yii::$app->cache;
         $key = implode(',', $altcoinList) .'_'. implode(',', $currencyList);
         $prices = $cache->getOrSet($key, function() use ($altcoinList, $currencyList) {
-            return $this->requestPrice($altcoinList, $currencyList);
+            $altcoins = implode(',', $altcoinList);
+            $currencies = implode(',', $currencyList);
+            $url = $this->apiUrl . "pricemulti?fsyms=$altcoins&tsyms=$currencies";
+            return $this->priceData($url);
         }, 100);
 
         return $prices;
     }
-    
+
     /**
      * @param array $altcoinList
      * @param array $currencyList
      * @return array
      */
-    protected function requestPrice(array $altcoinList, array $currencyList): array
+    public function getPrettyMultiPrice(array $altcoinList, array $currencyList = ['USD']): array
     {
-        $altcoins = implode(',', $altcoinList);
-        $currencies = implode(',', $currencyList);
-        $url = $this->apiUrl . "pricemulti?fsyms=$altcoins&tsyms=$currencies";
-        return $this->priceData($url);
+        $reconstructedData = [];
+        $result = $this->getMultiPrice($altcoinList, $currencyList);
+        if ($result['success']) {
+            foreach ($result['data'] as $altcoin => $priceData) {
+                $reconstructedData[$altcoin] = $priceData['USD'];
+            }
+        }
+        $result['data'] = $reconstructedData;
+        return $result;
     }
 
     /**
@@ -67,7 +75,7 @@ class CryptoCompare
             $response = (new Client())->createRequest()->setMethod('GET')->setUrl($url)->send();
             $prices = $response->isOk ?
                 ['data' => $response->data, 'success' => true, 'error' => false] :
-                ['data' => [], 'success' => false, 'error' => 'Что то пошло не так...'];
+                ['data' => [], 'success' => false, 'error' => 'Что то пошло не так... Ошибка в методе '. __METHOD__];
         } catch (Exception $e) {
             $prices = ['data' => [], 'success' => false, 'error' => $e->getMessage()];
         }

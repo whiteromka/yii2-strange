@@ -114,6 +114,9 @@ AddAltcoinAsset::register($this);
                             <?= $form->field($altcoinWatcher, 'altcoin_id')->label(false)
                                 ->hiddenInput(['id' => 'js-watcher-id-placeholder']) ?>
 
+                            <?= $form->field($altcoinWatcher, 'current_price')->label(false)
+                                ->hiddenInput(['id' => 'js-watcher-current-price-placeholder']) ?>
+
                             <?= $form->field($altcoinWatcher, 'price')->label("Цена")
                                 ->textInput(['type' => 'number', 'id' => 'js-watcher-price-placeholder', 'step'=>'0.2']) ?>
                         </div>

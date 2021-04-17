@@ -16,7 +16,9 @@ class m210411_082410_create_altcoin_watcher_table extends Migration
             'id' => $this->primaryKey(),
             'user_id' => $this->integer(), // на будущее, сейчас не актуально
             'altcoin_id' => $this->integer(),
-            'price' => $this->float()->comment('Ставка при которой оповестить пользователя'),
+            'wish_price' => $this->float()->comment('Ставка при которой оповестить пользователя'),
+            'price_at_conclusion' => $this->float()->comment('Цена при которой пользователь сделал ставку'),
+            'expectation' => $this->tinyInteger()->comment('Ожидание - рост ил падение курса')
         ]);
 
         $this->addForeignKey(

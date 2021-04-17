@@ -10,12 +10,18 @@ use Yii;
  * @property int $id
  * @property int|null $user_id
  * @property int|null $altcoin_id
- * @property float|null $price Ставка при которой оповестить пользователя
+ * @property float|null $wish_price - Цена при которой оповестить пользователя
+ * @property float|null price_at_conclusion - Текущая цена при которой пользователь сделал ставку
+ * @property integer $expectation - Ожидания
  *
  * @property Altcoin $altcoin
  */
 class AltcoinWatcher extends \yii\db\ActiveRecord
 {
+
+    const EXPECTATION_UP = 1;
+    const EXPECTATION_DOWN = 0;
+
     /**
      * {@inheritdoc}
      */
@@ -31,8 +37,9 @@ class AltcoinWatcher extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'altcoin_id'], 'integer'],
-            [['price'], 'number'],
+            [['wish_price', 'price_at_conclusion'], 'number'],
             [['altcoin_id'], 'exist', 'skipOnError' => true, 'targetClass' => Altcoin::class, 'targetAttribute' => ['altcoin_id' => 'id']],
+            [['expectation'], 'integer']
         ];
     }
 
@@ -45,7 +52,8 @@ class AltcoinWatcher extends \yii\db\ActiveRecord
             'id' => 'ID',
             'user_id' => 'User ID',
             'altcoin_id' => 'Altcoin ID',
-            'price' => 'Price',
+            'wish_price' => 'Wish price',
+            'price_at_conclusion' => 'Price at conclusion'
         ];
     }
 

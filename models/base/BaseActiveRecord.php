@@ -18,9 +18,7 @@ class BaseActiveRecord extends ActiveRecord
     {
         $result = parent::save($runValidation, $attributeNames);
         if (!$result) {
-            $errors = $this->firstErrors;
-            $firstKey = array_key_first($errors);
-            $this->saveError = $errors[$firstKey];
+            $this->saveError = current($this->firstErrors);
         }
         return $result;
     }

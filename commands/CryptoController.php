@@ -3,6 +3,7 @@
 namespace app\commands;
 
 use app\components\api\CryptoCompare;
+use app\components\CryptoWatcher;
 use app\models\Altcoin;
 use app\models\AltcoinDate;
 use app\models\AltcoinHistory;
@@ -102,5 +103,13 @@ class CryptoController extends Controller
         echo PHP_EOL . 'Added rows: ' . Yii::$app->db->createCommand()
                 ->batchInsert(AltcoinHistoryData::tableName(), $attributes, $rows)->execute();
 
+    }
+
+    /**
+     * Check and notify user about rates
+     */
+    public function actionWatcher(): void
+    {
+        (new CryptoWatcher())->prepareWatchers()->prepareNotificationData()->notify();
     }
 }
