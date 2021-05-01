@@ -66,4 +66,14 @@ class AltcoinWatcher extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Altcoin::class, ['id' => 'altcoin_id']);
     }
+
+    /**
+     * @return void
+     */
+    public function calculateExpectation(): void
+    {
+        $expectationIsUp = $this->wish_price > $this->price_at_conclusion;
+        $this->expectation = $expectationIsUp ? self::EXPECTATION_UP : self::EXPECTATION_DOWN;
+    }
+
 }

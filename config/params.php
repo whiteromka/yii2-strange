@@ -13,8 +13,7 @@ return [
         'key' => '?',
     ],
     'cryptoCompareApi' => [
-        #https://min-api.cryptocompare.com/documentation?key=Price&cat=multipleSymbolsPriceEndpoint
-        'url' => 'https://min-api.cryptocompare.com/data/', //price?fsym=ETH&tsyms=USD,EUR,RUB'
-        //https://min-api.cryptocompare.com/data/ pricemulti?fsyms=BTC,ETH&tsyms=USD,EUR
+        'key' => '?',
+        'url' => 'https://min-api.cryptocompare.com/data/',
     ]
 ];

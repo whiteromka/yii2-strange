@@ -83,19 +83,19 @@ class AltcoinHistoryData extends ActiveRecord
      */
     public static function saveRow(int $altcoinId, int $dateId, float $price): bool
     {
-        $ahd = new self();
-        $ahd->altcoin_id = $altcoinId;
-        $ahd->altcoin_date_id = $dateId;
-        $ahd->price = $price;
-        return $ahd->save();
+        $history = new self();
+        $history->altcoin_id = $altcoinId;
+        $history->altcoin_date_id = $dateId;
+        $history->price = $price;
+        return $history->save();
     }
 
     /**
-     * @param string|null $altcoin
+     * @param string $altcoin
      * @return array
      * @throws Exception
      */
-    public function getDataCharts(string $altcoin = null): array
+    public function getDataCharts(string $altcoin): array
     {
         $sql = "
         select

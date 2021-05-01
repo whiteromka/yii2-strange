@@ -14,11 +14,27 @@ class CryptoWatcher
     /** @var array */
     protected $watchers;
 
+    /** @var array - Пример: ['BTC' => 65000, 'LTC' => 650] */
+    protected $notificationData;
+
     /** @var INotifier */
     protected $notifier;
 
-    /** @var array - Пример: ['BTC' => 65000, 'LTC' => 650] */
-    protected $notificationData;
+    /**
+     * @return array
+     */
+    public function getWatchers(): array
+    {
+        return $this->watchers;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNotificationData(): array
+    {
+        return $this->notificationData;
+    }
 
     public function __construct()
     {
@@ -63,12 +79,20 @@ class CryptoWatcher
             return $this;
         }
 
-        $actualAltcoinPrices = $apiAnswer['data'];
+        $dataPrices = $apiAnswer['data'];
+        $this->resetNotificationData($dataPrices);
+        return $this;
+    }
 
+    /**
+     * @param array $dataPrices
+     */
+    protected function resetNotificationData(array $dataPrices): void
+    {
         foreach ($this->watchers as $watcher) {
             $currentAltcoin = $watcher['name'];
             $wishPrice = $watcher['wish_price'];
-            $actualPrice = $actualAltcoinPrices[$currentAltcoin];
+            $actualPrice = $dataPrices[$currentAltcoin];
 
             if ($watcher['expectation'] == AltcoinWatcher::EXPECTATION_UP) {
                 if ($actualPrice >= $wishPrice) {
@@ -80,7 +104,6 @@ class CryptoWatcher
                 }
             }
         }
-        return $this;
     }
 
     /**

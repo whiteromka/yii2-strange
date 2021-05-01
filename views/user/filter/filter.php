@@ -10,7 +10,7 @@ use yii\web\View;
 /** @var ActiveDataProvider $dataProvider */
 ?>
 
-<?php Pjax::begin(/*['timeout' => 5000, 'enablePushState' => false, 'enableReplaceState' => false]*/); ?>
+<?php Pjax::begin(); ?>
 <div class="container-fluid">
     <?= $this->render('_form-filter', ['model'=> $userFilter])     // filter form ?>
     <?= $this->render('_users', ['dataProvider' => $dataProvider]) // data tile (users) ?>

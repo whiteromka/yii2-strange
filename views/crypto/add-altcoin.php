@@ -73,13 +73,13 @@ AddAltcoinAsset::register($this);
                             </td>
                             <td style="min-width: 220px">
                                 <button type="button"  data-toggle="modal" data-target="#myModal"
-                                    data-altcoin-id="<?=$alt->id?>" data-altcoin-name="<?=$alt->name?>"
+                                    data-altcoin-id="<?= $alt->id?>" data-altcoin-name="<?= $alt->name?>"
                                     class="js-watcher-modal btn btn-info btn-sm"><i class="fa fa-plus"></i>
                                 </button>
                                 <?php /** @var AltcoinWatcher $watcher */
                                 foreach ($alt->altcoinWatchers as $watcher): ?>
-                                    <span class="watcher" data-watcher-id="<?=$watcher->id?>">
-                                        <?= $watcher->price?>
+                                    <span class="watcher" data-watcher-id="<?= $watcher->id?>">
+                                        <?= $watcher->wish_price?>
                                         <span class="js-delete-watcher fa fa-close"> </span>
                                     </span>
                                 <?php endforeach;?>
@@ -114,10 +114,10 @@ AddAltcoinAsset::register($this);
                             <?= $form->field($altcoinWatcher, 'altcoin_id')->label(false)
                                 ->hiddenInput(['id' => 'js-watcher-id-placeholder']) ?>
 
-                            <?= $form->field($altcoinWatcher, 'current_price')->label(false)
+                            <?= $form->field($altcoinWatcher, 'price_at_conclusion')->label(false)
                                 ->hiddenInput(['id' => 'js-watcher-current-price-placeholder']) ?>
 
-                            <?= $form->field($altcoinWatcher, 'price')->label("Цена")
+                            <?= $form->field($altcoinWatcher, 'wish_price')->label("Цена")
                                 ->textInput(['type' => 'number', 'id' => 'js-watcher-price-placeholder', 'step'=>'0.2']) ?>
                         </div>
                     </div>

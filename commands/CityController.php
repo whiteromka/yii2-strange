@@ -3,15 +3,14 @@
 namespace app\commands;
 
 use app\models\City;
-use yii\console\Controller;
-use Yii;
 use yii\db\Exception;
+use Yii;
 
 /**
  * Class CityController
  * @package app\commands
  */
-class CityController extends Controller
+class CityController extends BaseController
 {
     /**
      * Fill data in table city from file cities.json
@@ -20,12 +19,11 @@ class CityController extends Controller
      */
     public function actionBatchInsert(): void
     {
-        $start = time();
         $cityList = $this->parseCitiesFromFile();
         $attributes = ['name', 'district', 'population', 'subject', 'lat', 'lon'];
-        echo PHP_EOL . Yii::$app->db->createCommand()->batchInsert(City::tableName(), $attributes, $cityList)->execute();
-        $end = time();
-        echo PHP_EOL . 'time = ' . ($end - $start);
+        $successCount = Yii::$app->db->createCommand()->batchInsert(City::tableName(), $attributes, $cityList)->execute();
+        $this->setSuccessCount($successCount);
+        $this->showActionInfo();
     }
 
     /**

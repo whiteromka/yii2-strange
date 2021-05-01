@@ -4,8 +4,6 @@ namespace app\commands;
 
 use app\components\fakers\PassportFaker;
 use app\components\fakers\AFaker;
-use yii\helpers\ArrayHelper;
-use yii\console\Controller;
 use app\models\Passport;
 use yii\db\Exception;
 use app\models\User;
@@ -15,7 +13,7 @@ use Yii;
  * Class PassportController
  * @package app\commands
  */
-class PassportController extends Controller
+class PassportController extends BaseController
 {
     /** @var AFaker */
     private $faker;
@@ -35,17 +33,13 @@ class PassportController extends Controller
      */
     public function actionGenerate() : void
     {
-        $start = time();
         $usersId = $this->usersId;
         for ($i = 0; $i < count($usersId); $i++) {
             $passport = $this->faker->setUserId($usersId[$i])->create();
-            $passport->save();
-            echo ".";
+            $this->checkSave($passport->save());
         }
-        echo PHP_EOL . $i;
-        $end = time();
-        echo PHP_EOL . 'time = ' . ($end - $start);
-
+        $this->setSuccessCount($i);
+        $this->showActionInfo();
     }
 
     /**
@@ -55,17 +49,16 @@ class PassportController extends Controller
      */
     public function actionBatchInsert() : void
     {
-        $start = time();
         $rows = [];
         $usersId = $this->usersId;
         for ($i = 0; $i < count($usersId); $i++) {
             $passport = $this->faker->setUserId($usersId[$i])->createAsArray();
             $rows[] = $passport;
-            echo ".";
+            $this->checkSave(true);
         }
         $attributes = ['user_id', 'number', 'code', 'country', 'city', 'address'];
-        echo PHP_EOL . Yii::$app->db->createCommand()->batchInsert(Passport::tableName(), $attributes, $rows)->execute();
-        $end = time();
-        echo PHP_EOL . 'time = ' . ($end - $start);
+        $successCount = Yii::$app->db->createCommand()->batchInsert(Passport::tableName(), $attributes, $rows)->execute();
+        $this->setSuccessCount($successCount);
+        $this->showActionInfo();
     }
 }

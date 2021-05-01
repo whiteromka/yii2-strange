@@ -5,7 +5,6 @@ namespace app\commands;
 use app\components\fakers\EstateFaker;
 use app\controllers\TController;
 use yii\helpers\ArrayHelper;
-use yii\console\Controller;
 use app\models\Estate;
 use yii\db\Exception;
 use app\models\User;
@@ -15,7 +14,7 @@ use Yii;
  * Class EstateController
  * @package app\commands
  */
-class EstateController extends Controller
+class EstateController extends BaseController
 {
     /** @var EstateFaker */
     private $faker;
@@ -35,17 +34,16 @@ class EstateController extends Controller
      */
     public function setUsersId() : self
     {
+        $maxCountEstateForUser = 5;
         $usersId = User::find()->select('id')->adult()->asArray()->column();
         $count = (int)(count($usersId) * 0.3);
         $keys = [];
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < $maxCountEstateForUser; $i++) {
             $keys = ArrayHelper::merge($keys,  array_rand($usersId, $count));
         }
-        $usersIdWhoWillHasEstate = [];
         foreach ($keys as $key) {
-            $usersIdWhoWillHasEstate[] = $usersId[$key];
+            $this->usersId[] = $usersId[$key];
         }
-        $this->usersId = $usersIdWhoWillHasEstate;
         return $this;
     }
 
@@ -54,17 +52,12 @@ class EstateController extends Controller
      */
     public function actionGenerate() : void
     {
-        $start = time();
         $usersId = $this->usersId;
         for ($i = 0; $i < count($usersId); $i++) {
             $estate = $this->faker->setUserId($usersId[$i])->create();
-            $estate->save();
-            echo ".";
+            $this->checkSave($estate->save());
         }
-        echo PHP_EOL . $i;
-        $end = time();
-        echo PHP_EOL . 'time = ' . ($end - $start);
-
+        $this->showActionInfo(true, true);
     }
 
     /**
@@ -74,18 +67,17 @@ class EstateController extends Controller
      */
     public function actionBatchInsert() : void
     {
-        $start = time();
         $rows = [];
         $usersId = $this->usersId;
 
         for ($i = 0; $i < count($usersId); $i++) {
             $estate = $this->faker->setUserId($usersId[$i])->createAsArray();
             $rows[] = $estate;
-            echo ".";
+            $this->checkSave(true);
         }
         $attributes = ['user_id', 'type', 'name', 'cost'];
-        echo PHP_EOL . Yii::$app->db->createCommand()->batchInsert(Estate::tableName(), $attributes, $rows)->execute();
-        $end = time();
-        echo PHP_EOL . 'time = ' . ($end - $start);
+        $added = Yii::$app->db->createCommand()->batchInsert(Estate::tableName(), $attributes, $rows)->execute();
+        $this->setSuccessCount($added);
+        $this->showActionInfo();
     }
 }

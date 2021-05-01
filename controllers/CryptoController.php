@@ -25,11 +25,11 @@ class CryptoController extends Controller
         $altcoins = Altcoin::find()->with(['altcoinWatchers'])->all();
         if ($altcoin->load(Yii::$app->request->post())) {
             $result = $altcoin->addNew();
+            $session = Yii::$app->session;
             if ($result['success']) {
-                Yii::$app->session->setFlash('success', 'Альткойн ' . $altcoin->name . ' добавлен');
+                $session->setFlash('success', 'Альткойн ' . $altcoin->name . ' добавлен');
             } else {
-                Yii::$app->session->setFlash('danger', 'Ошибка. Альткойн ' . $altcoin->name . ' не был добавлен.' .
-                    $result['error']);
+                $session->setFlash('danger', 'Ошибка. Альткойн ' . $altcoin->name . ' не был добавлен.' . $result['error']);
             }
         }
         return $this->render('add-altcoin', [
@@ -46,12 +46,11 @@ class CryptoController extends Controller
      */
     public function actionAddWatcher()
     {
-        $aw = new AltcoinWatcher();
-        if ($aw->load(Yii::$app->request->post())) {
-            $aw->expectation = $aw->wish_price > $aw->price_at_conclusion
-                ? AltcoinWatcher::EXPECTATION_UP : AltcoinWatcher::EXPECTATION_DOWN;
-            if (!$aw->save()) {
-                Yii::$app->session->setFlash('danger', current($aw->firstErrors));
+        $watcher = new AltcoinWatcher();
+        if ($watcher->load(Yii::$app->request->post())) {
+            $watcher->calculateExpectation();
+            if (!$watcher->save()) {
+                Yii::$app->session->setFlash('danger', current($watcher->firstErrors));
             }
         }
         return $this->redirect(['add-altcoin']);
@@ -109,11 +108,11 @@ class CryptoController extends Controller
     }
 
     /**
-     * @param string|null $altcoin
+     * @param string $altcoin
      * @return array
      * @throws Exception
      */
-    public function actionGetDataCharts($altcoin = null): array
+    public function actionGetDataCharts(string $altcoin): array
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $data = (new AltcoinHistoryData())->getDataCharts($altcoin);

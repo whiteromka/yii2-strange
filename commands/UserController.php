@@ -2,9 +2,7 @@
 
 namespace app\commands;
 
-
 use app\components\fakers\UserFaker;
-use yii\console\Controller;
 use yii\db\Exception;
 use app\models\User;
 use Yii;
@@ -13,7 +11,7 @@ use Yii;
  * Class UserController
  * @package app\commands
  */
-class UserController extends Controller
+class UserController extends BaseController
 {
     /** @var UserFaker */
     private $userFaker;
@@ -31,15 +29,12 @@ class UserController extends Controller
      */
     public function actionGenerate(int $count = 10000) : void
     {
-        $start = time();
         for ($i = 0; $i < $count; $i++) {
             $user = $this->userFaker->create();
-            $user->save();
-            echo ".";
+            $this->checkSave($user->save());
         }
-        echo PHP_EOL . $i;
-        $end = time();
-        echo PHP_EOL . 'time = ' . ($end - $start);
+        $this->setSuccessCount($i);
+        $this->showActionInfo();
     }
 
     /**
@@ -50,16 +45,15 @@ class UserController extends Controller
      */
     public function actionBatchInsert(int $count = 10000) : void
     {
-        $start = time();
         $rows = [];
         for ($i = 0; $i < $count; $i++) {
             $user = $this->userFaker->createAsArray();
             $rows[] = $user;
-            echo ".";
+            $this->checkSave(true);
         }
         $attributes = ['name', 'surname', 'gender', 'status', 'birthday'];
-        echo PHP_EOL . Yii::$app->db->createCommand()->batchInsert(User::tableName(), $attributes, $rows)->execute();
-        $end = time();
-        echo PHP_EOL . 'time = ' . ($end - $start);
+        $successCount = Yii::$app->db->createCommand()->batchInsert(User::tableName(), $attributes, $rows)->execute();
+        $this->setSuccessCount($successCount);
+        $this->showActionInfo();
     }
 }

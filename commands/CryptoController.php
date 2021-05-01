@@ -10,10 +10,9 @@ use app\models\AltcoinHistory;
 use app\models\AltcoinHistoryData;
 use Exception;
 use Yii;
-use yii\console\Controller;
 use yii\helpers\ArrayHelper;
 
-class CryptoController extends Controller
+class CryptoController extends BaseController
 {
     /**
      * Construct altcoin_date since 2011-01-01 to current date, and try to save this
@@ -43,7 +42,6 @@ class CryptoController extends Controller
      */
     protected function fillAltcoinHistoryData(): void
     {
-        $count = 0;
         $cryptoCompare = new CryptoCompare();
 
         foreach (Altcoin::map(true) as $altcoinId => $altcoin) {
@@ -60,14 +58,11 @@ class CryptoController extends Controller
 
                 if ($apiAnswer['success'] && $price !== null) {
                     $isSave = AltcoinHistoryData::saveRow($altcoinId, $dateId, $price);
-                    echo $isSave ? '.' : '-';
-                    if ($isSave) {
-                        $count++;
-                    }
+                    $this->checkSave($isSave);
                 }
             }
         }
-        echo PHP_EOL . 'Done.  Added ' . $count . ' rows';
+        $this->showActionInfo(true, false);
     }
 
     /**
@@ -86,23 +81,14 @@ class CryptoController extends Controller
         /** @var AltcoinDate $altcoinDate */
         $altcoinDate = AltcoinDate::findOne(['unix_date' => $toUnixtime]);
         if (!$altcoinDate) {
-            exit (PHP_EOL . '$altcoinDate not found by $toUnixtime');
+            exit (PHP_EOL . 'altcoinDate not found by toUnixtime in ' . __METHOD__ );
         }
-
-        if ($history && $altcoinDate && ($history->altcoin_date_id < $altcoinDate->id)) {
-            $dateId = 1 + (int)$history->altcoin_date_id;
-        } elseif (!$history && $altcoinDate) {
-            $dateId = 1;
-        }
-        $finalDateId = (int)$altcoinDate->id;
-        $rows = [];
-        for ($i = $dateId; $i <= $finalDateId; $i++) {
-            $rows[] = [$altcoinId, $i, 0];
-        }
+        $rows = $this->createRowsAltcoinHistoryData($altcoinId, $altcoinDate, $history);
         $attributes = ['altcoin_id', 'altcoin_date_id', 'price'];
-        echo PHP_EOL . 'Added rows: ' . Yii::$app->db->createCommand()
-                ->batchInsert(AltcoinHistoryData::tableName(), $attributes, $rows)->execute();
-
+        $successCount = Yii::$app->db->createCommand()
+            ->batchInsert(AltcoinHistoryData::tableName(), $attributes, $rows)->execute();
+        $this->setSuccessCount($successCount);
+        $this->showActionInfo(true, false);
     }
 
     /**
@@ -111,5 +97,37 @@ class CryptoController extends Controller
     public function actionWatcher(): void
     {
         (new CryptoWatcher())->prepareWatchers()->prepareNotificationData()->notify();
+    }
+
+    /**
+     * @param int $altcoinId
+     * @param AltcoinDate $altcoinDate
+     * @param AltcoinHistoryData|null $history
+     * @return array
+     */
+    protected function createRowsAltcoinHistoryData(int $altcoinId,  AltcoinDate $altcoinDate, AltcoinHistoryData $history = null): array
+    {
+        $dateId = $this->calcDateId($history, $altcoinDate);
+        $finalDateId = (int)$altcoinDate->id;
+        $rows = [];
+        for ($i = $dateId; $i <= $finalDateId; $i++) {
+            $rows[] = [$altcoinId, $i, 0];
+        }
+        return $rows;
+    }
+
+    /**
+     * @param AltcoinDate $altcoinDate
+     * @param AltcoinHistoryData $history
+     * @return int
+     */
+    protected function calcDateId(AltcoinDate $altcoinDate, AltcoinHistoryData $history = null): int
+    {
+        if ($history && $altcoinDate && ($history->altcoin_date_id < $altcoinDate->id)) {
+            $dateId = 1 + (int)$history->altcoin_date_id;
+        } else {
+            $dateId = 1;
+        }
+        return $dateId;
     }
 }

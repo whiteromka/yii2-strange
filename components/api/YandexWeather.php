@@ -67,8 +67,8 @@ class YandexWeather
                 $weather = $response->data;
                 $weather['success'] = true;
                 $weather['fact']['icon'] = 'https://yastatic.net/weather/i/icons/blueye/color/svg/'.$weather['fact']['icon'].'.svg';
-                $weather['fact']['wind_dir'] = self::getWindDir($weather['fact']['wind_dir']);
-                $weather['fact']['season'] = self::getSeason($weather['fact']['season']);
+                $weather['fact']['wind_dir'] = self::recreateWindDir($weather['fact']['wind_dir']);
+                $weather['fact']['season'] = self::recreateSeason($weather['fact']['season']);
             } else {
                 $weather['success'] = false;
                 $weather['error'] = 'Что то пошло не так. Попробуйте сконфигурировать yandexApiWeather.key в params.php или попробуйте повторить запрос позже.';
@@ -84,7 +84,7 @@ class YandexWeather
      * @param string $widDir
      * @return mixed
      */
-    protected static function getWindDir(string $widDir)
+    protected static function recreateWindDir(string $widDir)
     {
         $yandexWidDir = [
             'nw' => 'северо-западное',
@@ -104,7 +104,7 @@ class YandexWeather
      * @param string $season
      * @return mixed
      */
-    protected static function getSeason(string $season)
+    protected static function recreateSeason(string $season)
     {
         $yandexSeasons = [
             'summer' => 'лето',

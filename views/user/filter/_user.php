@@ -40,9 +40,9 @@ use yii\web\View;
                         <ul style="padding: 0">
                             <li>Номер:  <?= Html::encode($passport->number)?></li>
                             <li>Серия:  <?= Html::encode($passport->code)?></li>
-                            <li>Страна:  <?= Html::encode($passport->country)?></li>
+                            <li>Страна: <?= Html::encode($passport->country)?></li>
                             <li>Город:  <?= Html::encode($passport->city)?></li>
-                            <li>Адрес: <?= Html::encode($passport->address)?></li>
+                            <li>Адрес:  <?= Html::encode($passport->address)?></li>
                         </ul>
                     </div>
                 <?php else: ?>

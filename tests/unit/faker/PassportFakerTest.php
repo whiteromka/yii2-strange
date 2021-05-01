@@ -18,7 +18,7 @@ class PassportFakerTest extends \Codeception\Test\Unit
     {
     }
 
-    public function testMethodCreateReturnValidPassport()
+    public function test_method_create_return_valid_passport()
     {
         $passportFaker = new PassportFaker();
         /** @var Passport $passport */
@@ -26,7 +26,7 @@ class PassportFakerTest extends \Codeception\Test\Unit
         $this->tester->assertEquals(true, $passport->validate());
     }
 
-    public function testMethodCreateAsArrayReturnValidDataForPassport()
+    public function test_method_create_as_array_return_valid_data_for_passport()
     {
         $passportFaker = new PassportFaker();
         /** @var Passport $passport */
