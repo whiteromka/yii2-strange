@@ -6,7 +6,6 @@ use app\models\search\UserFilter;
 use app\models\search\UserSearch;
 use Exception;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
 use app\models\User;
 use Yii;
 
@@ -15,21 +14,6 @@ use Yii;
  */
 class UserController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Page with user filters
      *
@@ -43,6 +27,23 @@ class UserController extends Controller
         return $this->render('filter/filter', [
             'userFilter' => $userFilter,
             'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Page user profile
+     *
+     * @return string
+     */
+    public function actionProfile()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['auth/login']);
+        }
+
+        $userId= Yii::$app->user->identity->getId();
+        return $this->render('profile', [
+            'user' => User::findOne(['id' => $userId])
         ]);
     }
 

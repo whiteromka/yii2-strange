@@ -2,11 +2,13 @@
 
 namespace app\models;
 
+use app\models\base\BaseActiveRecord;
 use app\models\query\UserQuery;
+use Yii;
 use yii\base\Exception;
 use yii\db\ActiveQuery;
-use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "user".
@@ -17,6 +19,10 @@ use yii\helpers\ArrayHelper;
  * @property integer $gender
  * @property integer $status
  * @property string|null $birthday
+ * @property string $password_hash
+ * @property string $email
+ * @property string $access_token
+ * @property string $auth_key
  * @property integer $created_at
  * @property integer|null $updated_at
  *
@@ -25,7 +31,7 @@ use yii\helpers\ArrayHelper;
  * @property Passport $passport
  * @property Estate $estate
  */
-class User extends ActiveRecord
+class User extends BaseActiveRecord implements IdentityInterface
 {
     const GENDER_MALE = 1;
     const GENDER_FEMALE = 0;
@@ -49,7 +55,8 @@ class User extends ActiveRecord
         return [
             [['birthday', 'created_at', 'updated_at'], 'safe'],
             [['gender', 'status'], 'integer'],
-            [['name', 'surname'], 'string', 'max' => 255],
+            [['name', 'surname', 'auth_key', 'access_token', 'password_hash', 'email'], 'string', 'max' => 255],
+            ['email', 'unique'],
         ];
     }
 
@@ -97,7 +104,7 @@ class User extends ActiveRecord
     /**
      * @return string
      */
-    public function getFullName() : string
+    public function getFullName(): string
     {
         return $this->name . ' ' . $this->surname;
     }
@@ -105,7 +112,7 @@ class User extends ActiveRecord
     /**
      * @return string
      */
-    public function getNameGender() : string
+    public function getNameGender(): string
     {
         $genders = self::getNamedGenders();
         return $genders[$this->gender];
@@ -114,7 +121,7 @@ class User extends ActiveRecord
     /**
      * @return int
      */
-    public function getFullAge() : int
+    public function getFullAge(): int
     {
         $arrDate = explode('-', $this->birthday);
         $y = $arrDate[0];
@@ -129,7 +136,7 @@ class User extends ActiveRecord
     /**
      * @return array
      */
-    public static function getNamedGenders() : array
+    public static function getNamedGenders(): array
     {
         return [self::GENDER_FEMALE => 'Ж', self::GENDER_MALE => 'М'];
     }
@@ -137,7 +144,7 @@ class User extends ActiveRecord
     /**
      * @return array
      */
-    public static function getNamedStatuses() : array
+    public static function getNamedStatuses(): array
     {
         return [self::STATUS_NOT_ACTIVE => 'Нет', self::STATUS_ACTIVE => 'Да'];
     }
@@ -145,7 +152,7 @@ class User extends ActiveRecord
     /**
      * @return array
      */
-    public static function getNamedSortItems() : array
+    public static function getNamedSortItems(): array
     {
         return [
             'id' => 'ID (прямая)',
@@ -162,16 +169,81 @@ class User extends ActiveRecord
      * @return User
      * @throws Exception
      */
-    public function dataSave(array $request) : User
+    public function dataSave(array $request): self
     {
         $userData = ArrayHelper::getValue($request, 'User');
         /** @var User $user */
         $user = self::find()->where(['id' => $userData['id']])->one();
         $user->load($userData, '');
         if (!$user->save()) {
-            $error = $user->firstErrors;
-            throw new Exception('Пользователь не сохранился! ' . $error[array_key_first($error)]);
+            throw new Exception('Пользователь не сохранился! ' . $user->saveError);
         }
         return $user;
+    }
+
+    /**
+     * Finds an identity by the given ID.
+     *
+     * @param string|int $id the ID to be looked for
+     * @return IdentityInterface|null the identity object that matches the given ID.
+     */
+    public static function findIdentity($id)
+    {
+        return self::findOne(['id' => $id]);
+    }
+
+    /**
+     * Finds an identity by the given token.
+     *
+     * @param string $token the token to be looked for
+     * @return IdentityInterface|null the identity object that matches the given token.
+     */
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        return self::findOne(['access_token' => $token]);
+    }
+
+    /**
+     * @return int|string current user ID
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string current user auth key
+     */
+    public function getAuthKey()
+    {
+        return $this->auth_key;
+    }
+
+    /**
+     * @param string $authKey
+     * @return bool if auth key is valid for current user
+     */
+    public function validateAuthKey($authKey)
+    {
+        return $this->getAuthKey() === $authKey;
+    }
+
+    /**
+     * @param string $password
+     * @return string
+     * @throws Exception
+     */
+    public static function generatePasswordHash(string $password): string
+    {
+        return Yii::$app->security->generatePasswordHash($password);
+    }
+
+    /**
+     * @param string $password
+     * @return bool
+     */
+    public function checkPassword(string $password): bool
+    {
+        return Yii::$app->security->validatePassword($password, $this->password_hash);
     }
 }

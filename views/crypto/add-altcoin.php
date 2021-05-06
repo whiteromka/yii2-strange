@@ -18,7 +18,7 @@ AddAltcoinAsset::register($this);
 <div class="container-fluid">
     <h3>Альтконы</h3>
     <p>Добавьте альткойны интересные вам. Система будет отлеживать их автоматически, добавленные альткойны
-        будут доступны и в других разделах сайта)</p>
+        будут доступны и в других разделах сайта</p>
     <?php $form = ActiveForm::begin(['method' => 'POST', 'action' => ['/crypto/add-altcoin']])?>
     <div class="row">
         <div class="col-sm-4 col-lg-2">

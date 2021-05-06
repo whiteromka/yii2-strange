@@ -22,13 +22,18 @@ use yii\web\View;
         </form>
         <!-- /.search form -->
 
-        <?= dmstr\widgets\Menu::widget(
+        <?php $isGuest = Yii::$app->user->isGuest;
+        echo  dmstr\widgets\Menu::widget(
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
                     ['label' => 'Меню', 'options' => ['class' => 'header']],
-                    ['label' => 'Люди',  'icon' => 'user',  'url' => ['/user/filter']],
-                   [
+                    $isGuest ? ['label' => 'Регистрация', 'icon' => 'sign-in', 'url' => ['/auth/register']] : null,
+                    !$isGuest ? ['label' => 'Личный кабинет',  'icon' => 'user', 'url' => ['/user/profile']] : null,
+                    $isGuest ? ['label' => 'Вход',  'icon' => 'sign-in',  'url' => ['/auth/login']] :
+                        ['label' => 'Выход',  'icon' => 'sign-out',  'url' => ['/auth/logout']],
+                    ['label' => 'Пользователи',  'icon' => 'users',  'url' => ['/user/filter']],
+                    [
                         'label' => 'Криптовалюта',
                         'icon' => 'btc',
                         'url' => '#',

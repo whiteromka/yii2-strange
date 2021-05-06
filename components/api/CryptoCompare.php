@@ -96,38 +96,13 @@ class CryptoCompare
     {
         try {
             $response = (new Client())->createRequest()->setMethod('GET')->setUrl($url)->send();
-            $result = $this->responseIsOk($response) ?
+            $responseChecker = new ResponseChecker($response);
+            $result = $responseChecker->isOk() ?
                 ['data' => $response->data, 'success' => true, 'error' => false] :
-                ['data' => [], 'success' => false, 'error' => $this->getResponseError($response)];
+                ['data' => [], 'success' => false, 'error' => $responseChecker->getError()];
         } catch (Exception $e) {
             $result = ['data' => [], 'success' => false, 'error' => $e->getMessage()];
         }
         return $result;
-    }
-
-    /**
-     * @param Response $response
-     * @return bool
-     */
-    protected function responseIsOk(Response $response): bool
-    {
-        if ($response->isOk) {
-            $dataResponse = $response->getData();
-            if (isset($dataResponse['Response']) && $dataResponse['Response'] == 'Error') {
-                return false;
-            }
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @param Response $response
-     * @return string
-     */
-    protected function getResponseError(Response $response): string
-    {
-        $dataResponse = $response->getData();
-        return $dataResponse['Message'] ?? 'Что то пошло не так...';
     }
 }
