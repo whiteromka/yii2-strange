@@ -2,10 +2,9 @@
 
 namespace models;
 
-use app\models\Altcoin;
 use app\models\AltcoinHistory;
+use app\models\AltcoinHistoryData;
 use Codeception\Test\Unit;
-use yii\base\Exception;
 
 class AltcoinHistoryTest extends Unit
 {
@@ -22,29 +21,25 @@ class AltcoinHistoryTest extends Unit
     {
     }
 
-    public function test_function_get_data_charts_return_valid_array()
+    public function test_get_data_charts_return_valid_array()
     {
-        $ah = new AltcoinHistory();
-        $result = $ah->getDataCharts('btc');
+        $history = new AltcoinHistoryData();
+        $coin = 'BTC';
+        $data = $history->getDataCharts('BTC');
 
-        foreach ($result as $altcoin => $altcoinData) {
-            $this->assertEquals(true, (in_array($altcoin, Altcoin::getAltcoinList())));
-            $this->assertNotEmpty($altcoinData);
-
-            $firstItem = $altcoinData[0];
-
-            $this->assertArrayHasKey('value', $firstItem);
-            $this->assertIsNumeric($firstItem['value']);
-
-            $this->assertArrayHasKey('date', $firstItem);
-            $this->assertNotEmpty($firstItem['date']);
-        }
+        $this->assertArrayHasKey($coin, $data);
+        $this->assertArrayHasKey(0, $data[$coin]);
+        $this->assertArrayHasKey('date', $data[$coin][0]);
+        $this->assertArrayHasKey('value', $data[$coin][0]);
     }
 
-    public function test_function_get_data_charts_throw_exception()
+    public function test_get_last_prices_will_return_array()
     {
-        $this->tester->expectThrowable(Exception::class, function() {
-            (new AltcoinHistory())->getDataCharts('btc; sql injection ... ;');
-        });
+        $history = new AltcoinHistoryData();
+        $data = $history->getLastPrices();
+
+        $this->assertIsArray($data);
+        $this->assertArrayHasKey('btc', $data);
     }
+
 }

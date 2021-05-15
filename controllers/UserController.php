@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\search\UserFilter;
 use app\models\search\UserSearch;
 use Exception;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use app\models\User;
 use Yii;
@@ -14,6 +15,27 @@ use Yii;
  */
 class UserController extends Controller
 {
+    /**
+     * {@inheritdoc}
+     */
+      public function behaviors()
+      {
+          return [
+              'access' => [
+                  'class' => AccessControl::class,
+                  'only' => ['profile'],
+                  'rules' => [
+                      [
+                          'actions' => ['profile'],
+                          'allow' => true,
+                          'roles' => ['@'],
+                      ],
+                  ],
+              ]
+          ];
+      }
+
+
     /**
      * Page with user filters
      *
@@ -37,16 +59,10 @@ class UserController extends Controller
      */
     public function actionProfile()
     {
-        if (Yii::$app->user->isGuest) {
-            return $this->redirect(['auth/login']);
-        }
-
-        $userId= Yii::$app->user->identity->getId();
         return $this->render('profile', [
-            'user' => User::findOne(['id' => $userId])
+            'user' => Yii::$app->user->identity
         ]);
     }
-
 
     /** *********** BELOW ONLY CRUD (GENERATED WITH GII) ********************* */
 

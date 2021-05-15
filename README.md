@@ -36,16 +36,11 @@ return [
 ];
 ~~~
 
-Then run command that create tables:
+Then you can run command that create tables, and fills DB: (OR use dump in config folder)
 
 ~~~
 php yii migrate/up
-~~~
-
-Then run command that will create fill DB:
-
-~~~
-php yii user/batch-insert
+php yii app/fill-db
 ~~~
 
 Done!
