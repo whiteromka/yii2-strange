@@ -44,6 +44,7 @@ use yii\web\View;
                         ],
                     ],
                     ['label' => 'Задачи',  'icon' => 'tasks',  'url' => ['/task/index']],
+                    ['label' => 'Магазин',  'icon' => 'shopping-cart',  'url' => ['/shop/category/index']],
                     [
                         'label' => 'Инструменты',
                         'icon' => 'share',

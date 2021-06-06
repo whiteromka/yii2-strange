@@ -37,8 +37,8 @@ class AltcoinHistoryData extends ActiveRecord
             [['altcoin_id', 'altcoin_date_id'], 'required'],
             [['altcoin_id', 'altcoin_date_id'], 'integer'],
             [['price'], 'number'],
-            [['altcoin_date_id'], 'exist', 'skipOnError' => true, 'targetClass' => AltcoinDate::className(), 'targetAttribute' => ['altcoin_date_id' => 'id']],
-            [['altcoin_id'], 'exist', 'skipOnError' => true, 'targetClass' => Altcoin::className(), 'targetAttribute' => ['altcoin_id' => 'id']],
+            [['altcoin_date_id'], 'exist', 'skipOnError' => true, 'targetClass' => AltcoinDate::class, 'targetAttribute' => ['altcoin_date_id' => 'id']],
+            [['altcoin_id'], 'exist', 'skipOnError' => true, 'targetClass' => Altcoin::class, 'targetAttribute' => ['altcoin_id' => 'id']],
         ];
     }
 

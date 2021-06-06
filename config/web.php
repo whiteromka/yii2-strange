@@ -22,6 +22,11 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    'modules' => [
+        'shop' => [
+            'class' => 'app\modules\shop\Module',
+        ],
+    ],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -67,7 +72,7 @@ $config = [
             'rules' => [
                 '/' => '/user/filter',
                 't' => 't/index',
-                //'<action>' => 'site/<action>'
+                'shop/category/<id:\d+>' => 'shop/category/category',
             ],
         ],
 

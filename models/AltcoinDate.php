@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 
@@ -16,7 +17,7 @@ use yii\helpers\ArrayHelper;
  *
  * @property AltcoinHistory $altcoinHistory
  */
-class AltcoinDate extends \yii\db\ActiveRecord
+class AltcoinDate extends ActiveRecord
 {
     /**
      * {@inheritdoc}

@@ -131,10 +131,7 @@ class Altcoin extends ActiveRecord
     public static function getAltcoinList(bool $capitalize = false): array
     {
         $altcoins = self::find()->select(['name'])->column();
-        if ($capitalize) {
-            return $altcoins;
-        }
-        return array_map('strtolower', $altcoins);
+        return $capitalize ? $altcoins : array_map('strtolower', $altcoins);
     }
 
     /**

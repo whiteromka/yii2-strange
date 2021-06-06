@@ -17,7 +17,7 @@ class EmailNotifier implements INotifier
 
     /**
      * @param array $notificationData
-     * @return int
+     * @return bool
      */
     public function notify(array $notificationData): bool
     {

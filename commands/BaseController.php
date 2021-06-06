@@ -4,7 +4,7 @@ namespace app\commands;
 
 use yii\console\Controller;
 
-class BaseController  extends Controller
+class BaseController extends Controller
 {
     /** @var float */
     protected $actionTimeStart;

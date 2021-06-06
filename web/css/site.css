@@ -270,6 +270,35 @@ h3 {
 .js-delete-watcher {
     cursor: pointer;
 }
+
+.m-b-15 {
+    margin-bottom: 15px;
+}
 .p-t-120 {
     padding-top: 120px;
+}
+
+.p-l-30 {
+    padding-left: 30px;
+}
+.p-l-20 {
+    padding-left: 20px;
+}
+
+.p-l-10 {
+    padding-left: 10px;
+}
+.li-no-dot {
+    list-style-type: none;
+}
+.product-tile {
+    margin-bottom: 15px;
+    padding: 15px;
+    background: white;
+    border:  1px solid #9c9c9c;
+    border-radius: 4px;
+
+    -webkit-box-shadow: 0px 3px 11px 0px rgba(50, 50, 50, 0.25);
+    -moz-box-shadow:    0px 3px 11px 0px rgba(50, 50, 50, 0.25);
+    box-shadow:         0px 3px 11px 0px rgba(50, 50, 50, 0.25);
 }

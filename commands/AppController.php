@@ -24,7 +24,8 @@ class AppController extends Controller
             'user/batch-insert',
             'passport/batch-insert',
             'estate/batch-insert',
-            'crypto/fill'
+            'crypto/fill',
+            'shop/fill',
         ];
         foreach ($commands as $command) {
             Yii::$app->runAction($command);
