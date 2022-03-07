@@ -9,7 +9,13 @@ class MenuWidget extends Widget
 {
     public function run()
     {
-        $menu = Category::find()->where('pid is null')->all();
-        return $this->render('menu', ['menu' => $menu] );
+        $activeCategoryId = self::getActiveCategory();
+        $menu = Category::find()->where('pid is null')->with('subCategories')->all();
+        return $this->render('menuNew', ['menu' => $menu, 'activeCategoryId' => $activeCategoryId] );
+    }
+
+    public static function getActiveCategory()
+    {
+        return \Yii::$app->request->get('catId');
     }
 }

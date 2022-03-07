@@ -11,5 +11,7 @@ class ShopController extends BaseController
     {
         (new CategoryCreator())->fill();
         (new ProductCreator())->fill();
+
+        echo "Done!" . PHP_EOL;
     }
 }

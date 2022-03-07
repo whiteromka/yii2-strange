@@ -39,6 +39,8 @@ class LoginForm extends Model
         /** @var User $user */
         $user = User::findOne(['email' => $this->email]);
         if (!$user || !$user->checkPassword($this->password)) {
+            $this->addError('email', 'Неверный email или пароль');
+            $this->addError('password', 'Неверный email или пароль');
             $this->loginError = 'Неверный email или пароль';
             return false;
         }

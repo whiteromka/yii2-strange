@@ -10,10 +10,14 @@ use yii\web\View;
 /** @var Product[] $products */
  ?>
 
-<h1>category/category</h1>
-<h2><?=  Html::encode($category->name)?></h2>
-
 <div class="container">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h2><?= Html::encode($category->name)?></h2>
+        </div>
+    </div>
+
     <div class="row">
         <?php foreach ($products as $product) : ?>
             <div class="col-sm-3">
@@ -28,4 +32,5 @@ use yii\web\View;
             </div>
         <?php endforeach; ?>
     </div>
+
 </div>

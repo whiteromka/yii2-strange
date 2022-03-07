@@ -19,6 +19,16 @@ class AppController extends Controller
      */
     public function actionFillDb()
     {
+        echo 'Hold on tight bro! Now we fill DB.' . PHP_EOL;
+        sleep(1);
+        echo '3' . PHP_EOL;
+        sleep(1);
+        echo '2' . PHP_EOL;
+        sleep(1);
+        echo '1' . PHP_EOL;
+        sleep(1);
+        echo "!!!!!!" . PHP_EOL;
+
         $commands = [
             'city/batch-insert',
             'user/batch-insert',

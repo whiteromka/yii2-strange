@@ -22,6 +22,7 @@ use yii\db\ActiveRecord;
  * @property string|null $updated_at
  *
  * @property Product[] $products
+ * @property Category[] $subCategories
  */
 class Category extends ActiveRecord
 {
@@ -84,6 +85,14 @@ class Category extends ActiveRecord
     public function getProducts()
     {
         return $this->hasMany(Product::class, ['category_id' => 'id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getSubCategories()
+    {
+        return $this->hasMany(self::class, ['pid' => 'id']);
     }
 
     public static function menu()

@@ -13,10 +13,10 @@ class CategoryController extends Controller
         return $this->render('index');
     }
 
-    public function actionCategory(int $id)
+    public function actionCategory(int $catId)
     {
-        $category = Category::findOne(['id' => $id]);
-        $products = Product::find()->where(['category_id' => $id])->all();
+        $category = Category::findOne(['id' => $catId]);
+        $products = Product::find()->where(['category_id' => $catId])->all();
         return $this->render('category', compact('products', 'category'));
     }
 }

@@ -47,7 +47,8 @@ class BaseController extends Controller
             echo PHP_EOL . 'Added - ' . $this->successCount;
         }
         if ($isShowTime) {
-            echo PHP_EOL . 'Action time - ' . $this->actionTimeEnd - $this->actionTimeStart;
+            //ToDo fix warning
+            #echo PHP_EOL . 'Action time - ' . $this->actionTimeEnd - $this->actionTimeStart;
         }
     }
 }

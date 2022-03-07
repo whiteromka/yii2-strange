@@ -72,7 +72,7 @@ $config = [
             'rules' => [
                 '/' => '/user/filter',
                 't' => 't/index',
-                'shop/category/<id:\d+>' => 'shop/category/category',
+                'shop/category/<catId:\d+>' => 'shop/category/category',
             ],
         ],
 

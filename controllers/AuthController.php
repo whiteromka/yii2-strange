@@ -22,9 +22,12 @@ class AuthController extends Controller
         }
         $loginForm = new LoginForm();
         $post = Yii::$app->request->post();
-        if ($loginForm->load($post) && $loginForm->login()) {
-            return $this->redirect(['/user/profile']);
+        if ($loginForm->load($post)) {
+            if ($loginForm->login()) {
+                return $this->redirect(['/user/profile']);
+            }
         }
+
         return $this->render('login', compact('loginForm'));
     }
 
