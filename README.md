@@ -7,6 +7,11 @@
 </p>
 
 
+
+DEMO PROJECT 
+------------
+Searching, filtring, crypto API, task manager, shop 
+
 INSTALLATION
 ------------
 
