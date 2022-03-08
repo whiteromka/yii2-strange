@@ -6,10 +6,10 @@ use Yii;
 use yii\db\ActiveQuery;
 
 /**
- * This is the model class for table "card_item".
+ * This is the model class for table "cart_item".
  *
  * @property int $id
- * @property int|null $card_id
+ * @property int|null $cart_id
  * @property int|null $product_id
  * @property int|null $count
  * @property int|null $price
@@ -17,17 +17,17 @@ use yii\db\ActiveQuery;
  * @property string $created_at
  * @property string|null $updated_at
  *
- * @property Card $card
+ * @property Cart $cart
  * @property Product $product
  */
-class CardItem extends \yii\db\ActiveRecord
+class CartItem extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'card_item';
+        return 'cart_item';
     }
 
     /**
@@ -36,9 +36,9 @@ class CardItem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['card_id', 'product_id', 'count', 'price', 'discount'], 'integer'],
+            [['cart_id', 'product_id', 'count', 'price', 'discount'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['card_id'], 'exist', 'skipOnError' => true, 'targetClass' => Card::class, 'targetAttribute' => ['card_id' => 'id']],
+            [['cart_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cart::class, 'targetAttribute' => ['cart_id' => 'id']],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::class, 'targetAttribute' => ['product_id' => 'id']],
         ];
     }
@@ -50,7 +50,7 @@ class CardItem extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'card_id' => 'Card ID',
+            'cart_id' => 'Cart ID',
             'product_id' => 'Product ID',
             'count' => 'Count',
             'price' => 'Price',
@@ -61,13 +61,13 @@ class CardItem extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Card]].
+     * Gets query for [[Cart]].
      *
      * @return ActiveQuery
      */
-    public function getCard()
+    public function getCart()
     {
-        return $this->hasOne(Card::class, ['id' => 'card_id']);
+        return $this->hasOne(Cart::class, ['id' => 'cart_id']);
     }
 
     /**

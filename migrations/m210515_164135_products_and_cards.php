@@ -48,7 +48,7 @@ class m210515_164135_products_and_cards extends Migration
             'cascade'
         );
 
-        $this->createTable('card', [
+        $this->createTable('cart', [
             'id' => $this->primaryKey(),
             'user_id' => $this->integer(),
             'total_count' => $this->integer(),
@@ -59,8 +59,8 @@ class m210515_164135_products_and_cards extends Migration
         ]);
 
         $this->addForeignKey(
-            'fk__user_id__card',
-            'card',
+            'fk__user_id__cart',
+            'cart',
             'user_id',
             'user',
             'id',
@@ -68,9 +68,9 @@ class m210515_164135_products_and_cards extends Migration
             'cascade'
         );
 
-        $this->createTable('card_item', [
+        $this->createTable('cart_item', [
             'id' => $this->primaryKey(),
-            'card_id' => $this->integer(),
+            'cart_id' => $this->integer(),
             'product_id' => $this->integer(),
             'count' => $this->integer(),
             'price' => $this->integer(),
@@ -80,18 +80,18 @@ class m210515_164135_products_and_cards extends Migration
         ]);
 
         $this->addForeignKey(
-            'fk__card_id__card_item',
-            'card_item',
-            'card_id',
-            'card',
+            'fk__cart_id__cart_item',
+            'cart_item',
+            'cart_id',
+            'cart',
             'id',
             'cascade',
             'cascade'
         );
 
         $this->addForeignKey(
-            'fk__product_id__card_item',
-            'card_item',
+            'fk__product_id__cart_item',
+            'cart_item',
             'product_id',
             'product',
             'id',
@@ -169,8 +169,8 @@ class m210515_164135_products_and_cards extends Migration
         $this->dropTable('stock');
         $this->dropTable('order_item');
         $this->dropTable('order');
-        $this->dropTable('card_item');
-        $this->dropTable('card');
+        $this->dropTable('cart_item');
+        $this->dropTable('cart');
         $this->dropTable('product');
         $this->dropTable('category');
     }

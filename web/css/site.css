@@ -310,5 +310,16 @@ h3 {
 .menu li.active {
     background: white;
     color: black;
+}
 
+.btn-buy {
+    color: white;
+    border: 3px solid #939393;
+    width: 100%;
+    padding: 5px 30px;
+    border-radius: 4px;
+    background: #4c4646;
+}
+.btn-buy:hover {
+    border: 3px solid  #0a73bb;
 }

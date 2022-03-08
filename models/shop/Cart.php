@@ -7,7 +7,7 @@ use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "card".
+ * This is the model class for table "cart".
  *
  * @property int $id
  * @property int|null $user_id
@@ -18,16 +18,16 @@ use yii\db\ActiveRecord;
  * @property string|null $updated_at
  *
  * @property User $user
- * @property CardItem[] $cardItems
+ * @property CartItem[] $cartItems
  */
-class Card extends ActiveRecord
+class Cart extends ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'card';
+        return 'cart';
     }
 
     /**
@@ -38,7 +38,7 @@ class Card extends ActiveRecord
         return [
             [['user_id', 'total_count', 'total_price', 'total_discount'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -69,12 +69,12 @@ class Card extends ActiveRecord
     }
 
     /**
-     * Gets query for [[CardItems]].
+     * Gets query for [[CartItems]].
      *
      * @return ActiveQuery
      */
-    public function getCardItems()
+    public function getCartItems()
     {
-        return $this->hasMany(CardItem::class, ['card_id' => 'id']);
+        return $this->hasMany(CartItem::class, ['cart_id' => 'id']);
     }
 }

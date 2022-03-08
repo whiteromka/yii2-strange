@@ -24,10 +24,15 @@ use yii\web\View;
                 <div class="product-tile">
                     <h5><?= Html::encode($product->name) ?></h5>
                     <p><?= Html::encode($product->price) ?> руб.</p>
+
+                    <?php if ($user = Yii::$app->user->identity) :?>
                     <?= Html::a('Купить',
-                        ['cart/add', 'product_id' => $product->id],
-                        ['data-product-id' => $product->id, 'class' => 'btn-buy']
-                    )?>
+                        ['cart/add', 'productId' => $product->id],
+                        ['data-product-id' => $product->id, 'class' => 'btn btn-primary']
+                    ) ?>
+                    <?php else : ?>
+                        Авторизуйтесь чтобы купить
+                    <?php endif;?>
                 </div>
             </div>
         <?php endforeach; ?>
