@@ -114,4 +114,11 @@ class YandexWeather
         ];
         return $yandexSeasons[$season];
     }
+
+
+    // 1) получить токен: token -> back -> front
+    // 2) получить погоду: token -> back -> api -> погода -> front
+
+
+    // 1) Фронт по нажатию на кнопку или при загрузке страницы -> back -> дай мне погоду по городу ...
 }

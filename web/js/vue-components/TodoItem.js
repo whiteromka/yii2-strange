@@ -1,4 +1,4 @@
-import {c} from '/web/js/vue-components/funcs.js';
+import {c} from '/js/vue-components/funcs.js';
 
 let temlpate =
 `

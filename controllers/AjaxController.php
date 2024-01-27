@@ -90,8 +90,10 @@ class AjaxController extends  Controller
     public function actionGetWeather(int $passportId)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
+
         $passport = Passport::find()->where(['id' => $passportId])->one();
         $weather = $passport ? (new YandexWeather())->getByPassport($passport) : null;
+
         return $this->renderPartial('modal-edit/_weather', [
             'weather' => $weather,
             'passport' => $passport

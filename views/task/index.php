@@ -31,9 +31,9 @@ use yii\web\View;
 
 <script type="module">
     import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.esm.browser.js';
-    import {TodoItem} from '/web/js/vue-components/TodoItem.js';
-    import {TaskCreator} from '/web/js/vue-components/TaskCreator.js';
-    import {c} from '/web/js/vue-components/funcs.js';
+    import {TodoItem} from '/js/vue-components/TodoItem.js';
+    import {TaskCreator} from '/js/vue-components/TaskCreator.js';
+    import {c} from '/js/vue-components/funcs.js';
 
     let csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 

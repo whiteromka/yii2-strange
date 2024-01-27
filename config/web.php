@@ -71,6 +71,7 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 '/' => '/user/filter',
+                't/t' => 't/t',
                 't' => 't/index',
                 'shop/category/<catId:\d+>' => 'shop/category/category',
             ],
