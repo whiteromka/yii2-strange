@@ -15,8 +15,11 @@ use yii\helpers\ArrayHelper;
 class CryptoController extends BaseController
 {
     /**
-     * Construct altcoin_date since 2011-01-01 to current date, and try to save this
+     * Construct altcoin_date since 2022-01-01 to current date, and try to save this
      * Trying to get prices for altcoins for alctoin_history table, and try to save this
+     * Заполнит даты в altcoin_date и начнет запонять altcoin_history_data через АПИ
+     *
+     * php yii crypto/fill
      *
      * @throws \yii\db\Exception
      */
@@ -27,12 +30,26 @@ class CryptoController extends BaseController
     }
 
     /**
+     * Delete all from altcoin_date
+     *
+     * php yii crypto/delete-all-altcoin-date
+     */
+    public function actionDeleteAllAltcoinDate()
+    {
+        $count = AltcoinDate::deleteAll();
+        echo PHP_EOL . AltcoinDate::tableName() .  ' truncated! ' . $count . ' rows deleted!' . PHP_EOL;
+    }
+
+    /**
+     * Just add dates in AltcoinDate from '2022-01-01' to current date
+     * Просто сгенерирует даты в AltcoinDate от '2022-01-01' до текущей даты
+     *
      * @throws \yii\db\Exception
      */
     protected function fillAltcoinDate(): void
     {
         $altconDate = new AltcoinDate();
-        $count = $altconDate->fill('2011-01-01');
+        $count = $altconDate->fill('2022-01-01');
         echo PHP_EOL . 'Added ' . $count . ' rows in altcoin_date table.'
             . PHP_EOL . 'Operation in progress ... (do not press anything)' . PHP_EOL;
     }

@@ -75,7 +75,14 @@ class CryptoCompare
      */
     public function getPriceOnDate(string $altcoin, int $unixTime): array
     {
+        // Из доки https://min-api.cryptocompare.com/documentation можно прикрутить токен, возможно он увеличивает кол-во возможных запросов
+        // API KEY in URL - just append ? or &api_key={your_api_key} the the end of your request url
+        // API KEY in HEADER - add the following header to your request: authorization: Apikey {your_api_key}.
+
         $url = $this->apiUrl . "pricehistorical?fsym=$altcoin&tsyms=USD&ts=$unixTime";
+        if ($this->key) {
+            $url .= '&api_key=' . $this->key;
+        }
         return $this->request($url);
     }
 

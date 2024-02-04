@@ -103,6 +103,9 @@ class Altcoin extends ActiveRecord
     }
 
     /**
+     * Returns map id - name from all records from altcoin
+     * Вернет карту id - name по всем записям из тбл altcoin
+     *
      * @param bool $capitalize
      * @return array
      */
