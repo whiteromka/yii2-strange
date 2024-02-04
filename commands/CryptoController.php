@@ -65,12 +65,20 @@ class CryptoController extends BaseController
             $dates = AltcoinDate::constructDateList($altcoinId);
             foreach ($dates as $dateId => $unixDate) {
                 $apiAnswer = $cryptoCompare->getPriceOnDate($altcoin, $unixDate);
-                $message = ArrayHelper::getValue($apiAnswer, 'data.Message');
+                $message = ArrayHelper::getValue($apiAnswer, 'data.Message', '');
                 $price = ArrayHelper::getValue($apiAnswer, "data.$altcoin.USD");
-                $error = ArrayHelper::getValue($apiAnswer, 'error');
+                $error = ArrayHelper::getValue($apiAnswer, 'error', '');
                 if ($error || $message ) {
-                    echo PHP_EOL . 'Warning! ' . $error . ' ' . $message . PHP_EOL;
-                    exit('Program stopped!');
+                    $fullMessage = $error . ' ' . $message;
+                    echo PHP_EOL . 'Warning! ' . $fullMessage . PHP_EOL;
+
+                    // Если ошибка содержит "failed to open stream" то ждем мемного, и перезапускаемся по новой
+                    if (strpos($fullMessage, "failed to open stream") !== false) {
+                        sleep(123);
+                        continue;
+                    } else {
+                        exit('Program stopped!');
+                    }
                 }
 
                 if ($apiAnswer['success'] && $price !== null) {
