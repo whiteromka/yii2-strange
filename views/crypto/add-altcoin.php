@@ -23,7 +23,7 @@ AddAltcoinAsset::register($this);
     <div class="row">
         <div class="col-sm-4 col-lg-2">
             <?= $form->field($altcoin, 'name')->label('Имя (тикер)')
-                ->textInput(['placeholder' => "BTC", 'required'=>1]) ?>
+                ->textInput(['placeholder' => "BTC", 'required' => 1 ]) ?>
         </div>
         <div class="col-sm-4 col-lg-2">
             <?= $form->field($altcoin, 'full_name')->textInput(['placeholder' => "Bitcoin"]) ?>
@@ -37,7 +37,6 @@ AddAltcoinAsset::register($this);
         </div>
     </div>
     <?php ActiveForm::end() ?>
-
 
     <div class="box box-info">
         <div class="box-header with-border">

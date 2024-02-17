@@ -23,20 +23,17 @@ use yii\helpers\ArrayHelper;
  */
 class Altcoin extends ActiveRecord
 {
-    const BTC = 'btc';   # 1
-    const ETH = 'eth';   # 2
-    const LTC = 'ltc';   # 3
-    const XRP = 'xrp';   # 4 XRP ripl
-    const ATOM = 'atom'; # 5 Cosmos
-    const XMR = 'xmr';   # 6 Monero
-    const BNB = 'bnb';   # 7 Binance Coin
-    const ZEC = 'zec';   # 10 Zcash 1477688400
-    const ADA = 'ada';   # 11 cardano
-    const DOT = 'dot';   # 13 polkadot
-    const RVN = 'rvn';   # ..  ... 1523998800
-    // maker MKR
-    // Synthetix SNX
-    // Compound COMP
+    const BTC = 'btc';
+    const ETH = 'eth';
+    const LTC = 'ltc';
+    const XRP = 'xrp';
+    const ATOM = 'atom';
+    const XMR = 'xmr';
+    const BNB = 'bnb';
+    const ZEC = 'zec';
+    const ADA = 'ada';
+    const DOT = 'dot';
+    const RVN = 'rvn';
 
     const USD = 'USD';
     const RUB = 'RUB';

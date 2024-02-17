@@ -2,15 +2,13 @@
 
 namespace app\commands;
 
-use app\components\api\CryptoCompare;
+use app\components\api\CryptoLogic;
 use app\components\CryptoWatcher;
-use app\models\Altcoin;
 use app\models\AltcoinDate;
 use app\models\AltcoinHistory;
 use app\models\AltcoinHistoryData;
 use Exception;
 use Yii;
-use yii\helpers\ArrayHelper;
 
 class CryptoController extends BaseController
 {
@@ -44,50 +42,27 @@ class CryptoController extends BaseController
      * Just add dates in AltcoinDate from '2022-01-01' to current date
      * Просто сгенерирует даты в AltcoinDate от '2022-01-01' до текущей даты
      *
+     * php yii crypto/fill-altcoin-date
+     *
      * @throws \yii\db\Exception
      */
-    protected function fillAltcoinDate(): void
+    public function actionFillAltcoinDate(): void
     {
         $altconDate = new AltcoinDate();
-        $count = $altconDate->fill('2022-01-01');
+        $count = $altconDate->fill('2022-01-01'); // '2022-01-01'
         echo PHP_EOL . 'Added ' . $count . ' rows in altcoin_date table.'
             . PHP_EOL . 'Operation in progress ... (do not press anything)' . PHP_EOL;
     }
 
     /**
+     * php yii crypto/fill-altcoin-history-data
+     *
      * @throws Exception
      */
-    protected function fillAltcoinHistoryData(): void
+    public function actionFillAltcoinHistoryData(): void
     {
-        $cryptoCompare = new CryptoCompare();
-
-        foreach (Altcoin::map(true) as $altcoinId => $altcoin) {
-            $dates = AltcoinDate::constructDateList($altcoinId);
-            foreach ($dates as $dateId => $unixDate) {
-                $apiAnswer = $cryptoCompare->getPriceOnDate($altcoin, $unixDate);
-                $message = ArrayHelper::getValue($apiAnswer, 'data.Message', '');
-                $price = ArrayHelper::getValue($apiAnswer, "data.$altcoin.USD");
-                $error = ArrayHelper::getValue($apiAnswer, 'error', '');
-                if ($error || $message ) {
-                    $fullMessage = $error . ' ' . $message;
-                    echo PHP_EOL . 'Warning! ' . $fullMessage . PHP_EOL;
-
-                    // Если ошибка содержит "failed to open stream" то ждем мемного, и перезапускаемся по новой
-                    if (strpos($fullMessage, "failed to open stream") !== false) {
-                        sleep(123);
-                        continue;
-                    } else {
-                        exit('Program stopped!');
-                    }
-                }
-
-                if ($apiAnswer['success'] && $price !== null) {
-                    $isSave = AltcoinHistoryData::saveRow($altcoinId, $dateId, $price);
-                    $this->checkSave($isSave);
-                }
-            }
-        }
-        $this->showActionInfo(true, false);
+        $saved = (new CryptoLogic())->fillAltcoinHistoryData();
+        echo PHP_EOL . 'Added - ' . $saved;
     }
 
     /**

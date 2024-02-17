@@ -8,6 +8,7 @@ use app\models\AltcoinHistoryData;
 use app\models\AltcoinWatcher;
 use app\models\CryptoRequestForm;
 use app\models\AltcoinHistory;
+use yii\base\BaseObject;
 use yii\base\Exception;
 use yii\web\Controller;
 use yii\web\Response;
@@ -21,6 +22,7 @@ class CryptoController extends Controller
      */
     public function actionAddAltcoin(): string
     {
+        // ToDo дописать сбор данных по началу парсинга крипты
         $altcoin = new Altcoin();
         $altcoins = Altcoin::find()->with(['altcoinWatchers'])->all();
         if ($altcoin->load(Yii::$app->request->post())) {
@@ -33,7 +35,7 @@ class CryptoController extends Controller
             }
         }
         return $this->render('add-altcoin', [
-            'altcoin' => $altcoin,
+            'altcoin' => new Altcoin(),
             'altcoins' => $altcoins,
             'altcoinWatcher' => new AltcoinWatcher()
         ]);
