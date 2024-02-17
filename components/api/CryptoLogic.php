@@ -50,7 +50,6 @@ class CryptoLogic
         return $count;
     }
 
-
     /**
      * @param array $apiAnswer
      * @param string $altcoin
