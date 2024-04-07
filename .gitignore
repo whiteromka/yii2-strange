@@ -36,6 +36,7 @@ tests/_support/_generated
 /config/params-local.php
 /controllers/TController.php
 /views/t/*
+/models/t/*
 
 # vue builds
 /web/vue

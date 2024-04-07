@@ -21,7 +21,7 @@ class BanknotesSimple
     {
         $this->sum = $sum;
         $this->remain = $sum;
-        $this->banknotes = [10, 50, 100, 200, 500, 1000, 5000];
+        $this->banknotes = [20, 50, 100];
     }
 
     /**
