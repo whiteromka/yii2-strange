@@ -10,7 +10,8 @@
 
 DEMO PROJECT 
 ------------
-Searching, filtring, crypto API, task manager, shop 
+Searching, filtering, crypto API, task manager, shop.
+PHP, Yii, js, jquery, vueJs
 
 INSTALLATION
 ------------
