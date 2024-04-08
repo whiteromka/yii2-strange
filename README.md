@@ -6,6 +6,9 @@
     <br>
 </p>
 
+<p align="center">
+    <img src="https://github.com/whiteromka/yii2-strange/web/pic/1.png" height="400px">
+</p>
 
 
 DEMO PROJECT 
