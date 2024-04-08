@@ -7,6 +7,12 @@
 </p>
 
 ![1](https://github.com/whiteromka/yii2-strange/assets/58069286/db82e5ca-7f07-4a44-8c49-0c5f48554e46)
+<br>
+![2](https://github.com/whiteromka/yii2-strange/assets/58069286/e8c964d1-52ad-4881-943d-79ab0d57b719)
+<br>
+![3](https://github.com/whiteromka/yii2-strange/assets/58069286/631dde2c-0e94-499d-9234-bf99a4ee4bc0)
+<br>
+![4](https://github.com/whiteromka/yii2-strange/assets/58069286/175c8d3d-e90c-4dbf-b2c6-de262be963f4)
 
 
 DEMO PROJECT 
