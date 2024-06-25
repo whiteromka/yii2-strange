@@ -2,6 +2,7 @@
 namespace components;
 
 use app\components\CryptoWatcher;
+use app\components\notifiers\EmailNotifier;
 use app\models\Altcoin;
 use app\models\AltcoinWatcher;
 
@@ -22,7 +23,8 @@ class CryptoWatcherTest extends \Codeception\Test\Unit
 
     public function test_prepare_watchers_will_fill_valid_array()
     {
-        $cw = new CryptoWatcher();
+        $emailNotifier = new EmailNotifier();
+        $cw = new CryptoWatcher($emailNotifier);
         $cw->prepareWatchers();
 
         $count = AltcoinWatcher::find()->count();
@@ -35,7 +37,8 @@ class CryptoWatcherTest extends \Codeception\Test\Unit
     }
 
     public function test_prepare_notification_data_will_fill_valid_data() {
-        $cw = new CryptoWatcher();
+        $emailNotifier = new EmailNotifier();
+        $cw = new CryptoWatcher($emailNotifier);
         $cw->prepareWatchers();
         $cw->prepareNotificationData();
         $notificationData = $cw->getNotificationData();

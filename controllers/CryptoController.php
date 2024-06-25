@@ -25,7 +25,8 @@ class CryptoController extends Controller
         // ToDo дописать сбор данных по началу парсинга крипты
         $altcoin = new Altcoin();
         $altcoins = Altcoin::find()->with(['altcoinWatchers'])->all();
-        if ($altcoin->load(Yii::$app->request->post())) {
+
+        if ($altcoin->loadWithDatesStart(Yii::$app->request->post())) {
             $result = $altcoin->addNew();
             $session = Yii::$app->session;
             if ($result['success']) {

@@ -18,7 +18,7 @@ class UserFaker extends AFaker
      *
      * @return User
      */
-    public function create() : User
+    public function create(): User
     {
         $f = $this->faker;
         $user = new User();
@@ -44,7 +44,7 @@ class UserFaker extends AFaker
      *
      * @return array
      */
-    public function createAsArray() : array
+    public function createAsArray(): array
     {
         $f = $this->faker;
         $user = [];

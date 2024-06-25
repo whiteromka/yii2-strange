@@ -29,8 +29,13 @@ AddAltcoinAsset::register($this);
             <?= $form->field($altcoin, 'full_name')->textInput(['placeholder' => "Bitcoin"]) ?>
         </div>
         <div class="col-sm-4 col-lg-2">
-            <?= $form->field($altcoin, 'start_unixtime')
-                ->textInput(['placeholder' => "1452680400", 'required' => 1, 'type' => 'number']) ?>
+            <?= $form->field($altcoin, 'date_start_unix')
+                ->textInput(['placeholder' => "1452680400",  'type' => 'number']) ?>
+        </div>
+        <div class="col-sm-1 col-lg-1">или</div>
+        <div class="col-sm-4 col-lg-2">
+            <?= $form->field($altcoin, 'date_start')
+                ->textInput(['placeholder' => "2010-01-01"]) ?>
         </div>
         <div class="col-sm-2">
             <?= Html::submitButton('Добавить', ['class' => 'btn btn-primary', 'style'=> 'margin-top:24px']) ?>

@@ -4,6 +4,7 @@ namespace app\commands;
 
 use app\components\api\CryptoLogic;
 use app\components\CryptoWatcher;
+use app\components\notifiers\EmailNotifier;
 use app\models\AltcoinDate;
 use app\models\AltcoinHistory;
 use app\models\AltcoinHistoryData;
@@ -96,7 +97,8 @@ class CryptoController extends BaseController
      */
     public function actionWatcher(): void
     {
-        (new CryptoWatcher())->prepareWatchers()->prepareNotificationData()->notify();
+        $emailNotifier = new EmailNotifier();
+        (new CryptoWatcher($emailNotifier))->prepareWatchers()->prepareNotificationData()->notify();
     }
 
     /**

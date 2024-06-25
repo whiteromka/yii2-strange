@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\components\api\CryptoCompare;
+use DateTime;
 use Exception;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -14,6 +15,8 @@ use yii\helpers\ArrayHelper;
  * @property int $id
  * @property string|null $name
  * @property string|null $full_name
+ * @property int $date_start_unix
+ * @property string $date_start
  * @property int $sort
  * @property string $created_at
  * @property string|null $updated_at
@@ -57,9 +60,9 @@ class Altcoin extends ActiveRecord
     {
         return [
             [['created_at', 'updated_at'], 'safe'],
-            [['name', 'full_name'], 'string', 'max' => 255],
+            [['name', 'full_name', 'date_start'], 'string', 'max' => 255],
             [['name'], 'filter', 'filter' => 'strtoupper', 'skipOnArray' => true],
-            [['sort', 'start_unixtime'], 'integer'],
+            [['sort', 'date_start_unix'], 'integer'],
             [['name'], 'unique'],
             [['full_name'], 'unique'],
         ];
@@ -74,10 +77,11 @@ class Altcoin extends ActiveRecord
             'id' => 'ID',
             'name' => 'Имя',
             'full_name' => 'Полное имя',
+            'date_start' => 'Дата появления альткойна',
+            'date_start_unix' => 'Дата появления альткойна unixtime',
             'sort' => 'Sort',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'start_unixtime' => 'Unixtime рождения'
         ];
     }
 
@@ -97,6 +101,31 @@ class Altcoin extends ActiveRecord
     public function getAltcoinWatchers()
     {
         return $this->hasMany(AltcoinWatcher::class, ['altcoin_id' => 'id']);
+    }
+
+    /**
+     * Like load method but, it try to save date_start_unix and date_start
+     *
+     * @param array $data
+     * @param null $formName
+     * @return bool
+     */
+    public function loadWithDatesStart(array $data, $formName = null): bool
+    {
+        if ($this->load($data, $formName)) {
+            if ($this->date_start) {
+                $date = DateTime::createFromFormat('Y-m-d', $this->date_start);
+                if ($date !== false) {
+                    $this->date_start_unix = $date->getTimestamp();
+                }
+            }
+
+            if ($this->date_start_unix) {
+                $this->date_start = date('Y-m-d', $this->date_start_unix);
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -149,10 +178,10 @@ class Altcoin extends ActiveRecord
     public function addNew(): array
     {
         $cryptoCompare = new CryptoCompare();
-        $apiAnswer = $cryptoCompare->getPriceOnDate($this->name, $this->start_unixtime);
+        $apiAnswer = $cryptoCompare->getPriceOnDate($this->name, $this->date_start_unix);
         if ($apiAnswer['success']) {
             $this->save(false);
-            $dateId = AltcoinDate::find()->select(['id'])->where(['unix_date' => $this->start_unixtime])->scalar();
+            $dateId = AltcoinDate::find()->select(['id'])->where(['unix_date' => $this->date_start_unix])->scalar();
             AltcoinHistoryData::saveRow($this->id, $dateId, $apiAnswer['data'][$this->name]['USD']);
             return ['success' => true];
         }

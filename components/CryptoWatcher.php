@@ -36,9 +36,9 @@ class CryptoWatcher
         return $this->notificationData;
     }
 
-    public function __construct()
+    public function __construct(INotifier $notifier)
     {
-        $this->notifier = new EmailNotifier();
+        $this->notifier = $notifier;
     }
 
     /**

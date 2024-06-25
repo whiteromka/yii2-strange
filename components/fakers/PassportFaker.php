@@ -35,7 +35,7 @@ class PassportFaker extends AFaker
      *
      * @return Passport
      */
-    public function create() : Passport
+    public function create(): Passport
     {
         $f = $this->faker;
         $passport = new Passport();

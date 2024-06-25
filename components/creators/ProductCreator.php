@@ -6,7 +6,7 @@ namespace app\components\creators;
 use app\models\shop\Category;
 use app\models\shop\Product;
 
-class ProductCreator
+class ProductCreator implements ICreator
 {
     public function fill()
     {
