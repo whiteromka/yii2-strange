@@ -29,7 +29,6 @@ $config = [
     ],
     'components' => [
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'qPOGnNCZjuFkEmsxlRfZJDnReyBC_hgs',
             'baseUrl' => '',
         ],
@@ -70,9 +69,14 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                # Главная
                 '/' => '/user/filter',
+
+                # Тестовые
                 't/t' => 't/t',
                 't' => 't/index',
+
+                # Магазин
                 'shop/category/<catId:\d+>' => 'shop/category/category',
             ],
         ],

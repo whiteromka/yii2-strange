@@ -18,14 +18,12 @@ class AjaxController extends  Controller
      * Update user on the tile
      *
      * @param int $userId
-     * @return array
      */
     public function actionUpdateDataInTile(int $userId)
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
         $user = User::find()->where(['id' => $userId])->with('passport')->one();
         $view = $this->renderPartial('/user/filter/_user', ['user' => $user]);
-        return ['success' => true, 'view' => $view];
+        return $this->asJson(['success' => true, 'view' => $view]);
     }
 
     /**
@@ -44,11 +42,10 @@ class AjaxController extends  Controller
     /**
      * Save data
      *
-     * @return array
+     * @return Response
      */
-    public function actionDataSave() : array
+    public function actionDataSave()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
         $db = Yii::$app->db;
         $transaction = $db->beginTransaction();
         try {
@@ -58,27 +55,33 @@ class AjaxController extends  Controller
             $transaction->commit();
         } catch (Exception $e) {
             $transaction->rollback();
-            return ['success' => false, 'error'=> $e->getMessage()];
+            return $this->asJson([
+                'success' => false,
+                'error'=> $e->getMessage()
+            ]);
         }
-        return ['success' => true, 'user'=> $user, 'passport' => $passport];
+        return $this->asJson([
+            'success' => true,
+            'user'=> $user,
+            'passport' => $passport
+        ]);
     }
 
     /**
      * Remove passport
      *
      * @param int $passportId
-     * @return array
+     * @return Response
      * @throws StaleObjectException
      * @throws Throwable
      */
-    public function actionRemovePassport(int $passportId) : array
+    public function actionRemovePassport(int $passportId)
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
         /** @var Passport $passport */
         $passport = Passport::find()->where(['id' => $passportId])->one();
         $user = $passport->user;
         $passport->delete();
-        return ['success' => true, 'user' => $user];
+        return $this->asJson(['success' => true, 'user' => $user]);
     }
 
     /**
@@ -90,7 +93,7 @@ class AjaxController extends  Controller
     public function actionGetWeather(int $passportId)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-
+        /** @var Passport $passport */
         $passport = Passport::find()->where(['id' => $passportId])->one();
         $weather = $passport ? (new YandexWeather())->getByPassport($passport) : null;
 
