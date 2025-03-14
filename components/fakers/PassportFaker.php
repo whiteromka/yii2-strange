@@ -9,7 +9,7 @@ use Faker\Factory;
 class PassportFaker extends AFaker
 {
     /** @var int */
-    private $userId;
+    private int $userId;
 
     const NUMBER_MIN = 1000;
     const NUMBER_MAX = 9999;

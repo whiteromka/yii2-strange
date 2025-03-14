@@ -17,6 +17,8 @@ class YandexWeather
     /** @var float|int */
     public $cacheDur = 3 * 60;
 
+    private const ICON_PATH = 'https://yastatic.net/weather/i/icons/blueye/color/svg/';
+
     /**
      * @param Passport $passport
      * @return array
@@ -66,12 +68,12 @@ class YandexWeather
             if ($response->isOk) {
                 $weather = $response->data;
                 $weather['success'] = true;
-                $weather['fact']['icon'] = 'https://yastatic.net/weather/i/icons/blueye/color/svg/'.$weather['fact']['icon'].'.svg';
+                $weather['fact']['icon'] = self::ICON_PATH . $weather['fact']['icon'] . '.svg';
                 $weather['fact']['wind_dir'] = self::recreateWindDir($weather['fact']['wind_dir']);
                 $weather['fact']['season'] = self::recreateSeason($weather['fact']['season']);
             } else {
                 $weather['success'] = false;
-                $weather['error'] = 'Что то пошло не так. Попробуйте сконфигурировать yandexApiWeather.key в params.php или попробуйте повторить запрос позже.';
+                $weather['error'] = 'Что то пошло не так. Попробуйте сконфигурировать yandexApiWeather.key в params.php';
             }
         } catch (Exception $e) {
             $weather['success'] = false;
@@ -114,11 +116,4 @@ class YandexWeather
         ];
         return $yandexSeasons[$season];
     }
-
-
-    // 1) получить токен: token -> back -> front
-    // 2) получить погоду: token -> back -> api -> погода -> front
-
-
-    // 1) Фронт по нажатию на кнопку или при загрузке страницы -> back -> дай мне погоду по городу ...
 }

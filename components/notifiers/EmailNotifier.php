@@ -36,7 +36,7 @@ class EmailNotifier implements INotifier
      */
     protected function prepareEmail(array $notificationData): void
     {
-        $message = 'Некоторые криптовалюты достиги ожидаемых вами отметок:<br>';
+        $message = "Некоторые криптовалюты достигли ожидаемых вами отметок: <br>";
         foreach ($notificationData as $altcoin => $price) {
             $message .= '<b>'.$altcoin.'</b>  -  <b>' .$price. '</b> usd <br>';
         }

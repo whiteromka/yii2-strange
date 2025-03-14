@@ -31,7 +31,7 @@ class CartManager
             throw new  Exception('Пользователь не авторизован, невозможно добавить товар в корзину');
         }
         if (!$product = Product::findOne($productId)) {
-            throw new  Exception('Не могу найти продукт по ID');
+            throw new Exception('Не могу найти продукт по ID');
         }
 
         $transaction = Yii::$app->db->beginTransaction();
@@ -59,8 +59,8 @@ class CartManager
             'price' => $product->price
         ]);
         $cartItem->save();
-        /** ToDo написать calculateTotals() для пересчета стоимости коризны */
-        $cart->calculateTotals();
+        /** ToDo написать calculateTotals() для пересчета стоимости корзины */
+        // $cart->calculateTotals();
     }
 
     /**

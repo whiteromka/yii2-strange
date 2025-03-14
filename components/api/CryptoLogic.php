@@ -30,7 +30,7 @@ class CryptoLogic
                 $apiAnswer = $this->cryptoApi->getPriceOnDate($altcoin, $unixDate);
                 list($fullMessage, $price) = $this->getApiAnswer($apiAnswer, $altcoin);
                 if ($fullMessage) {
-                    // Если ошибка содержит "failed to open stream" то ждем мемного, и перезапускаемся по новой
+                    // Если ошибка содержит "failed to open stream" то ждем немного, и перезапускаемся по новой
                     if (strpos($fullMessage, "failed to open stream") !== false) {
                         sleep(14);
                         continue;

@@ -5,7 +5,6 @@ namespace app\components\api;
 use Exception;
 use Yii;
 use yii\httpclient\Client;
-use yii\httpclient\Response;
 
 class CryptoCompare
 {
@@ -34,7 +33,7 @@ class CryptoCompare
      */
     public function isSetApiKey(): bool
     {
-        return $this->key ? true : false;
+        return (bool)$this->key;
     }
 
     /**

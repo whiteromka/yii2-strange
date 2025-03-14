@@ -21,8 +21,7 @@ use yii\helpers\ArrayHelper;
  * @property string $created_at
  * @property string|null $updated_at
  *
- * @property AltcoinHistory[] $altcoinHistories
- * @property AltcoinWatchers[] $altcoinWatchers
+ * @property AltcoinWatcher[] $altcoinWatchers
  */
 class Altcoin extends ActiveRecord
 {
@@ -83,16 +82,6 @@ class Altcoin extends ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
-    }
-
-    /**
-     * Gets query for [[AltcoinHistories]].
-     *
-     * @return ActiveQuery
-     */
-    public function getAltcoinHistories()
-    {
-        return $this->hasMany(AltcoinHistory::class, ['altcoin_id' => 'id']);
     }
 
     /**

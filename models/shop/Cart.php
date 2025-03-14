@@ -2,6 +2,7 @@
 
 namespace app\models\shop;
 
+use app\models\User;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;

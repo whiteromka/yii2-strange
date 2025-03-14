@@ -97,8 +97,8 @@ class Category extends ActiveRecord
 
     public static function menu()
     {
-        $menuBuilder = new MenuBuilder(new SimpleTreeMenu());
-        return $menuBuilder->menu();
+        //$menuBuilder = new MenuBuilder(new SimpleTreeMenu());
+        //return $menuBuilder->menu();
     }
 
     public function hasChilds(): bool

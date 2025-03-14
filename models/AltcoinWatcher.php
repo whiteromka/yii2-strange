@@ -18,7 +18,6 @@ use Yii;
  */
 class AltcoinWatcher extends \yii\db\ActiveRecord
 {
-
     const EXPECTATION_UP = 1;
     const EXPECTATION_DOWN = 0;
 

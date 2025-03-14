@@ -8,7 +8,7 @@ use Faker\Factory;
 class EstateFaker extends AFaker
 {
     /** @var int */
-    private $userId;
+    private int $userId;
 
     public function __construct()
     {

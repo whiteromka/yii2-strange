@@ -9,12 +9,6 @@ use yii\web\Response;
 
 class TaskController extends Controller
 {
-    /** {@inheritdoc} */
-    public function beforeAction($action)
-    {
-        $this->enableCsrfValidation = false;
-        return parent::beforeAction($action);
-    }
 
     /**
      * @return string

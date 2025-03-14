@@ -1,6 +1,5 @@
 <?php
 
-use app\models\User;
 use yii\web\View;
 
 /** @var View $this */

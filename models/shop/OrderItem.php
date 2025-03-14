@@ -3,6 +3,7 @@
 namespace app\models\shop;
 
 use Yii;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "order_item".
@@ -62,7 +63,7 @@ class OrderItem extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Order]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getOrder()
     {
@@ -72,7 +73,7 @@ class OrderItem extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Product]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getProduct()
     {

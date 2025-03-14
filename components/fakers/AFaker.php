@@ -10,10 +10,10 @@ abstract class AFaker
     protected $faker;
 
     /** @var int  */
-    protected $unixTimeFrom = 315532800; // 01.01.1980
+    protected int $unixTimeFrom = 315532800; // 01.01.1980
 
     /** @var int  */
-    protected $unixTimeTo; // current unix time
+    protected int $unixTimeTo; // current unix time
 
     public function __construct()
     {

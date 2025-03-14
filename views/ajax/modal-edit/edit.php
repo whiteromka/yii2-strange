@@ -48,5 +48,5 @@ use yii\widgets\ActiveForm;
         <button type="button" class="btn btn-warning js-btn-close-modal" data-dismiss="modal">Закрыть</button>
     <?php ActiveForm::end(); ?>
 <?php else:?>
-    <h2 class="text-danger">Что то пошло не так. Нет такого пользователя!</h2>
+    <h2 class="text-danger">Что-то пошло не так. Нет такого пользователя!</h2>
 <?php endif;?>

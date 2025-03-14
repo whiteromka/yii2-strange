@@ -12,7 +12,7 @@ use app\models\User;
 use Throwable;
 use Yii;
 
-class AjaxController extends  Controller
+class AjaxController extends Controller
 {
     /**
      * Update user on the tile
@@ -70,13 +70,13 @@ class AjaxController extends  Controller
     /**
      * Remove passport
      *
-     * @param int $passportId
      * @return Response
      * @throws StaleObjectException
      * @throws Throwable
      */
-    public function actionRemovePassport(int $passportId)
+    public function actionRemovePassport()
     {
+        $passportId = Yii::$app->request->post('passportId');
         /** @var Passport $passport */
         $passport = Passport::find()->where(['id' => $passportId])->one();
         $user = $passport->user;
@@ -87,11 +87,11 @@ class AjaxController extends  Controller
     /**
      * Get weather by passport (city)
      *
-     * @param int $passportId
      * @return mixed
      */
-    public function actionGetWeather(int $passportId)
+    public function actionGetWeather()
     {
+        $passportId = Yii::$app->request->post('passportId');
         Yii::$app->response->format = Response::FORMAT_JSON;
         /** @var Passport $passport */
         $passport = Passport::find()->where(['id' => $passportId])->one();

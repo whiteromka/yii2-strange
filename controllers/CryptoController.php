@@ -60,14 +60,13 @@ class CryptoController extends Controller
     }
 
     /**
-     * @param int $id
-     * @return array
+     * @return Response
      */
-    public function actionDeleteWatcher(int $id): array
+    public function actionDeleteWatcher()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        AltcoinWatcher::deleteAll(['id'=>$id]);
-        return ['success' => true];
+        $id = Yii::$app->request->get('id');
+        AltcoinWatcher::deleteAll(['id' => $id]);
+        return $this->asJson(['success' => true]);
     }
 
     /**
@@ -88,13 +87,12 @@ class CryptoController extends Controller
     }
 
     /**
-     * @return array
+     * @return Response
      */
-    public function actionGetRates(): array
+    public function actionGetRates()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
         $data = (new CryptoCompare())->getMultiPrice(Altcoin::getAltcoinList(true), ['USD']);
-        return $data;
+        return $this->asJson($data);
     }
 
     /**
@@ -112,13 +110,16 @@ class CryptoController extends Controller
 
     /**
      * @param string $altcoin
-     * @return array
+     *
+     * @return Response
      * @throws Exception
      */
-    public function actionGetDataCharts(string $altcoin): array
+    public function actionGetDataCharts(string $altcoin): Response
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
         $data = (new AltcoinHistoryData())->getDataCharts($altcoin);
-        return ['success' => true, 'data' => $data];
+        return $this->asJson([
+            'success' => true,
+            'data' => $data
+        ]);
     }
 }

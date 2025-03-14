@@ -35,8 +35,9 @@ function showCurrentRates() {
 
 function deleteWatcher() {
     let parent = $(this).parents('span.watcher');
-    let id = parent.attr('data-watcher-id');
-    $.get('/crypto/delete-watcher?id='+id).done(function(data) {
+    let data = {'id': parent.attr('data-watcher-id')}
+    let url = '/crypto/delete-watcher';
+    $.post(url, data).done(function(data) {
         if (data.success) {
             $(parent).remove()
         }

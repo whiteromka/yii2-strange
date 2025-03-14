@@ -15,7 +15,6 @@ use yii\helpers\ArrayHelper;
  * @property string|null $date
  * @property int|null $unix_date
  *
- * @property AltcoinHistory $altcoinHistory
  */
 class AltcoinDate extends ActiveRecord
 {
@@ -50,16 +49,6 @@ class AltcoinDate extends ActiveRecord
         ];
     }
 
-//    /**
-//     * Gets query for [[AltcoinHistories]].
-//     *
-//     * @return ActiveQuery
-//     */
-//    public function getAltcoinHistory()
-//    {
-//        return $this->hasOne(AltcoinHistory::class, ['altcoin_date_id' => 'id']);
-//    }
-
     /**
      * To fill this table dates from $dateStart to current date
      *
@@ -67,7 +56,7 @@ class AltcoinDate extends ActiveRecord
      * @return int
      * @throws Exception
      */
-    public /*static*/ function fill(string $dateStart)
+    public function fill(string $dateStart)
     {
         /** @var self $lastDateTable */
         $lastDateTable = self::find()->orderBy('date DESC')->one();

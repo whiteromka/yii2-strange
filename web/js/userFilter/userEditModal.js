@@ -57,9 +57,11 @@ $(document).on('click', '.js-btn-add-passport', function(e) {
 /** Modal click on remove passport */
 $(document).on('click', '.js-btn-remove-passport', function(e) {
     e.preventDefault();
-    let data = {'passportId': $(this).attr('data-passport-id')}
+    let data = {
+        'passportId': $(this).attr('data-passport-id')
+    }
     let url = '/ajax/remove-passport'
-    $.get(url, data).done(data => {
+    $.post(url, data).done(data => {
         if (data.success) {
             $('.js-btn-close-modal').click();
         } else {
@@ -84,7 +86,7 @@ $(document).on('click', '.js-btn-get-weather', function(e) {
     e.preventDefault();
     let data = {'passportId' : $(this).attr('data-passport-id')};
     let url = '/ajax/get-weather';
-    $.get(url, data).done(data => {
+    $.post(url, data).done(data => {
         $('.js-modal-tab-wrap-weather').html(data)
     });
 });
