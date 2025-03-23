@@ -1,6 +1,6 @@
 <?php
 
-namespace app\patterns\behaviour\strategy;
+namespace app\commands\patterns\behaviour\strategy;
 
 class Sleeping implements Activity
 {

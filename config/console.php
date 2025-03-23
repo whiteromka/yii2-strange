@@ -1,5 +1,8 @@
 <?php
 
+use app\commands\patterns\behaviour\paymentStrategy\PaymentStrategyController;
+use app\commands\patterns\structure\pizzaDecorator\PizzaDecoratorController;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db-local.php';
 
@@ -38,13 +41,15 @@ $config = [
         'db' => $db,
     ],
     'params' => $params,
-    /*
+
     'controllerMap' => [
+        'payment-strategy' => PaymentStrategyController::class,
+        'pizza-decorator' => PizzaDecoratorController::class,
         'fixture' => [ // Fixture generation command line.
             'class' => 'yii\faker\FixtureController',
         ],
     ],
-    */
+
 ];
 
 if (YII_ENV_DEV) {

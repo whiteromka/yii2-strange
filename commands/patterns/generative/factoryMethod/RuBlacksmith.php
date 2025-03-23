@@ -1,6 +1,6 @@
 <?php
 
-namespace app\patterns\generative\factoryMethod;
+namespace app\commands\patterns\generative\factoryMethod;
 
 class RuBlacksmith extends Blacksmith
 {
