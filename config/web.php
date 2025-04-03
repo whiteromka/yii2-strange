@@ -28,6 +28,18 @@ $config = [
         ],
     ],
     'components' => [
+
+        'elasticsearch' => [
+            'class' => 'yii\elasticsearch\Connection',
+            'nodes' => [
+                ['http_address' => '127.0.0.1:9200'],
+                //настройте несколько хостов, если у вас есть кластер
+            ],
+            // установите autodetectCluster = false, чтобы не определять адреса узлов в кластере автоматически
+            // 'autodetectCluster' => false,
+            'dslVersion' => 7, // default is 5
+        ],
+
         'request' => [
             'cookieValidationKey' => 'qPOGnNCZjuFkEmsxlRfZJDnReyBC_hgs',
             'baseUrl' => '',

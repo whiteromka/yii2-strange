@@ -22,7 +22,7 @@ class UserController extends BaseController
         $this->userFaker = new UserFaker();
     }
 
-    /**
+    /** php yii user/generate 10
      * Create and add users in DB (use ActiveRecord)
      *
      * @param int $count
@@ -37,23 +37,27 @@ class UserController extends BaseController
         $this->showActionInfo();
     }
 
-    /**
+    /** php yii user/batch-insert 1000
      * Create and add users in DB (use batchInsert)
      *
      * @param int $count
-     * @throws Exception
      */
-    public function actionBatchInsert(int $count = 10000) : void
+    public function actionBatchInsert(int $count = 10000): void
     {
-        $rows = [];
-        for ($i = 0; $i < $count; $i++) {
-            $user = $this->userFaker->createAsArray();
-            $rows[] = $user;
-            $this->checkSave(true);
+        $added = 0;
+        while ($added < $count) {
+            for ($i = 0; $i < 10000; $i++) {
+                $user = $this->userFaker->createAsArray();
+                $rows[] = $user;
+            }
+            $added += $this->updateBatch($rows);
         }
+        echo PHP_EOL . 'Total Added - ' . $added;
+    }
+
+    private function updateBatch(array $rows): int
+    {
         $attributes = ['name', 'surname', 'gender', 'status', 'birthday'];
-        $successCount = Yii::$app->db->createCommand()->batchInsert(User::tableName(), $attributes, $rows)->execute();
-        $this->setSuccessCount($successCount);
-        $this->showActionInfo();
+        return Yii::$app->db->createCommand()->batchInsert(User::tableName(), $attributes, $rows)->execute();
     }
 }
